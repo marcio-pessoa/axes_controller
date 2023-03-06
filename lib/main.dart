@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:xC/themes/dark.dart';
-import 'package:xC/themes/light.dart';
+import 'package:xc/themes/dark.dart';
+import 'package:xc/themes/light.dart';
 
 import './MainPage.dart';
 

@@ -1,6 +1,6 @@
-# xc
+# xC
 
-A new Flutter project.
+aXes Controller
 
 ## Getting Started
 
