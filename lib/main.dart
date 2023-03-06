@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:xC/themes/dark.dart';
+import 'package:xC/themes/light.dart';
 
 import './MainPage.dart';
 
-void main() => runApp(new ExampleApplication());
+void main() => runApp(const MyApp());
 
-class ExampleApplication extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: MainPage());
+    return MaterialApp(
+      title: "xC",
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme(),
+      darkTheme: darkTheme(),
+      home: MainPage(),
+    );
   }
 }
