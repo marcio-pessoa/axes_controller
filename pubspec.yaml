@@ -19,7 +19,7 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  # flutter_lints: ^2.0.0
+  flutter_lints: ^2.0.0
   flutter_bluetooth_serial: ^0.4.0
 
 flutter:
