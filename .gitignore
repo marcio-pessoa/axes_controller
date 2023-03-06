@@ -44,18 +44,5 @@ app.*.map.json
 /android/app/release
 
 .pre-commit
-.vscode/settings.json
-Reference/3d.py
-Reference/escriba.png
-Reference/JOYCROSS.BMP
-Reference/M-SCROLL.BMP
-Reference/miniterm.py
-Reference/model.py
-Reference/ps4_cube.py
-Reference/ps4_lightbar.sh
-Reference/s-l1600.jpg
-Reference/ser.py
-Reference/x6.png
-Reference/system-connections/Marcio's mobile
-Reference/system-connections/SweetHome
-Reference/system-connections/SweetHome2.4GHz
+.vscode/
+Reference/
