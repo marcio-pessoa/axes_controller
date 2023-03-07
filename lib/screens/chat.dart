@@ -58,9 +58,9 @@ class _ChatPage extends State<ChatPage> {
         // If we except the disconnection, `onDone` should be fired as result.
         // If we didn't except this (no flag set), it means closing by remote.
         if (isDisconnecting) {
-          print('Disconnecting locally!');
+          print(AppLocalizations.of(context)!.disconnectingLocally);
         } else {
-          print('Disconnected remotely!');
+          print(AppLocalizations.of(context)!.disconnectedRemotely);
         }
         if (this.mounted) {
           setState(() {});
@@ -138,10 +138,10 @@ class _ChatPage extends State<ChatPage> {
                       controller: textEditingController,
                       decoration: InputDecoration.collapsed(
                         hintText: isConnecting
-                            ? 'Wait until connected...'
+                            ? AppLocalizations.of(context)!.waitConnection
                             : isConnected
-                                ? 'Type your message...'
-                                : 'Chat got disconnected',
+                                ? AppLocalizations.of(context)!.typeMessage
+                                : AppLocalizations.of(context)!.chatDetached,
                         hintStyle: const TextStyle(color: Colors.grey),
                       ),
                       enabled: isConnected,

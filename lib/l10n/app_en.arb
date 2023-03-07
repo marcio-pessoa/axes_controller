@@ -3,5 +3,10 @@
   "@title": {
     "description": "The App title"
   },
-  "chatConnecting": "Connecting chat to "
+  "chatConnecting": "Connecting chat to ",
+  "typeMessage": "Type your message...",
+  "chatDetached": "Chat got disconnected",
+  "waitConnection": "Wait until connected...",
+  "disconnectingLocally": "Disconnecting locally!",
+  "disconnectedRemotely": "Disconnected remotely!"
 }
