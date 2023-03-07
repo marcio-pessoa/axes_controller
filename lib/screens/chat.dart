@@ -217,7 +217,7 @@ class _ChatPage extends State<ChatPage> {
     text = text.trim();
     textEditingController.clear();
 
-    if (text.length > 0) {
+    if (text.isNotEmpty) {
       try {
         connection!.output.add(Uint8List.fromList(utf8.encode("$text\n")));
         await connection!.output.allSent;

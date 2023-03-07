@@ -13,12 +13,12 @@ import './SelectBondedDevicePage.dart';
 
 // import './helpers/LineChart.dart';
 
-class MainPage extends StatefulWidget {
+class GeneralPage extends StatefulWidget {
   @override
   _MainPage createState() => new _MainPage();
 }
 
-class _MainPage extends State<MainPage> {
+class _MainPage extends State<GeneralPage> {
   BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
 
   String _address = "...";
