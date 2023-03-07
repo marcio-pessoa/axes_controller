@@ -1,3 +1,9 @@
 {
-  "title": "aXes Controller"
+  "title": "aXes Controller",
+  "chatConnecting": "Conectando chat em ",
+  "typeMessage": "Digite a mensagem...",
+  "chatDetached": "Chat deconectou",
+  "waitConnection": "Conectando...",
+  "disconnectingLocally": "Disconectado localmente!",
+  "disconnectedRemotely": "Desconectado remotamente!"
 }
