@@ -3,7 +3,7 @@ description: aXes Controller
 
 publish_to: "none"
 
-version: 1.0.0+19
+version: 1.0.0+20
 
 environment:
   sdk: ">=2.19.3 <3.0.0"
@@ -16,6 +16,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   scoped_model: ^2.0.0-nullsafety.0
   intl: any
+  flutter_bluetooth_serial: ^0.4.0
 
 dev_dependencies:
   flutter_test:
@@ -23,7 +24,6 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  flutter_bluetooth_serial: ^0.4.0
   flutter_launcher_icons: ^0.12.0
   flutter_native_splash: ^2.2.19
 

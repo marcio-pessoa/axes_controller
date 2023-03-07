@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChatPage extends StatefulWidget {
   final BluetoothDevice server;
@@ -11,7 +12,7 @@ class ChatPage extends StatefulWidget {
   const ChatPage({required this.server});
 
   @override
-  _ChatPage createState() => new _ChatPage();
+  _ChatPage createState() => _ChatPage();
 }
 
 class _Message {
@@ -113,7 +114,8 @@ class _ChatPage extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
           title: (isConnecting
-              ? Text('Connecting chat to ' + serverName + '...')
+              ? Text(
+                  "${AppLocalizations.of(context)!.chatConnecting}$serverName...")
               : isConnected
                   ? Text('Live chat with ' + serverName)
                   : Text('Chat log with ' + serverName))),
@@ -217,17 +219,17 @@ class _ChatPage extends State<ChatPage> {
 
     if (text.length > 0) {
       try {
-        connection!.output.add(Uint8List.fromList(utf8.encode(text + "\r\n")));
+        connection!.output.add(Uint8List.fromList(utf8.encode("$text\n")));
         await connection!.output.allSent;
 
         setState(() {
           messages.add(_Message(clientID, text));
         });
 
-        Future.delayed(Duration(milliseconds: 333)).then((_) {
+        Future.delayed(const Duration(milliseconds: 333)).then((_) {
           listScrollController.animateTo(
               listScrollController.position.maxScrollExtent,
-              duration: Duration(milliseconds: 333),
+              duration: const Duration(milliseconds: 333),
               curve: Curves.easeOut);
         });
       } catch (e) {
