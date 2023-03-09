@@ -3,15 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:xc/cubit/theme_state.dart';
 
 class ThemeCubit extends Cubit<ThemeState> {
-  ThemeCubit() : super(ThemeState(theme: ThemeData.light()));
+  ThemeCubit() : super(ThemeState(theme: ThemeMode.system));
 
-  void toggleTheme() {
-    if (state.theme == ThemeData.light()) {
-      final update = ThemeState(theme: ThemeData.dark());
-      emit(update);
-    } else {
-      final update = ThemeState(theme: ThemeData.light());
-      emit(update);
-    }
+  void setTheme(ThemeMode theme) {
+    final state = ThemeState(theme: theme);
+    emit(state);
   }
 }

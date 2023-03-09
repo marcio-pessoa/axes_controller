@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/SelectBondedDevicePage.dart';
-import 'package:xc/cubit/theme_cubit.dart';
 import 'package:xc/screens/chat.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -48,16 +46,8 @@ class _MyDrawerState extends State<MyDrawer> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           ListTile(
-            title: Text(AppLocalizations.of(context)!.settings),
-            leading: const Icon(Icons.settings),
-            onTap: () {
-              final cubit = context.read<ThemeCubit>();
-              cubit.toggleTheme();
-            },
-          ),
-          ListTile(
             title: Text(AppLocalizations.of(context)!.chat),
-            leading: const Icon(Icons.chat),
+            leading: const Icon(Icons.chat_outlined),
             onTap: () {
               openChat(context);
               // Navigator.of(context).pushReplacementNamed('/analysis'); //TODO

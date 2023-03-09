@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThemeState {
-  final ThemeData theme;
+  final ThemeMode theme;
   ThemeState({
     required this.theme,
   });

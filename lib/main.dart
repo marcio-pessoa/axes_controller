@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/cubit/theme_cubit.dart';
 import 'package:xc/cubit/theme_state.dart';
-import 'package:xc/cubit/themes.dart';
+import 'package:xc/components/themes.dart';
 import 'package:xc/routes.dart';
 
 void main() => runApp(const MyApp());
@@ -14,19 +14,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [BlocProvider(create: (context) => ThemeCubit())],
-        child: BlocBuilder<ThemeCubit, ThemeState>(builder: (context, state) {
+      providers: [BlocProvider(create: (context) => ThemeCubit())],
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, state) {
           return MaterialApp(
             title: "xC",
             debugShowCheckedModeBanner: false,
-            theme: state.theme,
+            theme: AppTheme.light,
             darkTheme: AppTheme.dark,
-            themeMode: ThemeMode.system,
+            themeMode: state.theme,
             routes: routes,
             initialRoute: "/",
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
           );
-        }));
+        },
+      ),
+    );
   }
 }
