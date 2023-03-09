@@ -3,14 +3,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/drawer.dart';
 import 'package:xc/screens/exit.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class Control extends StatefulWidget {
+  const Control({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<Control> createState() => _ControlState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ControlState extends State<Control> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return exitDialog(context);
       },
       child: Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.title)),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.control)),
         key: _scaffoldKey,
         drawer: const MyDrawer(),
         body: Container(),

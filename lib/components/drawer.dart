@@ -45,6 +45,20 @@ class _MyDrawerState extends State<MyDrawer> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
+          DrawerHeader(
+            decoration: const BoxDecoration(color: Colors.blue),
+            child: Text(
+              AppLocalizations.of(context)!.title,
+              style: const TextStyle(color: Colors.white, fontSize: 24),
+            ),
+          ),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.control),
+            leading: const Icon(Icons.control_camera_outlined),
+            onTap: () {
+              Navigator.of(context).pushNamed('/control');
+            },
+          ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.chat),
             leading: const Icon(Icons.chat_outlined),

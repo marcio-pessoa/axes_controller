@@ -12,12 +12,12 @@ import './SelectBondedDevicePage.dart';
 
 // import './helpers/LineChart.dart';
 
-class GeneralPage extends StatefulWidget {
+class GeneralSettings extends StatefulWidget {
   @override
-  _MainPage createState() => new _MainPage();
+  _GeneralSettings createState() => new _GeneralSettings();
 }
 
-class _MainPage extends State<GeneralPage> {
+class _GeneralSettings extends State<GeneralSettings> {
   BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
 
   String _address = "...";
@@ -87,7 +87,7 @@ class _MainPage extends State<GeneralPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: <Widget>[
         Divider(),
         ListTile(title: const Text('General')),
@@ -227,14 +227,14 @@ class _MainPage extends State<GeneralPage> {
                 }
               }),
         ),
-        ListTile(
-          title: ElevatedButton(
-            child: const Text('Connect to paired device to chat'),
-            onPressed: () async {
-              await openChat(context);
-            },
-          ),
-        ),
+        // ListTile(
+        //   title: ElevatedButton(
+        //     child: const Text('Connect to paired device to chat'),
+        //     onPressed: () async {
+        //       await openChat(context);
+        //     },
+        //   ),
+        // ),
         Divider(),
         ListTile(title: const Text('Multiple connections example')),
         ListTile(
