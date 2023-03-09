@@ -240,21 +240,7 @@ class _MainPage extends State<GeneralPage> {
               title: ElevatedButton(
                 child: const Text('Connect to paired device to chat'),
                 onPressed: () async {
-                  final BluetoothDevice? selectedDevice =
-                      await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return SelectBondedDevicePage(checkAvailability: false);
-                      },
-                    ),
-                  );
-
-                  if (selectedDevice != null) {
-                    print('Connect -> selected ' + selectedDevice.address);
-                    _startChat(context, selectedDevice);
-                  } else {
-                    print('Connect -> no device selected');
-                  }
+                  await openChat(context);
                 },
               ),
             ),
@@ -315,6 +301,23 @@ class _MainPage extends State<GeneralPage> {
         ),
       ),
     );
+  }
+
+  Future<void> openChat(BuildContext context) async {
+    final BluetoothDevice? selectedDevice = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return SelectBondedDevicePage(checkAvailability: false);
+        },
+      ),
+    );
+
+    if (selectedDevice != null) {
+      print('Connect -> selected ' + selectedDevice.address);
+      _startChat(context, selectedDevice);
+    } else {
+      print('Connect -> no device selected');
+    }
   }
 
   void _startChat(BuildContext context, BluetoothDevice server) {

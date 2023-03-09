@@ -14,5 +14,6 @@
   "exit": "Exit",
   "areYouShure": "Are you sure?",
   "settings": "Settings",
-  "control": "Control"
+  "control": "Control",
+  "chat": "Chat"
 }

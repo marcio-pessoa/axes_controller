@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:xc/colors.dart';
 
 Future<bool> exitDialog(BuildContext context) async {
   final result = await showDialog(
@@ -16,7 +17,7 @@ Future<bool> exitDialog(BuildContext context) async {
           TextButton(
             child: Text(
               AppLocalizations.of(context)!.yes,
-              style: const TextStyle(color: Colors.red),
+              style: const TextStyle(color: MyColors.alert),
             ),
             onPressed: () => Navigator.pop(context, true),
           ),

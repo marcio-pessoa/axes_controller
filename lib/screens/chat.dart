@@ -9,10 +9,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ChatPage extends StatefulWidget {
   final BluetoothDevice server;
 
-  const ChatPage({required this.server});
+  const ChatPage({super.key, required this.server});
 
   @override
-  _ChatPage createState() => _ChatPage();
+  State<ChatPage> createState() => _ChatPage();
 }
 
 class _Message {
