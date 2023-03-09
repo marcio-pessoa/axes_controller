@@ -8,5 +8,11 @@
   "chatDetached": "Chat got disconnected",
   "waitConnection": "Wait until connected...",
   "disconnectingLocally": "Disconnecting locally!",
-  "disconnectedRemotely": "Disconnected remotely!"
+  "disconnectedRemotely": "Disconnected remotely!",
+  "yes": "Yes",
+  "no": "No",
+  "exit": "Exit",
+  "areYouShure": "Are you sure?",
+  "settings": "Settings",
+  "control": "Control"
 }

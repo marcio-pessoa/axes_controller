@@ -5,5 +5,11 @@
   "chatDetached": "Chat deconectou",
   "waitConnection": "Conectando...",
   "disconnectingLocally": "Disconectado localmente!",
-  "disconnectedRemotely": "Desconectado remotamente!"
+  "disconnectedRemotely": "Desconectado remotamente!",
+  "yes": "Sim",
+  "no": "Não",
+  "exit": "Sair",
+  "areYouShure": "Você está certo disso?",
+  "settings": "Configurações",
+  "control": "Controle"
 }
