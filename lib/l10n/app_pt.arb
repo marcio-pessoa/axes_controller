@@ -12,5 +12,7 @@
   "areYouShure": "Você está certo disso?",
   "settings": "Configurações",
   "control": "Controle",
-  "chat": "Chat"
+  "chat": "Chat",
+  "myLanguage": "Português",
+  "systemDefault": "Padrão do sistema"
 }

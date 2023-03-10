@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  // This class is not meant to be instantiated or extended; this constructor
+  // prevents instantiation and extension.
   AppTheme._();
 
   static ThemeData light = ThemeData(

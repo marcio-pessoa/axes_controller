@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:xc/colors.dart';
+import 'package:xc/static/colors.dart';
 
 Future<bool> exitDialog(BuildContext context) async {
   final result = await showDialog(

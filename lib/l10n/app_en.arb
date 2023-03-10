@@ -15,5 +15,7 @@
   "areYouShure": "Are you sure?",
   "settings": "Settings",
   "control": "Control",
-  "chat": "Chat"
+  "chat": "Chat",
+  "myLanguage": "English",
+  "systemDefault": "System default"
 }
