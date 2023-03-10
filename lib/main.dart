@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => ThemeCubit())],
-      child: BlocBuilder<ThemeCubit, ThemeState>(
+      providers: [BlocProvider(create: (context) => SettingsCubit())],
+      child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
           return MaterialApp(
             title: "xC",
@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             themeMode: state.theme,
+            locale: state.locale,
             routes: routes,
             initialRoute: "/",
             localizationsDelegates: AppLocalizations.localizationsDelegates,
