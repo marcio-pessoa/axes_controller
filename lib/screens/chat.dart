@@ -6,6 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+class _Message {
+  int whom;
+  String text;
+
+  _Message(this.whom, this.text);
+}
+
 class ChatPage extends StatefulWidget {
   final BluetoothDevice server;
 
@@ -13,13 +20,6 @@ class ChatPage extends StatefulWidget {
 
   @override
   State<ChatPage> createState() => _ChatPage();
-}
-
-class _Message {
-  int whom;
-  String text;
-
-  _Message(this.whom, this.text);
 }
 
 class _ChatPage extends State<ChatPage> {
@@ -190,7 +190,7 @@ class _ChatPage extends State<ChatPage> {
 
     // Create message if there is new line character
     String dataString = String.fromCharCodes(buffer);
-    int index = buffer.indexOf(13);
+    int index = buffer.indexOf(10);
     if (~index != 0) {
       setState(() {
         messages.add(
