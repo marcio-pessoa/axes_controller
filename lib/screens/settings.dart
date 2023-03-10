@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:xc/cubit/theme_cubit.dart';
+import 'package:xc/cubit/settings_cubit.dart';
 import 'package:xc/general.dart';
 import 'package:xc/static/languages.dart';
 

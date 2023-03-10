@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:xc/cubit/theme_state.dart';
+import 'package:xc/cubit/settings_state.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit()
@@ -20,6 +20,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       theme: theme,
       locale: locale,
     );
+
     emit(update);
   }
 }

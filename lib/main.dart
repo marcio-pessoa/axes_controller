@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:xc/cubit/theme_cubit.dart';
-import 'package:xc/cubit/theme_state.dart';
+import 'package:xc/cubit/settings_cubit.dart';
+import 'package:xc/cubit/settings_state.dart';
 import 'package:xc/static/themes.dart';
 import 'package:xc/routes.dart';
 
@@ -19,15 +19,15 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           return MaterialApp(
             title: "xC",
-            debugShowCheckedModeBanner: false,
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             themeMode: state.theme,
             locale: state.locale,
-            routes: routes,
-            initialRoute: "/",
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
+            routes: routes,
+            initialRoute: "/",
+            debugShowCheckedModeBanner: false,
           );
         },
       ),
