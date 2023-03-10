@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ThemeState {
+class SettingsState {
   final ThemeMode theme;
-  ThemeState({
+  final Locale locale;
+
+  SettingsState({
     required this.theme,
+    required this.locale,
   });
 }

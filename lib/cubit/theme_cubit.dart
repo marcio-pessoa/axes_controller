@@ -2,11 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:xc/cubit/theme_state.dart';
 
-class ThemeCubit extends Cubit<ThemeState> {
-  ThemeCubit() : super(ThemeState(theme: ThemeMode.system));
+class SettingsCubit extends Cubit<SettingsState> {
+  SettingsCubit()
+      : super(SettingsState(
+          theme: ThemeMode.system,
+          locale: const Locale('en'),
+        ));
 
-  void setTheme(ThemeMode theme) {
-    final state = ThemeState(theme: theme);
-    emit(state);
+  void set({
+    theme,
+    locale,
+  }) {
+    theme = theme ?? state.theme;
+    locale = locale ?? state.locale;
+
+    final update = SettingsState(
+      theme: theme,
+      locale: locale,
+    );
+    emit(update);
   }
 }
