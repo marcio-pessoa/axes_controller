@@ -3,7 +3,7 @@ description: aXes Controller
 
 publish_to: "none"
 
-version: 1.0.0+34
+version: 1.0.0+35
 
 environment:
   sdk: ">=2.19.3 <3.0.0"
@@ -17,7 +17,6 @@ dependencies:
   scoped_model: ^2.0.0-nullsafety.0
   intl: any
   flutter_bluetooth_serial: ^0.4.0
-  # bloc: ^8.1.1
   flutter_bloc: ^8.1.2
   equatable: ^2.0.5
 
@@ -37,7 +36,10 @@ flutter:
     # Pictures
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware.
+    - assets/arrow_up.png
+    - assets/arrow_right.png
     - assets/arrow_down.png
+    - assets/arrow_turn_left.png
 
 flutter_icons:
   android: true
