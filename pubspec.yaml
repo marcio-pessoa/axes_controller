@@ -3,7 +3,7 @@ description: aXes Controller
 
 publish_to: "none"
 
-version: 1.0.0+35
+version: 1.0.0+36
 
 environment:
   sdk: ">=2.19.3 <3.0.0"
@@ -39,7 +39,8 @@ flutter:
     - assets/arrow_up.png
     - assets/arrow_right.png
     - assets/arrow_down.png
-    - assets/arrow_turn_left.png
+    - assets/arrow_left.png
+    - assets/stop.png
 
 flutter_icons:
   android: true

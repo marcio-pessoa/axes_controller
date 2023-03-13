@@ -2,22 +2,22 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="140"
-   height="70"
+   width="47.367634"
+   height="69.503609"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="arrow_left.svg"
    inkscape:export-filename="/home/mex/Development/xC/Mark_I/xc/images/arrow_left.png"
    inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-ydpi="90"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -28,8 +28,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.1976376"
-     inkscape:cx="123.84517"
-     inkscape:cy="67.242925"
+     inkscape:cx="42.423119"
+     inkscape:cy="67.14589"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -37,11 +37,12 @@
      inkscape:snap-midpoints="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1231"
-     inkscape:window-height="776"
-     inkscape:window-x="49"
-     inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="1920"
+     inkscape:window-y="200"
+     inkscape:window-maximized="1"
+     inkscape:pagecheckerboard="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -50,7 +51,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -58,18 +58,13 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-982.36217)">
-    <path
-       style="fill:#808080;stroke:none"
-       d="m 58.93123,999.03978 -12.84359,0 0,-16.6776 -35.01887,34.99642 35.01881,35.0036 0,-16.6847 12.8436,0 1e-5,-36.6377 z"
-       id="path3784"
-       inkscape:connector-curvature="0" />
+     transform="translate(-81.316208,-982.61039)">
     <path
        inkscape:connector-curvature="0"
        id="path2993"
-       d="m 128.68384,999.16971 -12.71081,0 0,-16.55932 -34.656822,34.74811 34.656772,34.7555 0,-16.5664 12.7108,0 10e-6,-36.37789 z"
-       style="fill:#00ff00;stroke:#808080;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
-       inkscape:export-filename="/home/mex/Development/xC/images/path2995.png"
+       d="m 128.68384,999.16971 h -12.71081 v -16.55932 l -34.656822,34.74811 34.656772,34.7555 v -16.5664 h 12.7108 l 10e-6,-36.37789 z"
+       style="fill:#00ff00;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       inkscape:export-filename="/home/me/Development/xc2/assets/arrow_left.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
   </g>

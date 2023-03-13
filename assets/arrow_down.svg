@@ -2,22 +2,22 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="140"
-   height="70"
+   width="69.50354"
+   height="47.367649"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="arrow_down.svg"
-   inkscape:export-filename="/home/mex/Development/xC/Mark_I/xc/images/arrow_down.png"
+   inkscape:export-filename="/home/me/Development/xc2/assets/arrow_down.png"
    inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-ydpi="90"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -28,8 +28,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.9596395"
-     inkscape:cx="113.95772"
-     inkscape:cy="67.242925"
+     inkscape:cx="43.630474"
+     inkscape:cy="56.132773"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -37,11 +37,12 @@
      inkscape:snap-midpoints="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1317"
-     inkscape:window-height="744"
-     inkscape:window-x="49"
-     inkscape:window-y="261"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="1920"
+     inkscape:window-y="200"
+     inkscape:window-maximized="1"
+     inkscape:pagecheckerboard="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -50,7 +51,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -58,18 +58,14 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-982.36217)">
+     transform="translate(-70.24823,-993.67835)">
     <path
-       inkscape:connector-curvature="0"
-       id="path3786"
-       d="m 16.67759,993.43092 0,12.84358 -16.67759,0 34.99641,35.0189 L 70,1006.2746 l -16.68475,0 3e-5,-12.84358 -36.63766,0 z"
-       style="fill:#808080;stroke:none" />
-    <path
-       style="fill:#00ff00;stroke:#808080;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m 86.80754,993.67835 0,12.71085 -16.55931,0 34.74819,34.6568 34.75535,-34.6568 -16.56642,0 2e-5,-12.71085 -36.37782,0 z"
+       style="fill:#00ff00;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 86.80754,993.67835 v 12.71085 H 70.24823 l 34.74819,34.6568 34.75535,-34.6568 h -16.56642 l 2e-5,-12.71085 H 86.80755 Z"
        id="path2995"
        inkscape:connector-curvature="0"
        inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       inkscape:export-ydpi="90"
+       inkscape:export-filename="/home/me/Development/xc2/assets/arrow_down.png" />
   </g>
 </svg>

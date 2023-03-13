@@ -27,7 +27,53 @@ class _ControlState extends State<Control> {
         appBar: AppBar(title: Text(AppLocalizations.of(context)!.control)),
         key: _scaffoldKey,
         drawer: const MyDrawer(),
-        body: Container(),
+        body: Row(
+          children: [
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon:
+                          const Image(image: AssetImage("assets/arrow_up.png")),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: const Image(
+                          image: AssetImage("assets/arrow_left.png")),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: const Image(image: AssetImage("assets/stop.png")),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: const Image(
+                          image: AssetImage("assets/arrow_right.png")),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: const Image(
+                          image: AssetImage("assets/arrow_down.png")),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
