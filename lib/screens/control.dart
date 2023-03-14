@@ -32,52 +32,64 @@ class _ControlState extends State<Control> {
 
   @override
   Widget build(BuildContext context) {
-    var joystick = Column(
+    var joystick = Row(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        Column(
           children: [
-            IconButton(
-              icon: const Image(image: AssetImage("assets/arrow_up.png")),
-              onPressed: () {
-                comm.send('G21');
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: const Image(image: AssetImage("assets/arrow_up.png")),
+                  onPressed: () {
+                    comm.send('G21');
+                  },
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: const Image(image: AssetImage("assets/arrow_left.png")),
+                  onPressed: () {
+                    comm.send('G41');
+                  },
+                ),
+                IconButton(
+                  icon: const Image(image: AssetImage("assets/stop.png")),
+                  onPressed: () {
+                    comm.send('M00');
+                  },
+                ),
+                IconButton(
+                  icon:
+                      const Image(image: AssetImage("assets/arrow_right.png")),
+                  onPressed: () {
+                    comm.send('G42');
+                  },
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: const Image(image: AssetImage("assets/arrow_down.png")),
+                  onPressed: () {
+                    comm.send('G22');
+                  },
+                ),
+              ],
             ),
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: const Image(image: AssetImage("assets/arrow_left.png")),
-              onPressed: () {
-                comm.send('G41');
-              },
-            ),
-            IconButton(
-              icon: const Image(image: AssetImage("assets/stop.png")),
-              onPressed: () {
-                comm.send('M00');
-              },
-            ),
-            IconButton(
-              icon: const Image(image: AssetImage("assets/arrow_right.png")),
-              onPressed: () {
-                comm.send('G42');
-              },
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: const Image(image: AssetImage("assets/arrow_down.png")),
-              onPressed: () {
-                comm.send('G22');
-              },
-            ),
-          ],
+        const Padding(padding: EdgeInsets.only(right: 100)),
+        IconButton(
+          icon: const Image(image: AssetImage("assets/stop.png")),
+          onPressed: () {
+            comm.send('M93');
+          },
         ),
       ],
     );
