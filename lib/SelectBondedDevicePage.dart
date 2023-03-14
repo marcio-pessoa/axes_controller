@@ -1,7 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:xc/cubit/bluetooth_cubit.dart';
+import 'package:xc/cubit/bluetooth_state.dart';
 
 import './BluetoothDeviceListEntry.dart';
 
@@ -115,13 +119,16 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
               rssi: _device.rssi,
               enabled: _device.availability == _DeviceAvailability.yes,
               onTap: () {
+                final cubit = context.read<BluetoothCubit>();
+                cubit.set(connection: _device.device);
+
                 Navigator.of(context).pop(_device.device);
               },
             ))
         .toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select device'),
+        title: Text(AppLocalizations.of(context)!.selectDevice),
         actions: <Widget>[
           _isDiscovering
               ? FittedBox(

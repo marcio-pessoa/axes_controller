@@ -53,6 +53,13 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
           ),
           ListTile(
+            title: Text(AppLocalizations.of(context)!.selectDevice),
+            leading: const Icon(Icons.bluetooth),
+            onTap: () {
+              Navigator.of(context).pushNamed('/selectDevice');
+            },
+          ),
+          ListTile(
             title: Text(AppLocalizations.of(context)!.control),
             leading: const Icon(Icons.control_camera_outlined),
             onTap: () {

@@ -14,5 +14,6 @@
   "control": "Controle",
   "chat": "Chat",
   "myLanguage": "Português",
-  "systemDefault": "Padrão do sistema"
+  "systemDefault": "Padrão do sistema",
+  "selectDevice": "Seleção de dispositivo"
 }

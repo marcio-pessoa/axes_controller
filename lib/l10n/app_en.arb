@@ -17,5 +17,6 @@
   "control": "Control",
   "chat": "Chat",
   "myLanguage": "English",
-  "systemDefault": "System default"
+  "systemDefault": "System default",
+  "selectDevice": "Select device"
 }
