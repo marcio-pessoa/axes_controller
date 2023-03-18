@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:xc/cubit/bluetooth_cubit.dart';
 
 class Message {
   int whom;
@@ -20,13 +21,14 @@ class Comm {
   bool isDisconnecting = false;
   bool get isConnected => (connection?.isConnected ?? false);
 
-  start(BluetoothDevice server) {
-    if (server.address == '') {
+  start(BluetoothCubit device) {
+    if (device.state.connection.address == '') {
       log('Not connected. :-(');
       return;
     }
 
-    BluetoothConnection.toAddress(server.address).then((connectionInternal) {
+    BluetoothConnection.toAddress(device.state.connection.address)
+        .then((connectionInternal) {
       log('Connected to the device');
       connection = connectionInternal;
 

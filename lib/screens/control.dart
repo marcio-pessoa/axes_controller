@@ -22,8 +22,8 @@ class _ControlState extends State<Control> {
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
-    final cubit = context.read<BluetoothCubit>();
-    comm.start(cubit.state.connection);
+    final device = context.read<BluetoothCubit>();
+    comm.start(device);
   }
 
   @override
