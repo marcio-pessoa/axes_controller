@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -22,10 +24,10 @@ class _MyDrawerState extends State<MyDrawer> {
     );
 
     if (selectedDevice != null) {
-      print('Connect -> selected ' + selectedDevice.address);
+      log('Connect -> selected ' + selectedDevice.address);
       _startChat(context, selectedDevice);
     } else {
-      print('Connect -> no device selected');
+      log('Connect -> no device selected');
     }
   }
 

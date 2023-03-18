@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class _ChatPage extends State<ChatPage> {
     super.initState();
 
     BluetoothConnection.toAddress(widget.server.address).then((_connection) {
-      print('Connected to the device');
+      log('Connected to the device');
       connection = _connection;
       setState(() {
         isConnecting = false;
@@ -57,17 +58,17 @@ class _ChatPage extends State<ChatPage> {
         // If we except the disconnection, `onDone` should be fired as result.
         // If we didn't except this (no flag set), it means closing by remote.
         if (isDisconnecting) {
-          print(AppLocalizations.of(context)!.disconnectingLocally);
+          log(AppLocalizations.of(context)!.disconnectingLocally);
         } else {
-          print(AppLocalizations.of(context)!.disconnectedRemotely);
+          log(AppLocalizations.of(context)!.disconnectedRemotely);
         }
         if (this.mounted) {
           setState(() {});
         }
       });
     }).catchError((error) {
-      print('Cannot connect, exception occured');
-      print(error);
+      log('Cannot connect, exception occured');
+      log(error);
     });
   }
 

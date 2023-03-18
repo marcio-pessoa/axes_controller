@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -147,13 +148,13 @@ class _GeneralSettings extends State<GeneralSettings> {
               IconButton(
                 icon: const Icon(Icons.refresh),
                 onPressed: () async {
-                  print('Discoverable requested');
+                  log('Discoverable requested');
                   final int timeout = (await FlutterBluetoothSerial.instance
                       .requestDiscoverable(60))!;
                   if (timeout < 0) {
-                    print('Discoverable mode denied');
+                    log('Discoverable mode denied');
                   } else {
-                    print('Discoverable mode acquired for $timeout seconds');
+                    log('Discoverable mode acquired for $timeout seconds');
                   }
                   setState(() {
                     _discoverableTimeoutTimer?.cancel();
@@ -165,8 +166,7 @@ class _GeneralSettings extends State<GeneralSettings> {
                           FlutterBluetoothSerial.instance.isDiscoverable
                               .then((isDiscoverable) {
                             if (isDiscoverable ?? false) {
-                              print(
-                                  "Discoverable after timeout... might be infinity timeout :F");
+                              log("Discoverable after timeout... might be infinity timeout :F");
                               _discoverableTimeoutSecondsLeft += 1;
                             }
                           });
@@ -196,7 +196,7 @@ class _GeneralSettings extends State<GeneralSettings> {
             if (value) {
               FlutterBluetoothSerial.instance
                   .setPairingRequestHandler((BluetoothPairingRequest request) {
-                print("Trying to auto-pair with Pin 1234");
+                log("Trying to auto-pair with Pin 1234");
                 if (request.pairingVariant == PairingVariant.Pin) {
                   return Future.value("1234");
                 }
@@ -221,9 +221,9 @@ class _GeneralSettings extends State<GeneralSettings> {
                 );
 
                 if (selectedDevice != null) {
-                  print('Discovery -> selected ' + selectedDevice.address);
+                  log('Discovery -> selected ' + selectedDevice.address);
                 } else {
-                  print('Discovery -> no device selected');
+                  log('Discovery -> no device selected');
                 }
               }),
         ),
@@ -301,10 +301,10 @@ class _GeneralSettings extends State<GeneralSettings> {
     );
 
     if (selectedDevice != null) {
-      print('Connect -> selected ' + selectedDevice.address);
+      log('Connect -> selected ' + selectedDevice.address);
       _startChat(context, selectedDevice);
     } else {
-      print('Connect -> no device selected');
+      log('Connect -> no device selected');
     }
   }
 
