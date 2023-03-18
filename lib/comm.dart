@@ -75,9 +75,13 @@ class Comm {
     }
 
     if (text.isNotEmpty) {
-      connection!.output.add(Uint8List.fromList(utf8.encode(
-        "$text${configuration.state.endLine.chars}",
-      )));
+      connection!.output.add(
+        Uint8List.fromList(
+          utf8.encode(
+            "$text${configuration.state.endLine.chars}",
+          ),
+        ),
+      );
       await connection!.output.allSent;
 
       messages.add(Message(clientID, text));

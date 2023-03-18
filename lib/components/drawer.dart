@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -22,10 +24,10 @@ class _MyDrawerState extends State<MyDrawer> {
     );
 
     if (selectedDevice != null) {
-      print('Connect -> selected ' + selectedDevice.address);
+      log('Connect -> selected ${selectedDevice.address}');
       _startChat(context, selectedDevice);
     } else {
-      print('Connect -> no device selected');
+      log('Connect -> no device selected');
     }
   }
 
@@ -71,7 +73,6 @@ class _MyDrawerState extends State<MyDrawer> {
             leading: const Icon(Icons.chat_outlined),
             onTap: () {
               openChat(context);
-              // Navigator.of(context).pushReplacementNamed('/analysis'); //TODO
             },
           ),
           const Divider(),
@@ -79,7 +80,7 @@ class _MyDrawerState extends State<MyDrawer> {
             title: Text(AppLocalizations.of(context)!.settings),
             leading: const Icon(Icons.settings_outlined),
             onTap: () {
-              Navigator.of(context).pushNamed('/settings'); //TODO
+              Navigator.of(context).pushNamed('/settings');
             },
           ),
         ],
