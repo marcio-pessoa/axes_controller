@@ -20,6 +20,11 @@ class Comm {
   bool get isConnected => (connection?.isConnected ?? false);
 
   start(BluetoothDevice server) {
+    if (server.address == '') {
+      print('Not connected.');
+      return;
+    }
+
     BluetoothConnection.toAddress(server.address).then((_connection) {
       print('Connected to the device');
       connection = _connection;
