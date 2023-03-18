@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-import 'package:xc/cubit/comm_cubit.dart';
-import 'package:xc/static/end_line.dart';
 
 class Message {
   int whom;
@@ -21,19 +19,16 @@ class Comm {
   bool isConnecting = true;
   bool isDisconnecting = false;
   bool get isConnected => (connection?.isConnected ?? false);
-  CommCubit configuration = CommCubit();
 
-  start(CommCubit userConfig, BluetoothDevice server) {
+  start(BluetoothDevice server) {
     if (server.address == '') {
       log('Not connected.');
       return;
     }
 
-    configuration = userConfig;
-
-    BluetoothConnection.toAddress(server.address).then((connection) {
+    BluetoothConnection.toAddress(server.address).then((_connection) {
       log('Connected to the device');
-      connection = connection;
+      connection = _connection;
 
       isConnecting = false;
       isDisconnecting = false;
@@ -46,9 +41,9 @@ class Comm {
       //   // If we except the disconnection, `onDone` should be fired as result.
       //   // If we didn't except this (no flag set), it means closing by remote.
       //   if (isDisconnecting) {
-      //     print("Disconectado localmente!");
+      //     log("Disconectado localmente!");
       //   } else {
-      //     print("Desconectado remotamente!");
+      //     log("Desconectado remotamente!");
       //   }
       //   if (this.mounted) {
       //     setState(() {});
@@ -75,9 +70,7 @@ class Comm {
     }
 
     if (text.isNotEmpty) {
-      connection!.output.add(Uint8List.fromList(utf8.encode(
-        "$text${configuration.state.endLine.chars}",
-      )));
+      connection!.output.add(Uint8List.fromList(utf8.encode("$text\n")));
       await connection!.output.allSent;
 
       messages.add(Message(clientID, text));
