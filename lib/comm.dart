@@ -26,9 +26,9 @@ class Comm {
       return;
     }
 
-    BluetoothConnection.toAddress(server.address).then((_connection) {
+    BluetoothConnection.toAddress(server.address).then((connectionInternal) {
       log('Connected to the device');
-      connection = _connection;
+      connection = connectionInternal;
 
       isConnecting = false;
       isDisconnecting = false;
