@@ -2,8 +2,8 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="64.369911"
-   height="63.349552"
+   width="64"
+   height="64"
    id="svg2"
    version="1.1"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
@@ -66,12 +66,12 @@
      id="layer1"
      transform="translate(-67.802956,-954.93677)">
     <rect
-       style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;paint-order:stroke fill markers;stop-color:#000000;stop-opacity:1"
+       style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.187918;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;paint-order:stroke fill markers;stop-color:#000000;stop-opacity:1"
        id="rect1008"
-       width="64.369911"
-       height="63.349552"
-       x="67.802956"
-       y="954.93677"
+       width="60"
+       height="60"
+       x="69.802956"
+       y="956.93677"
        inkscape:export-filename="/home/me/Development/xc2/assets/stop.svg"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
