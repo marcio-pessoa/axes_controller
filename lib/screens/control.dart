@@ -44,38 +44,39 @@ class _ControlState extends State<Control> {
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.control)),
       body: Row(
+        children: [controlPad()],
+      ),
+    );
+  }
+
+  Expanded controlPad() {
+    return Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        controlButton("assets/arrow_up.png", 'G21', 'M00'),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        controlButton("assets/arrow_left.png", 'G41', 'M00'),
-                        controlButton("assets/stop.png", 'M00', 'M00'),
-                        controlButton("assets/arrow_right.png", 'G42', 'M00'),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        controlButton("assets/arrow_down.png", 'G22', 'M00'),
-                      ],
-                    ),
-                  ],
-                ),
-                controlButton("assets/stop.png", 'M93', ''),
-              ],
-            ),
-          )
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  controlButton("assets/arrow_up.png", 'G21', 'M00'),
+                ],
+              ),
+              Row(
+                children: [
+                  controlButton("assets/arrow_left.png", 'G41', 'M00'),
+                  controlButton("assets/stop.png", 'M00', 'M00'),
+                  controlButton("assets/arrow_right.png", 'G42', 'M00'),
+                ],
+              ),
+              Row(
+                children: [
+                  controlButton("assets/arrow_down.png", 'G22', 'M00'),
+                ],
+              ),
+            ],
+          ),
+          controlButton("assets/stop.png", 'M93', ''),
         ],
       ),
     );

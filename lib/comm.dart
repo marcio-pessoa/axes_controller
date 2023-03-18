@@ -22,7 +22,7 @@ class Comm {
 
   start(BluetoothDevice server) {
     if (server.address == '') {
-      log('Not connected.');
+      log('Not connected. :-(');
       return;
     }
 
