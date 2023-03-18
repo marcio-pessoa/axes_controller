@@ -13,7 +13,7 @@ class DiscoveryPage extends StatefulWidget {
   const DiscoveryPage({this.start = true});
 
   @override
-  _DiscoveryPage createState() => new _DiscoveryPage();
+  _DiscoveryPage createState() => _DiscoveryPage();
 }
 
 class _DiscoveryPage extends State<DiscoveryPage> {
@@ -78,20 +78,20 @@ class _DiscoveryPage extends State<DiscoveryPage> {
     return Scaffold(
       appBar: AppBar(
         title: isDiscovering
-            ? Text('Discovering devices')
-            : Text('Discovered devices'),
+            ? const Text('Discovering devices')
+            : const Text('Discovered devices'),
         actions: <Widget>[
           isDiscovering
               ? FittedBox(
                   child: Container(
-                    margin: new EdgeInsets.all(16.0),
-                    child: CircularProgressIndicator(
+                    margin: const EdgeInsets.all(16.0),
+                    child: const CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     ),
                   ),
                 )
               : IconButton(
-                  icon: Icon(Icons.replay),
+                  icon: const Icon(Icons.replay),
                   onPressed: _restartDiscovery,
                 )
         ],
@@ -142,8 +142,8 @@ class _DiscoveryPage extends State<DiscoveryPage> {
                       title: const Text('Error occured while bonding'),
                       content: Text("${ex.toString()}"),
                       actions: <Widget>[
-                        new TextButton(
-                          child: new Text("Close"),
+                        TextButton(
+                          child: const Text("Close"),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },

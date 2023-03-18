@@ -15,7 +15,7 @@ import './SelectBondedDevicePage.dart';
 
 class GeneralSettings extends StatefulWidget {
   @override
-  _GeneralSettings createState() => new _GeneralSettings();
+  _GeneralSettings createState() => _GeneralSettings();
 }
 
 class _GeneralSettings extends State<GeneralSettings> {
@@ -47,7 +47,7 @@ class _GeneralSettings extends State<GeneralSettings> {
       if ((await FlutterBluetoothSerial.instance.isEnabled) ?? false) {
         return false;
       }
-      await Future.delayed(Duration(milliseconds: 0xDD));
+      await Future.delayed(const Duration(milliseconds: 0xDD));
       return true;
     }).then((_) {
       // Update the address field
@@ -90,8 +90,8 @@ class _GeneralSettings extends State<GeneralSettings> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Divider(),
-        ListTile(title: const Text('General')),
+        const Divider(),
+        const ListTile(title: Text('General')),
         SwitchListTile(
           title: const Text('Enable Bluetooth'),
           value: _bluetoothState.isEnabled,
@@ -141,8 +141,8 @@ class _GeneralSettings extends State<GeneralSettings> {
                 value: _discoverableTimeoutSecondsLeft != 0,
                 onChanged: null,
               ),
-              IconButton(
-                icon: const Icon(Icons.edit),
+              const IconButton(
+                icon: Icon(Icons.edit),
                 onPressed: null,
               ),
               IconButton(
@@ -159,8 +159,8 @@ class _GeneralSettings extends State<GeneralSettings> {
                   setState(() {
                     _discoverableTimeoutTimer?.cancel();
                     _discoverableTimeoutSecondsLeft = timeout;
-                    _discoverableTimeoutTimer =
-                        Timer.periodic(Duration(seconds: 1), (Timer timer) {
+                    _discoverableTimeoutTimer = Timer.periodic(
+                        const Duration(seconds: 1), (Timer timer) {
                       setState(() {
                         if (_discoverableTimeoutSecondsLeft < 0) {
                           FlutterBluetoothSerial.instance.isDiscoverable
@@ -183,8 +183,8 @@ class _GeneralSettings extends State<GeneralSettings> {
             ],
           ),
         ),
-        Divider(),
-        ListTile(title: const Text('Devices discovery and connection')),
+        const Divider(),
+        const ListTile(title: Text('Devices discovery and connection')),
         SwitchListTile(
           title: const Text('Auto-try specific pin when pairing'),
           subtitle: const Text('Pin 1234'),
@@ -215,7 +215,7 @@ class _GeneralSettings extends State<GeneralSettings> {
                     await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return DiscoveryPage();
+                      return const DiscoveryPage();
                     },
                   ),
                 );
@@ -235,8 +235,8 @@ class _GeneralSettings extends State<GeneralSettings> {
         //     },
         //   ),
         // ),
-        Divider(),
-        ListTile(title: const Text('Multiple connections example')),
+        const Divider(),
+        const ListTile(title: Text('Multiple connections example')),
         ListTile(
           title: ElevatedButton(
             child: ((_collectingTask?.inProgress ?? false)
@@ -253,7 +253,8 @@ class _GeneralSettings extends State<GeneralSettings> {
                     await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return SelectBondedDevicePage(checkAvailability: false);
+                      return const SelectBondedDevicePage(
+                          checkAvailability: false);
                     },
                   ),
                 );
@@ -295,7 +296,7 @@ class _GeneralSettings extends State<GeneralSettings> {
     final BluetoothDevice? selectedDevice = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          return SelectBondedDevicePage(checkAvailability: false);
+          return const SelectBondedDevicePage(checkAvailability: false);
         },
       ),
     );
@@ -334,8 +335,8 @@ class _GeneralSettings extends State<GeneralSettings> {
             title: const Text('Error occured while connecting'),
             content: Text("${ex.toString()}"),
             actions: <Widget>[
-              new TextButton(
-                child: new Text("Close"),
+              TextButton(
+                child: const Text("Close"),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

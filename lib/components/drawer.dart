@@ -73,7 +73,6 @@ class _MyDrawerState extends State<MyDrawer> {
             leading: const Icon(Icons.chat_outlined),
             onTap: () {
               openChat(context);
-              // Navigator.of(context).pushReplacementNamed('/analysis'); //TODO
             },
           ),
           const Divider(),
@@ -81,7 +80,7 @@ class _MyDrawerState extends State<MyDrawer> {
             title: Text(AppLocalizations.of(context)!.settings),
             leading: const Icon(Icons.settings_outlined),
             onTap: () {
-              Navigator.of(context).pushNamed('/settings'); //TODO
+              Navigator.of(context).pushNamed('/settings');
             },
           ),
         ],

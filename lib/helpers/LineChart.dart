@@ -119,20 +119,20 @@ class LineChart extends StatelessWidget {
     if (seriesPointsStyles == null) {
       // Default paint for points
       return List<Paint?>.unmodifiable(<Paint>[
-        PaintStyle(strokeWidth: 1.7, color: Colors.blue).toPaint(),
-        PaintStyle(strokeWidth: 1.7, color: Colors.red).toPaint(),
-        PaintStyle(strokeWidth: 1.7, color: Colors.yellow).toPaint(),
-        PaintStyle(strokeWidth: 1.7, color: Colors.green).toPaint(),
+        const PaintStyle(strokeWidth: 1.7, color: Colors.blue).toPaint(),
+        const PaintStyle(strokeWidth: 1.7, color: Colors.red).toPaint(),
+        const PaintStyle(strokeWidth: 1.7, color: Colors.yellow).toPaint(),
+        const PaintStyle(strokeWidth: 1.7, color: Colors.green).toPaint(),
 
-        PaintStyle(strokeWidth: 1.7, color: Colors.purple).toPaint(),
-        PaintStyle(strokeWidth: 1.7, color: Colors.deepOrange).toPaint(),
-        PaintStyle(strokeWidth: 1.7, color: Colors.brown).toPaint(),
-        PaintStyle(strokeWidth: 1.7, color: Colors.lime).toPaint(),
+        const PaintStyle(strokeWidth: 1.7, color: Colors.purple).toPaint(),
+        const PaintStyle(strokeWidth: 1.7, color: Colors.deepOrange).toPaint(),
+        const PaintStyle(strokeWidth: 1.7, color: Colors.brown).toPaint(),
+        const PaintStyle(strokeWidth: 1.7, color: Colors.lime).toPaint(),
 
-        PaintStyle(strokeWidth: 1.7, color: Colors.indigo).toPaint(),
-        PaintStyle(strokeWidth: 1.7, color: Colors.pink).toPaint(),
-        PaintStyle(strokeWidth: 1.7, color: Colors.amber).toPaint(),
-        PaintStyle(strokeWidth: 1.7, color: Colors.teal).toPaint(),
+        const PaintStyle(strokeWidth: 1.7, color: Colors.indigo).toPaint(),
+        const PaintStyle(strokeWidth: 1.7, color: Colors.pink).toPaint(),
+        const PaintStyle(strokeWidth: 1.7, color: Colors.amber).toPaint(),
+        const PaintStyle(strokeWidth: 1.7, color: Colors.teal).toPaint(),
 
         // For more, user should specify them :F
       ]);
