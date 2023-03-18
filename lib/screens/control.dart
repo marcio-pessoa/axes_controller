@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/comm.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
+import 'package:xc/cubit/comm_cubit.dart';
 
 class Control extends StatefulWidget {
   const Control({super.key});
@@ -23,7 +24,8 @@ class _ControlState extends State<Control> {
       DeviceOrientation.landscapeLeft,
     ]);
     final device = context.read<BluetoothCubit>();
-    comm.start(device);
+    final preferences = context.read<CommCubit>();
+    comm.start(device, preferences);
   }
 
   @override

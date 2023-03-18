@@ -4,6 +4,8 @@ import 'dart:typed_data';
 
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
+import 'package:xc/cubit/comm_cubit.dart';
+import 'package:xc/static/end_line.dart';
 
 class Message {
   int whom;
@@ -15,17 +17,20 @@ class Message {
 class Comm {
   static const clientID = 0;
   BluetoothConnection? connection;
+  CommCubit configuration = CommCubit();
   List<Message> messages = List<Message>.empty(growable: true);
 
   bool isConnecting = true;
   bool isDisconnecting = false;
   bool get isConnected => (connection?.isConnected ?? false);
 
-  start(BluetoothCubit device) {
+  start(BluetoothCubit device, CommCubit preferences) {
     if (device.state.connection.address == '') {
       log('Not connected. :-(');
       return;
     }
+
+    configuration = preferences;
 
     BluetoothConnection.toAddress(device.state.connection.address)
         .then((connectionInternal) {
@@ -72,7 +77,11 @@ class Comm {
     }
 
     if (text.isNotEmpty) {
-      connection!.output.add(Uint8List.fromList(utf8.encode("$text\n")));
+      connection!.output.add(
+        Uint8List.fromList(
+          utf8.encode("$text${configuration.state.endLine.chars}"),
+        ),
+      );
       await connection!.output.allSent;
 
       messages.add(Message(clientID, text));
