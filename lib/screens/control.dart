@@ -17,11 +17,35 @@ class _ControlState extends State<Control> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final Comm comm = Comm();
 
+  var _counter = 0;
+  bool _buttonPressed = false;
+  bool _loopActive = false;
+
+  void _increaseCounterWhilePressed() async {
+    if (_loopActive) return; // check if loop is active
+
+    _loopActive = true;
+
+    while (_buttonPressed) {
+      // do your thing
+      setState(() {
+        _counter++;
+      });
+
+      // wait a second
+      await Future.delayed(Duration(milliseconds: 1000));
+    }
+
+    _loopActive = false;
+  }
+
   @override
   void initState() {
     final cubit = context.read<BluetoothCubit>();
-    comm.start(cubit.state.connection);
-    super.initState();
+    if (cubit.state.connection.address != '') {
+      comm.start(cubit.state.connection);
+      super.initState();
+    }
   }
 
   @override
@@ -84,12 +108,27 @@ class _ControlState extends State<Control> {
             ),
           ],
         ),
-        const Padding(padding: EdgeInsets.only(right: 100)),
+        const Padding(padding: EdgeInsets.only(right: 10)),
         IconButton(
           icon: const Image(image: AssetImage("assets/stop.png")),
           onPressed: () {
             comm.send('M93');
           },
+        ),
+        Listener(
+          onPointerDown: (details) {
+            _buttonPressed = true;
+            _increaseCounterWhilePressed();
+          },
+          onPointerUp: (details) {
+            _buttonPressed = false;
+          },
+          child: Container(
+            decoration:
+                BoxDecoration(color: Colors.orange, border: Border.all()),
+            padding: const EdgeInsets.all(16.0),
+            child: Text('Seconds: $_counter'),
+          ),
         ),
       ],
     );
