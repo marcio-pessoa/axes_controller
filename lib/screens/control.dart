@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wakelock/wakelock.dart';
 import 'package:xc/comm.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
@@ -19,6 +20,7 @@ class _ControlState extends State<Control> {
   @override
   void initState() {
     super.initState();
+    Wakelock.enable();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -30,6 +32,7 @@ class _ControlState extends State<Control> {
 
   @override
   void dispose() {
+    Wakelock.disable();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
