@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:xc/cubit/comm_cubit.dart';
+import 'package:xc/static/end_line.dart';
 
 class Message {
   int whom;
@@ -18,16 +21,19 @@ class Comm {
   bool isConnecting = true;
   bool isDisconnecting = false;
   bool get isConnected => (connection?.isConnected ?? false);
+  CommCubit configuration = CommCubit();
 
-  start(BluetoothDevice server) {
+  start(CommCubit userConfig, BluetoothDevice server) {
     if (server.address == '') {
-      print('Not connected.');
+      log('Not connected.');
       return;
     }
 
-    BluetoothConnection.toAddress(server.address).then((_connection) {
-      print('Connected to the device');
-      connection = _connection;
+    configuration = userConfig;
+
+    BluetoothConnection.toAddress(server.address).then((connection) {
+      log('Connected to the device');
+      connection = connection;
 
       isConnecting = false;
       isDisconnecting = false;
@@ -49,8 +55,8 @@ class Comm {
       //   }
       // });
     }).catchError((error) {
-      print('Cannot connect, exception occured');
-      print(error);
+      log('Cannot connect, exception occured');
+      log(error);
     });
   }
 
@@ -64,12 +70,14 @@ class Comm {
 
   send(String text) async {
     if (connection?.isConnected != true) {
-      print('Not connected.');
+      log('Not connected.');
       return;
     }
 
     if (text.isNotEmpty) {
-      connection!.output.add(Uint8List.fromList(utf8.encode("$text\n")));
+      connection!.output.add(Uint8List.fromList(utf8.encode(
+        "$text${configuration.state.endLine.chars}",
+      )));
       await connection!.output.allSent;
 
       messages.add(Message(clientID, text));

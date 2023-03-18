@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/comm.dart';
-import 'package:xc/components/drawer.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
-import 'package:xc/screens/exit.dart';
+import 'package:xc/cubit/comm_cubit.dart';
 
 class Control extends StatefulWidget {
   const Control({super.key});
@@ -24,8 +23,9 @@ class _ControlState extends State<Control> {
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
-    final cubit = context.read<BluetoothCubit>();
-    comm.start(cubit.state.connection);
+    final device = context.read<BluetoothCubit>();
+    final configuration = context.read<CommCubit>();
+    comm.start(configuration, device.state.connection);
   }
 
   @override
@@ -46,38 +46,39 @@ class _ControlState extends State<Control> {
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.control)),
       body: Row(
+        children: [controlPad()],
+      ),
+    );
+  }
+
+  Expanded controlPad() {
+    return Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        controlButton("assets/arrow_up.png", 'G21', 'M00'),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        controlButton("assets/arrow_left.png", 'G41', 'M00'),
-                        controlButton("assets/stop.png", 'M00', 'M00'),
-                        controlButton("assets/arrow_right.png", 'G42', 'M00'),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        controlButton("assets/arrow_down.png", 'G22', 'M00'),
-                      ],
-                    ),
-                  ],
-                ),
-                controlButton("assets/stop.png", 'M93', ''),
-              ],
-            ),
-          )
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  controlButton("assets/arrow_up.png", 'G21', 'M00'),
+                ],
+              ),
+              Row(
+                children: [
+                  controlButton("assets/arrow_left.png", 'G41', 'M00'),
+                  controlButton("assets/stop.png", 'M00', 'M00'),
+                  controlButton("assets/arrow_right.png", 'G42', 'M00'),
+                ],
+              ),
+              Row(
+                children: [
+                  controlButton("assets/arrow_down.png", 'G22', 'M00'),
+                ],
+              ),
+            ],
+          ),
+          controlButton("assets/stop.png", 'M93', ''),
         ],
       ),
     );

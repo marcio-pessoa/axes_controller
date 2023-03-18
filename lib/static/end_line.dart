@@ -5,7 +5,7 @@ enum EndLine {
 }
 
 extension EndLineExtension on EndLine {
-  String get name {
+  String get chars {
     switch (this) {
       case EndLine.cr:
         return "\r";
