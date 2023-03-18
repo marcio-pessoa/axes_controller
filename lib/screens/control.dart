@@ -42,9 +42,24 @@ class _ControlState extends State<Control> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.control)),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.control),
+        actions: [commStatus()],
+      ),
       body: Row(
         children: [controlPad()],
+      ),
+    );
+  }
+
+  Padding commStatus() {
+    Color color = comm.isConnected ? Colors.green : Colors.grey;
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Icon(
+        Icons.circle,
+        color: color,
       ),
     );
   }
