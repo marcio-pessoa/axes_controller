@@ -21,31 +21,11 @@ class _ControlState extends State<Control> {
   bool _buttonPressed = false;
   bool _loopActive = false;
 
-  void _increaseCounterWhilePressed() async {
-    if (_loopActive) return; // check if loop is active
-
-    _loopActive = true;
-
-    while (_buttonPressed) {
-      // do your thing
-      setState(() {
-        _counter++;
-      });
-
-      // wait a second
-      await Future.delayed(Duration(milliseconds: 1000));
-    }
-
-    _loopActive = false;
-  }
-
   @override
   void initState() {
     final cubit = context.read<BluetoothCubit>();
-    if (cubit.state.connection.address != '') {
-      comm.start(cubit.state.connection);
-      super.initState();
-    }
+    comm.start(cubit.state.connection);
+    super.initState();
   }
 
   @override
@@ -63,73 +43,27 @@ class _ControlState extends State<Control> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                  icon: const Image(image: AssetImage("assets/arrow_up.png")),
-                  onPressed: () {
-                    comm.send('G21');
-                  },
-                ),
+                joypadButton("assets/arrow_up.png", 'G21', 'M00'),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                  icon: const Image(image: AssetImage("assets/arrow_left.png")),
-                  onPressed: () {
-                    comm.send('G41');
-                  },
-                ),
-                IconButton(
-                  icon: const Image(image: AssetImage("assets/stop.png")),
-                  onPressed: () {
-                    comm.send('M00');
-                  },
-                ),
-                IconButton(
-                  icon:
-                      const Image(image: AssetImage("assets/arrow_right.png")),
-                  onPressed: () {
-                    comm.send('G42');
-                  },
-                ),
+                joypadButton("assets/arrow_left.png", 'G41', 'M00'),
+                joypadButton("assets/stop.png", 'M00', 'M00'),
+                joypadButton("assets/arrow_right.png", 'G42', 'M00'),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                  icon: const Image(image: AssetImage("assets/arrow_down.png")),
-                  onPressed: () {
-                    comm.send('G22');
-                  },
-                ),
+                joypadButton("assets/arrow_down.png", 'G22', 'M00'),
               ],
             ),
           ],
         ),
         const Padding(padding: EdgeInsets.only(right: 10)),
-        IconButton(
-          icon: const Image(image: AssetImage("assets/stop.png")),
-          onPressed: () {
-            comm.send('M93');
-          },
-        ),
-        Listener(
-          onPointerDown: (details) {
-            _buttonPressed = true;
-            _increaseCounterWhilePressed();
-          },
-          onPointerUp: (details) {
-            _buttonPressed = false;
-          },
-          child: Container(
-            decoration:
-                BoxDecoration(color: Colors.orange, border: Border.all()),
-            padding: const EdgeInsets.all(16.0),
-            child: Text('Seconds: $_counter'),
-          ),
-        ),
+        joypadButton("assets/stop.png", 'M93', 'M93'),
       ],
     );
 
@@ -148,6 +82,17 @@ class _ControlState extends State<Control> {
         body: Row(
           children: [joystick],
         ),
+      ),
+    );
+  }
+
+  Padding joypadButton(String image, String commandDown, String commandUp) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Listener(
+        onPointerDown: (details) => comm.send(commandDown),
+        onPointerUp: (details) => comm.send(commandUp),
+        child: Image(image: AssetImage(image)),
       ),
     );
   }
