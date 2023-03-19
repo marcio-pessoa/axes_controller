@@ -55,10 +55,10 @@ class _AboutState extends State<About> {
   }
 
   Future _appInfo() async {
-    // final PackageInfo result = await PackageInfo.fromPlatform();
+    final PackageInfo result = await PackageInfo.fromPlatform();
 
-    // setState(() {
-    //   appVersion = '${result.version}, Build/${result.buildNumber}';
-    // });
+    setState(() {
+      appVersion = '${result.version}, Build/${result.buildNumber}';
+    });
   }
 }
