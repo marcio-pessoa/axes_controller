@@ -26,13 +26,13 @@ class _SettingsState extends State<Settings> {
             title: Text(AppLocalizations.of(context)!.language),
             subtitle: Text(AppLocalizations.of(context)!.myLanguage),
             leading: const Icon(Icons.language_outlined),
-            onTap: () => languageDialog(),
+            onTap: () => _languageDialog(),
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.theme),
-            subtitle: Text(themeName()),
+            subtitle: Text(_themeName()),
             leading: const Icon(Icons.dark_mode_outlined),
-            onTap: () => themeDialog(),
+            onTap: () => _themeDialog(),
           ),
           const Divider(),
           ListTile(
@@ -46,7 +46,7 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  Future<void> themeDialog() async {
+  Future<void> _themeDialog() async {
     final cubit = context.read<SettingsCubit>();
     switch (await showDialog<String>(
         context: context,
@@ -88,7 +88,7 @@ class _SettingsState extends State<Settings> {
   }
 
   // TODO: Move to Widget
-  Future<void> languageDialog() async {
+  Future<void> _languageDialog() async {
     final cubit = context.read<SettingsCubit>();
     switch (await showDialog<String>(
         context: context,
@@ -120,7 +120,7 @@ class _SettingsState extends State<Settings> {
     }
   }
 
-  themeName() {
+  _themeName() {
     final cubit = context.read<SettingsCubit>();
     switch (cubit.state.theme) {
       case ThemeMode.light:
