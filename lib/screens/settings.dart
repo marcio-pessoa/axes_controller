@@ -71,8 +71,10 @@ class _SettingsState extends State<Settings> {
       case 'dark':
         cubit.set(theme: ThemeMode.dark);
         break;
-      default:
+      case 'system':
         cubit.set(theme: ThemeMode.system);
+        break;
+      default:
         break;
     }
     setState(() {});
@@ -106,7 +108,6 @@ class _SettingsState extends State<Settings> {
         cubit.set(locale: AppLocale.pt);
         break;
       default:
-        cubit.set(locale: AppLocale.en);
         break;
     }
   }
