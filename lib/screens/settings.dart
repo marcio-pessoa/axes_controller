@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/radio_item.dart';
+import 'package:xc/controllers/translation.dart';
 import 'package:xc/cubit/settings_cubit.dart';
 import 'package:xc/general.dart';
 import 'package:xc/static/languages.dart';
@@ -16,6 +17,8 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<SettingsCubit>();
+
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.settings)),
       body: ListView(
@@ -30,7 +33,7 @@ class _SettingsState extends State<Settings> {
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.theme),
-            subtitle: Text(_themeName()),
+            subtitle: Text(themeName(context, cubit.state.theme)),
             leading: const Icon(Icons.dark_mode_outlined),
             onTap: () => _themeDialog(),
           ),
@@ -117,17 +120,5 @@ class _SettingsState extends State<Settings> {
         break;
     }
     setState(() {});
-  }
-
-  _themeName() {
-    final cubit = context.read<SettingsCubit>();
-    switch (cubit.state.theme) {
-      case ThemeMode.light:
-        return AppLocalizations.of(context)!.themeLight;
-      case ThemeMode.dark:
-        return AppLocalizations.of(context)!.themeDark;
-      case ThemeMode.system:
-        return AppLocalizations.of(context)!.systemDefault;
-    }
   }
 }
