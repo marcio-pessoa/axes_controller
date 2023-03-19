@@ -3,7 +3,7 @@ description: aXes Controller
 
 publish_to: "none"
 
-version: 1.0.0+73
+version: 1.0.0+74
 
 environment:
   sdk: ">=2.19.3 <3.0.0"
@@ -23,6 +23,7 @@ dependencies:
   package_info_plus: ^3.0.3
   device_info_plus: ^8.1.0
   hydrated_bloc: ^9.1.0
+  path_provider: ^2.0.13
 
 dev_dependencies:
   flutter_test:
