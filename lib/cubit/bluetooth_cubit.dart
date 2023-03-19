@@ -5,14 +5,19 @@ import 'package:xc/cubit/bluetooth_state.dart';
 class BluetoothCubit extends Cubit<MyBluetoothState> {
   BluetoothCubit()
       : super(
-          MyBluetoothState(connection: const BluetoothDevice(address: '')),
+          MyBluetoothState(
+            connection: const BluetoothDevice(address: ''),
+            defaultPassword: '1234',
+          ),
         );
 
-  void set({connection}) {
+  void set({connection, defaultPassword}) {
     connection = connection ?? state.connection;
+    defaultPassword = defaultPassword ?? state.defaultPassword;
 
     final update = MyBluetoothState(
       connection: connection,
+      defaultPassword: defaultPassword,
     );
 
     emit(update);
