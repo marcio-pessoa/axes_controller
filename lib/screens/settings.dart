@@ -34,6 +34,13 @@ class _SettingsState extends State<Settings> {
             leading: const Icon(Icons.dark_mode_outlined),
             onTap: () => themeDialog(),
           ),
+          const Divider(),
+          ListTile(
+            title: Text(
+                "${AppLocalizations.of(context)!.about} ${AppLocalizations.of(context)!.title}"),
+            leading: const Icon(Icons.info_outline),
+            onTap: () => Navigator.of(context).pushNamed('/about'),
+          ),
         ],
       ),
     );
@@ -80,6 +87,7 @@ class _SettingsState extends State<Settings> {
     setState(() {});
   }
 
+  // TODO: Move to Widget
   Future<void> languageDialog() async {
     final cubit = context.read<SettingsCubit>();
     switch (await showDialog<String>(

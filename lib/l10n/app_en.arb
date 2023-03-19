@@ -26,5 +26,13 @@
   "chooseLanguage": "Choose language",
   "language": "Language",
   "english": "English",
-  "portuguese": "Português"
+  "portuguese": "Português",
+  "about": "About",
+  "appVersion": "Application version",
+  "operatingSystem": "Operating system",
+  "legalInfo": "Legal information",
+  "legalData": "Copyright © 2014-2023 Marcio Pessoa.",
+  "runningOn": "Running on",
+  "failedToLoadData": "Failed to load data",
+  "notFound": "Not found"
 }
