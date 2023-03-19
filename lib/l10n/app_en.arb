@@ -18,5 +18,9 @@
   "chat": "Chat",
   "myLanguage": "English",
   "systemDefault": "System default",
-  "selectDevice": "Select device"
+  "selectDevice": "Select device",
+  "theme": "Theme",
+  "chooseTheme": "Choose theme",
+  "themeLight": "Light",
+  "themeDark": "Dark"
 }

@@ -15,5 +15,9 @@
   "chat": "Chat",
   "myLanguage": "Português",
   "systemDefault": "Padrão do sistema",
-  "selectDevice": "Seleção de dispositivo"
+  "selectDevice": "Seleção de dispositivo",
+  "theme": "Theme",
+  "chooseTheme": "Escolher tema",
+  "themeLight": "Claro",
+  "themeDark": "Escuro"
 }
