@@ -3,7 +3,7 @@ description: aXes Controller
 
 publish_to: "none"
 
-version: 1.0.0+69
+version: 1.0.0+70
 
 environment:
   sdk: ">=2.19.3 <3.0.0"
@@ -22,6 +22,7 @@ dependencies:
   wakelock: ^0.6.2
   package_info_plus: ^3.0.3
   device_info_plus: ^8.1.0
+  hydrated_bloc: ^9.1.0
 
 dev_dependencies:
   flutter_test:

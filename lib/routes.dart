@@ -8,7 +8,7 @@ import 'package:xc/screens/settings.dart';
 var routes = {
   '/': (context) => const HomeScreen(),
   '/about': (context) => const About(),
-  '/about/deviceDetails': (context) => DeviceDetails(),
+  '/about/deviceDetails': (context) => const DeviceDetails(),
   '/control': (context) => const Control(),
   '/selectDevice': (context) =>
       const SelectBondedDevicePage(checkAvailability: false),
