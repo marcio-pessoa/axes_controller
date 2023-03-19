@@ -15,7 +15,6 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
-    themeName();
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.settings)),
       body: ListView(
