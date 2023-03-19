@@ -89,12 +89,12 @@ class _SettingsState extends State<Settings> {
               RadioItem(
                 id: 'en',
                 name: AppLocalizations.of(context)!.english,
-                groupValue: "language",
+                groupValue: cubit.state.locale.languageCode,
               ),
               RadioItem(
                 id: 'pt',
                 name: AppLocalizations.of(context)!.portuguese,
-                groupValue: "language",
+                groupValue: cubit.state.locale.languageCode,
               ),
             ],
           );
