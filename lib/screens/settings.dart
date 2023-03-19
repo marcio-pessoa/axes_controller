@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/radio_item.dart';
-import 'package:xc/controllers/translation.dart';
+import 'package:xc/controllers/theme.dart';
 import 'package:xc/cubit/settings_cubit.dart';
 import 'package:xc/general.dart';
 import 'package:xc/static/languages.dart';
@@ -33,7 +33,7 @@ class _SettingsState extends State<Settings> {
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.theme),
-            subtitle: Text(themeName(context, cubit.state.theme)),
+            subtitle: Text(themeLocaleName(context, cubit.state.theme)),
             leading: const Icon(Icons.dark_mode_outlined),
             onTap: () => _themeDialog(),
           ),
