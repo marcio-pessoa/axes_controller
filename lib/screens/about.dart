@@ -24,7 +24,10 @@ class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.about)),
+      appBar: AppBar(
+        title: Text(
+            '${AppLocalizations.of(context)!.about} ${AppLocalizations.of(context)!.title}'),
+      ),
       body: ListView(
         children: <Widget>[
           ListTile(
