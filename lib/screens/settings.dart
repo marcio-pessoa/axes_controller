@@ -26,20 +26,20 @@ class _SettingsState extends State<Settings> {
             title: Text(AppLocalizations.of(context)!.language),
             subtitle: Text(AppLocalizations.of(context)!.myLanguage),
             leading: const Icon(Icons.settings_outlined),
-            onTap: () => languageDialog(context),
+            onTap: () => languageDialog(),
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.theme),
             subtitle: Text(themeName()),
             leading: const Icon(Icons.settings_outlined),
-            onTap: () => themeDialog(context),
+            onTap: () => themeDialog(),
           ),
         ],
       ),
     );
   }
 
-  Future<void> themeDialog(BuildContext context) async {
+  Future<void> themeDialog() async {
     final cubit = context.read<SettingsCubit>();
     switch (await showDialog<String>(
         context: context,
@@ -78,13 +78,13 @@ class _SettingsState extends State<Settings> {
     setState(() {});
   }
 
-  Future<void> languageDialog(BuildContext context) async {
+  Future<void> languageDialog() async {
     final cubit = context.read<SettingsCubit>();
     switch (await showDialog<String>(
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
-            title: Text(AppLocalizations.of(context)!.myLanguage),
+            title: Text(AppLocalizations.of(context)!.chooseLanguage),
             children: <Widget>[
               RadioItem(
                 id: 'en',
