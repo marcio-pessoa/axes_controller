@@ -50,17 +50,17 @@ class _SettingsState extends State<Settings> {
               RadioItem(
                 id: 'light',
                 name: AppLocalizations.of(context)!.themeLight,
-                groupValue: "theme",
+                groupValue: cubit.state.theme.name,
               ),
               RadioItem(
                 id: 'dark',
                 name: AppLocalizations.of(context)!.themeDark,
-                groupValue: "theme",
+                groupValue: cubit.state.theme.name,
               ),
               RadioItem(
                 id: 'system',
                 name: AppLocalizations.of(context)!.systemDefault,
-                groupValue: "theme",
+                groupValue: cubit.state.theme.name,
               ),
             ],
           );
