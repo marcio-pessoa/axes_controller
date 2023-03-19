@@ -25,13 +25,13 @@ class _SettingsState extends State<Settings> {
           ListTile(
             title: Text(AppLocalizations.of(context)!.language),
             subtitle: Text(AppLocalizations.of(context)!.myLanguage),
-            leading: const Icon(Icons.settings_outlined),
+            leading: const Icon(Icons.language_outlined),
             onTap: () => languageDialog(),
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.theme),
             subtitle: Text(themeName()),
-            leading: const Icon(Icons.settings_outlined),
+            leading: const Icon(Icons.dark_mode_outlined),
             onTap: () => themeDialog(),
           ),
         ],
