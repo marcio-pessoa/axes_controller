@@ -46,6 +46,38 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  Future<void> _languageDialog() async {
+    final cubit = context.read<SettingsCubit>();
+    switch (await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: Text(AppLocalizations.of(context)!.chooseLanguage),
+            children: <Widget>[
+              RadioItem(
+                id: 'en',
+                name: AppLocalizations.of(context)!.english,
+                groupValue: cubit.state.locale.languageCode,
+              ),
+              RadioItem(
+                id: 'pt',
+                name: AppLocalizations.of(context)!.portuguese,
+                groupValue: cubit.state.locale.languageCode,
+              ),
+            ],
+          );
+        })) {
+      case 'en':
+        cubit.set(locale: AppLocale.en);
+        break;
+      case 'pt':
+        cubit.set(locale: AppLocale.pt);
+        break;
+      default:
+        break;
+    }
+  }
+
   Future<void> _themeDialog() async {
     final cubit = context.read<SettingsCubit>();
     switch (await showDialog<String>(
@@ -85,39 +117,6 @@ class _SettingsState extends State<Settings> {
         break;
     }
     setState(() {});
-  }
-
-  // TODO: Move to Widget
-  Future<void> _languageDialog() async {
-    final cubit = context.read<SettingsCubit>();
-    switch (await showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          return SimpleDialog(
-            title: Text(AppLocalizations.of(context)!.chooseLanguage),
-            children: <Widget>[
-              RadioItem(
-                id: 'en',
-                name: AppLocalizations.of(context)!.english,
-                groupValue: cubit.state.locale.languageCode,
-              ),
-              RadioItem(
-                id: 'pt',
-                name: AppLocalizations.of(context)!.portuguese,
-                groupValue: cubit.state.locale.languageCode,
-              ),
-            ],
-          );
-        })) {
-      case 'en':
-        cubit.set(locale: AppLocale.en);
-        break;
-      case 'pt':
-        cubit.set(locale: AppLocale.pt);
-        break;
-      default:
-        break;
-    }
   }
 
   _themeName() {
