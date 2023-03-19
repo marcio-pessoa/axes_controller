@@ -22,5 +22,9 @@
   "theme": "Theme",
   "chooseTheme": "Choose theme",
   "themeLight": "Light",
-  "themeDark": "Dark"
+  "themeDark": "Dark",
+  "chooseLanguage": "Choose language",
+  "language": "Language",
+  "english": "English",
+  "portuguese": "Português"
 }

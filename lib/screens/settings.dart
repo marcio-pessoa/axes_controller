@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/radio_item.dart';
 import 'package:xc/cubit/settings_cubit.dart';
 import 'package:xc/general.dart';
+import 'package:xc/static/languages.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -22,38 +23,17 @@ class _SettingsState extends State<Settings> {
           GeneralSettings(),
           const Divider(),
           ListTile(
+            title: Text(AppLocalizations.of(context)!.language),
+            subtitle: Text(AppLocalizations.of(context)!.myLanguage),
+            leading: const Icon(Icons.settings_outlined),
+            onTap: () => languageDialog(context),
+          ),
+          ListTile(
             title: Text(AppLocalizations.of(context)!.theme),
             subtitle: Text(themeName()),
             leading: const Icon(Icons.settings_outlined),
-            onTap: () {
-              themeDialog(context);
-            },
+            onTap: () => themeDialog(context),
           ),
-          // const Divider(),
-          // ListTile(
-          //   title: const Text('Language system'),
-          //   leading: const Icon(Icons.settings_outlined),
-          //   onTap: () {
-          //     final cubit = context.read<SettingsCubit>();
-          //     cubit.set(theme: ThemeMode.system);
-          //   },
-          // ),
-          // ListTile(
-          //   title: const Text('Português'),
-          //   leading: const Icon(Icons.settings_outlined),
-          //   onTap: () {
-          //     final cubit = context.read<SettingsCubit>();
-          //     cubit.set(locale: AppLocale.pt);
-          //   },
-          // ),
-          // ListTile(
-          //   title: const Text('Inglês'),
-          //   leading: const Icon(Icons.settings_outlined),
-          //   onTap: () {
-          //     final cubit = context.read<SettingsCubit>();
-          //     cubit.set(locale: AppLocale.en);
-          //   },
-          // ),
         ],
       ),
     );
@@ -96,6 +76,39 @@ class _SettingsState extends State<Settings> {
         break;
     }
     setState(() {});
+  }
+
+  Future<void> languageDialog(BuildContext context) async {
+    final cubit = context.read<SettingsCubit>();
+    switch (await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: Text(AppLocalizations.of(context)!.myLanguage),
+            children: <Widget>[
+              RadioItem(
+                id: 'en',
+                name: AppLocalizations.of(context)!.english,
+                groupValue: "language",
+              ),
+              RadioItem(
+                id: 'pt',
+                name: AppLocalizations.of(context)!.portuguese,
+                groupValue: "language",
+              ),
+            ],
+          );
+        })) {
+      case 'en':
+        cubit.set(locale: AppLocale.en);
+        break;
+      case 'pt':
+        cubit.set(locale: AppLocale.pt);
+        break;
+      default:
+        cubit.set(locale: AppLocale.en);
+        break;
+    }
   }
 
   themeName() {

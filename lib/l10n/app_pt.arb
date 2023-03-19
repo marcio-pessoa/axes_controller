@@ -19,5 +19,9 @@
   "theme": "Theme",
   "chooseTheme": "Escolher tema",
   "themeLight": "Claro",
-  "themeDark": "Escuro"
+  "themeDark": "Escuro",
+  "chooseLanguage": "Escolher idioma",
+  "language": "Idioma",
+  "english": "English",
+  "portuguese": "Português"
 }
