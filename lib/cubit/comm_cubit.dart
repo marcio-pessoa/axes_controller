@@ -24,14 +24,12 @@ class CommCubit extends HydratedCubit<CommState> {
 
   @override
   CommState? fromJson(Map<String, dynamic> json) {
-    log('Inside fromJson...');
     String endLine = json['endLine'] ?? 'lf';
     return CommState(endLine: toEndLine(endLine));
   }
 
   @override
   Map<String, dynamic>? toJson(CommState state) {
-    log('Inside toJson...');
     return {'endLine': state.endLine.name};
   }
 }
