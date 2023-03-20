@@ -31,5 +31,9 @@
   "legalData": "Copyright © 2014-2023 Marcio Pessoa.",
   "runningOn": "Rodando em",
   "failedToLoadData": "Falha ao carregar dados",
-  "notFound": "Não encontrado"
+  "notFound": "Não encontrado",
+  "interface": "Interface",
+  "bluetooth": "Bluetooth",
+  "communication": "Comunicação",
+  "endLine": "Fim de linha"
 }

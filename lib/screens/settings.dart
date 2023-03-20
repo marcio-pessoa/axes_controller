@@ -4,8 +4,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/radio_item.dart';
 import 'package:xc/controllers/theme.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
+import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/cubit/settings_cubit.dart';
 import 'package:xc/general.dart';
+import 'package:xc/static/end_line.dart';
 import 'package:xc/static/languages.dart';
 
 class Settings extends StatefulWidget {
@@ -20,6 +22,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     final settings = context.read<SettingsCubit>();
     final bluetooth = context.read<BluetoothCubit>();
+    final communication = context.read<CommCubit>();
 
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.settings)),
@@ -27,9 +30,13 @@ class _SettingsState extends State<Settings> {
         children: [
           GeneralSettings(),
           const Divider(),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.bluetooth),
+          ),
           SwitchListTile(
-            title: const Text('Auto-try specific pin when pairing'),
+            title: const Text('Auto-try specific pin'),
             subtitle: const Text('Pin 1234'),
+            secondary: const Icon(Icons.lock_open_outlined),
             value: bluetooth.state.autoPairing,
             onChanged: (bool value) {
               setState(() {
@@ -38,6 +45,19 @@ class _SettingsState extends State<Settings> {
             },
           ),
           const Divider(),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.communication),
+          ),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.endLine),
+            subtitle: Text(communication.state.endLine.name.toUpperCase()),
+            leading: const Icon(Icons.edit_note_outlined),
+            onTap: () => _endLineDialog(),
+          ),
+          const Divider(),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.interface),
+          ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.language),
             subtitle: Text(AppLocalizations.of(context)!.myLanguage),
@@ -128,6 +148,47 @@ class _SettingsState extends State<Settings> {
         break;
       case 'system':
         cubit.set(theme: ThemeMode.system);
+        break;
+      default:
+        break;
+    }
+    setState(() {});
+  }
+
+  Future<void> _endLineDialog() async {
+    final cubit = context.read<CommCubit>();
+    switch (await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: Text(AppLocalizations.of(context)!.endLine),
+            children: <Widget>[
+              RadioItem(
+                id: EndLine.cr.name.toUpperCase(),
+                name: EndLine.cr.name.toUpperCase(),
+                groupValue: cubit.state.endLine.name.toUpperCase(),
+              ),
+              RadioItem(
+                id: EndLine.lf.name.toUpperCase(),
+                name: EndLine.lf.name.toUpperCase(),
+                groupValue: cubit.state.endLine.name.toUpperCase(),
+              ),
+              RadioItem(
+                id: EndLine.crlf.name.toUpperCase(),
+                name: EndLine.crlf.name.toUpperCase(),
+                groupValue: cubit.state.endLine.name.toUpperCase(),
+              ),
+            ],
+          );
+        })) {
+      case 'CR':
+        cubit.set(endLine: EndLine.cr);
+        break;
+      case 'LF':
+        cubit.set(endLine: EndLine.lf);
+        break;
+      case 'CRLF':
+        cubit.set(endLine: EndLine.crlf);
         break;
       default:
         break;
