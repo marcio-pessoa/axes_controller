@@ -8,16 +8,19 @@ class BluetoothCubit extends Cubit<MyBluetoothState> {
           MyBluetoothState(
             connection: const BluetoothDevice(address: ''),
             defaultPassword: '1234',
+            autoPairing: false,
           ),
         );
 
-  void set({connection, defaultPassword}) {
+  void set({connection, defaultPassword, autoPairing}) {
     connection = connection ?? state.connection;
     defaultPassword = defaultPassword ?? state.defaultPassword;
+    autoPairing = autoPairing ?? state.autoPairing;
 
     final update = MyBluetoothState(
       connection: connection,
       defaultPassword: defaultPassword,
+      autoPairing: autoPairing,
     );
 
     emit(update);
