@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:xc/controllers/theme.dart';
@@ -29,7 +27,6 @@ class SettingsCubit extends HydratedCubit<SettingsState> {
 
   @override
   SettingsState? fromJson(Map<String, dynamic> json) {
-    log('Inside fromJson...');
     return SettingsState(
       theme: themeMode(json['theme']),
       locale: Locale(json['locale']),
@@ -38,7 +35,6 @@ class SettingsCubit extends HydratedCubit<SettingsState> {
 
   @override
   Map<String, dynamic>? toJson(SettingsState state) {
-    log('Inside toJson...');
     return {
       'theme': state.theme.name,
       'locale': state.locale.languageCode,
