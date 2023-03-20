@@ -16,3 +16,16 @@ extension EndLineExtension on EndLine {
     }
   }
 }
+
+toEndLine(name) {
+  switch (name) {
+    case 'cr':
+      return EndLine.cr;
+    case 'lf':
+      return EndLine.lf;
+    case 'crlf':
+      return EndLine.crlf;
+    default:
+      return EndLine.lf;
+  }
+}
