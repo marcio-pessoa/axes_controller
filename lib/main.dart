@@ -28,9 +28,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => SettingsCubit()),
         BlocProvider(create: (context) => BluetoothCubit()),
         BlocProvider(create: (context) => CommCubit()),
+        BlocProvider(create: (context) => SettingsCubit()),
       ],
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {

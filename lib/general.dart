@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/screens/chat.dart';
 
 import './BackgroundCollectedPage.dart';
@@ -28,8 +30,6 @@ class _GeneralSettings extends State<GeneralSettings> {
   int _discoverableTimeoutSecondsLeft = 0;
 
   BackgroundCollectingTask? _collectingTask;
-
-  bool _autoAcceptPairingRequests = false;
 
   @override
   void initState() {
@@ -88,6 +88,8 @@ class _GeneralSettings extends State<GeneralSettings> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<BluetoothCubit>();
+
     return Column(
       children: <Widget>[
         const Divider(),
@@ -188,10 +190,10 @@ class _GeneralSettings extends State<GeneralSettings> {
         SwitchListTile(
           title: const Text('Auto-try specific pin when pairing'),
           subtitle: const Text('Pin 1234'),
-          value: _autoAcceptPairingRequests,
+          value: cubit.state.autoPairing,
           onChanged: (bool value) {
             setState(() {
-              _autoAcceptPairingRequests = value;
+              cubit.set(autoPairing: value);
             });
             if (value) {
               FlutterBluetoothSerial.instance

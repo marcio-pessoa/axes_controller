@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/radio_item.dart';
 import 'package:xc/controllers/theme.dart';
+import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/settings_cubit.dart';
 import 'package:xc/general.dart';
 import 'package:xc/static/languages.dart';
@@ -17,13 +18,25 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<SettingsCubit>();
+    final settings = context.read<SettingsCubit>();
+    final bluetooth = context.read<BluetoothCubit>();
 
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.settings)),
       body: ListView(
         children: [
           GeneralSettings(),
+          const Divider(),
+          SwitchListTile(
+            title: const Text('Auto-try specific pin when pairing'),
+            subtitle: const Text('Pin 1234'),
+            value: bluetooth.state.autoPairing,
+            onChanged: (bool value) {
+              setState(() {
+                bluetooth.set(autoPairing: value);
+              });
+            },
+          ),
           const Divider(),
           ListTile(
             title: Text(AppLocalizations.of(context)!.language),
@@ -33,7 +46,7 @@ class _SettingsState extends State<Settings> {
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.theme),
-            subtitle: Text(themeLocaleName(context, cubit.state.theme)),
+            subtitle: Text(themeLocaleName(context, settings.state.theme)),
             leading: const Icon(Icons.dark_mode_outlined),
             onTap: () => _themeDialog(),
           ),
