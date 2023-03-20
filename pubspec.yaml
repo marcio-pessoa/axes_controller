@@ -3,7 +3,7 @@ description: aXes Controller
 
 publish_to: "none"
 
-version: 1.0.0+86
+version: 1.0.0+87
 
 environment:
   sdk: ">=2.19.3 <3.0.0"
