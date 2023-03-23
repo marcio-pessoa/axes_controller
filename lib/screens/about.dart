@@ -18,7 +18,7 @@ class _AboutState extends State<About> {
   @override
   void initState() {
     super.initState();
-    _appInfo();
+    _getPackageInfo();
   }
 
   @override
@@ -26,7 +26,8 @@ class _AboutState extends State<About> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            '${AppLocalizations.of(context)!.about} ${AppLocalizations.of(context)!.title}'),
+          '${AppLocalizations.of(context)!.about} ${AppLocalizations.of(context)!.title}',
+        ),
       ),
       body: ListView(
         children: <Widget>[
@@ -57,7 +58,7 @@ class _AboutState extends State<About> {
     );
   }
 
-  Future _appInfo() async {
+  Future _getPackageInfo() async {
     final PackageInfo result = await PackageInfo.fromPlatform();
 
     setState(() {

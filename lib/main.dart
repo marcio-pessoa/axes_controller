@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
           return MaterialApp(
-            title: "xC",
+            title: "Axes Controller",
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             themeMode: state.theme,
