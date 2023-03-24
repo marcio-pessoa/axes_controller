@@ -21,3 +21,5 @@ jobs:
           export PATH="$PATH":"$HOME/.pub-cache/bin"
       - name: code-quality
         run: metrics lib -r codeclimate > gl-code-quality-report.json
+      - name: View result
+        run: cat gl-code-quality-report.json
