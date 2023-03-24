@@ -1,0 +1,19 @@
+name: code-quality
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: subosito/flutter-action@v3
+      with:
+        flutter-version: '3.7.7'
+        channel: 'stable'
+    - run: flutter --version
+    - run: flutter pub get
+    - run: flutter pub outdated
+    - run: flutter pub upgrade
+    - run: flutter clean
+    - run: flutter doctor
+    - name: code-quality
+      run: metrics lib -r codeclimate > gl-code-quality-report.json
