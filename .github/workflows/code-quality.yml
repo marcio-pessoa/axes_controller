@@ -4,16 +4,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.7.7'
-        channel: 'stable'
-    - run: flutter --version
-    - run: flutter pub get
-    - run: flutter pub outdated
-    - run: flutter pub upgrade
-    - run: flutter clean
-    - run: flutter doctor
-    - name: code-quality
-      run: metrics lib -r codeclimate > gl-code-quality-report.json
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.7.7"
+          channel: "stable"
+      - run: flutter --version
+      - run: flutter pub get
+      - run: flutter pub outdated
+      - run: flutter pub upgrade
+      - run: flutter clean
+      - run: flutter doctor
+      - name: Activate metrics
+        run: |
+          flutter pub global activate dart_code_metrics
+          export PATH="$PATH":"$HOME/.pub-cache/bin"
+      - name: code-quality
+        run: metrics lib -r codeclimate > gl-code-quality-report.json
