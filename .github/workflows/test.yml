@@ -1,7 +1,7 @@
-name: code-quality
+name: test
 on: [push, pull_request]
 jobs:
-  build:
+  code-quality:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
