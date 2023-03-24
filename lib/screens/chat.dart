@@ -4,8 +4,10 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:xc/cubit/bluetooth_cubit.dart';
 
 class _Message {
   int whom;
@@ -14,16 +16,14 @@ class _Message {
   _Message(this.whom, this.text);
 }
 
-class ChatPage extends StatefulWidget {
-  final BluetoothDevice server;
-
-  const ChatPage({super.key, required this.server});
+class Chat extends StatefulWidget {
+  const Chat({super.key});
 
   @override
-  State<ChatPage> createState() => _ChatPage();
+  State<Chat> createState() => _Chat();
 }
 
-class _ChatPage extends State<ChatPage> {
+class _Chat extends State<Chat> {
   static const clientID = 0;
   BluetoothConnection? connection;
 
@@ -42,7 +42,10 @@ class _ChatPage extends State<ChatPage> {
   void initState() {
     super.initState();
 
-    BluetoothConnection.toAddress(widget.server.address).then((_connection) {
+    final cubit = context.read<BluetoothCubit>();
+
+    BluetoothConnection.toAddress(cubit.state.connection.address)
+        .then((_connection) {
       log('Connected to the device');
       connection = _connection;
       setState(() {
@@ -58,9 +61,9 @@ class _ChatPage extends State<ChatPage> {
         // If we except the disconnection, `onDone` should be fired as result.
         // If we didn't except this (no flag set), it means closing by remote.
         if (isDisconnecting) {
-          log(AppLocalizations.of(context)!.disconnectingLocally);
+          log("Disconnecting locally");
         } else {
-          log(AppLocalizations.of(context)!.disconnectedRemotely);
+          log("Disconnected remotely");
         }
         if (this.mounted) {
           setState(() {});
@@ -86,6 +89,8 @@ class _ChatPage extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<BluetoothCubit>();
+
     final List<Row> list = messages.map((_message) {
       return Row(
         children: <Widget>[
@@ -110,7 +115,7 @@ class _ChatPage extends State<ChatPage> {
       );
     }).toList();
 
-    final serverName = widget.server.name ?? "Unknown";
+    final serverName = cubit.state.connection.name ?? "Unknown";
     return Scaffold(
       appBar: AppBar(
           title: (isConnecting

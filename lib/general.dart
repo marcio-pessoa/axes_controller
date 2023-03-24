@@ -314,7 +314,7 @@ class _GeneralSettings extends State<GeneralSettings> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          return ChatPage(server: server);
+          return const Chat();
         },
       ),
     );

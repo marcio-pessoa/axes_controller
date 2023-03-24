@@ -1,6 +1,6 @@
 import 'package:xc/SelectBondedDevicePage.dart';
 import 'package:xc/screens/about.dart';
-import 'package:xc/screens/chat_new.dart';
+import 'package:xc/screens/chat.dart';
 import 'package:xc/screens/control.dart';
 import 'package:xc/screens/device_details.dart';
 import 'package:xc/screens/home.dart';
