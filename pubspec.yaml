@@ -3,7 +3,7 @@ description: aXes Controller
 
 publish_to: "none"
 
-version: 1.1.23+99
+version: 1.1.23+100
 
 environment:
   sdk: ">=2.19.3 <3.0.0"
@@ -51,8 +51,8 @@ flutter_icons:
   android: true
   ios: false
   image_path_android: "assets/icon/icon.png"
-  # adaptive_icon_background: "assets/icon/ic_launcher_round.png"
-  # adaptive_icon_foreground: "assets/icon/ic_launcher.png"
+  adaptive_icon_background: "assets/icon/ic_launcher_round.png"
+  adaptive_icon_foreground: "assets/icon/ic_launcher.png"
   image_path_ios: "assets/icon/icon.png"
   web:
     generate: false
