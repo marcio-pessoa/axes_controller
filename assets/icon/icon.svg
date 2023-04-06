@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 135.46667 135.46667"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="icon.svg"
+   inkscape:export-filename="/home/me/Development/xc2/assets/icon/icon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="1.1518106"
+     inkscape:cx="194.04232"
+     inkscape:cy="269.14147"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="1920"
+     inkscape:window-y="200"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     units="px"
+     width="512px" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-106.10539,-129.647)">
+    <rect
+       style="fill:#ff5800;fill-opacity:1;stroke:none;stroke-width:21.3675;paint-order:stroke fill markers;stop-color:#000000"
+       id="rect19171"
+       width="135.46667"
+       height="135.46667"
+       x="106.10539"
+       y="129.647" />
+    <path
+       id="rect19048"
+       style="opacity:0.5;fill:#808080;fill-opacity:1;stroke:none;stroke-width:22.2847;paint-order:stroke fill markers;stop-color:#000000"
+       d="M 256.01172 42.962891 L 42.691406 256.2832 L 298.4082 512 L 512 512 L 512 298.95312 L 256.01172 42.962891 z "
+       transform="matrix(0.26458334,0,0,0.26458334,106.10539,129.647)" />
+    <g
+       id="g18885"
+       transform="matrix(2.9833449,0,0,2.9833449,-72.019282,-194.09008)">
+      <path
+         inkscape:connector-curvature="0"
+         id="path2993"
+         d="m 76.049347,126.40519 h -3.363069 v -4.38132 l -9.169617,9.19377 9.169604,9.19573 v -4.3832 h 3.363066 l 3e-6,-9.62498 z"
+         style="fill:#00ff00;stroke:none;stroke-width:0.0529167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         inkscape:export-filename="/home/me/Development/xc2/assets/arrow_left.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path832"
+         d="m 77.596752,137.57947 v 3.36307 h -4.38132 l 9.19377,9.16961 9.195729,-9.1696 h -4.383199 v -3.36307 h -9.62498 z"
+         style="fill:#00ff00;stroke:none;stroke-width:0.0529167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         inkscape:export-filename="/home/me/Development/xc2/assets/arrow_left.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path834"
+         d="m 87.223625,124.85778 v -3.36307 h 4.38132 l -9.19377,-9.16961 -9.19573,9.1696 h 4.3832 v 3.36307 h 9.62498 z"
+         style="fill:#00ff00;stroke:none;stroke-width:0.0529167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         inkscape:export-filename="/home/me/Development/xc2/assets/arrow_left.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path836"
+         d="m 88.771028,136.03206 h 3.36307 v 4.38132 l 9.169612,-9.19377 -9.169602,-9.19573 v 4.3832 h -3.36307 v 9.62498 z"
+         style="fill:#00ff00;stroke:none;stroke-width:0.0529167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         inkscape:export-filename="/home/me/Development/xc2/assets/arrow_left.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+    </g>
+  </g>
+</svg>
