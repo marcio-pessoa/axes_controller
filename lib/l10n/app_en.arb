@@ -38,6 +38,7 @@
   "commInterface": "Communication interface",
   "interface": "User interface",
   "bluetooth": "Bluetooth",
+  "serial": "Serial",
   "communication": "Communication",
   "endLine": "End line"
 }
