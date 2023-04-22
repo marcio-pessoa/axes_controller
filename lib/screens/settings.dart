@@ -7,7 +7,7 @@ import 'package:xc/controllers/theme.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/cubit/settings_cubit.dart';
-import 'package:xc/general.dart';
+import 'package:xc/static/comm_interface.dart';
 import 'package:xc/static/end_line.dart';
 import 'package:xc/static/languages.dart';
 
@@ -71,7 +71,6 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     final settings = context.read<SettingsCubit>();
-    final bluetooth = context.read<BluetoothCubit>();
     final communication = context.read<CommCubit>();
 
     return Scaffold(
@@ -79,67 +78,34 @@ class _SettingsState extends State<Settings> {
       body: ListView(
         children: [
           // GeneralSettings(),
-          const Divider(),
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.bluetooth),
-          ),
-          SwitchListTile(
-            title: const Text('Enable'),
-            value: _bluetoothState.isEnabled,
-            onChanged: (bool value) {
-              // Do the request and update with the true value then
-              future() async {
-                // async lambda seems to not working
-                if (value) {
-                  await FlutterBluetoothSerial.instance.requestEnable();
-                } else {
-                  await FlutterBluetoothSerial.instance.requestDisable();
-                }
-              }
-
-              future().then((_) {
-                setState(() {});
-              });
-            },
-          ),
-          ListTile(
-            title: const Text('Open settings'),
-            trailing: ElevatedButton(
-              child: const Text('Settings'),
-              onPressed: () {
-                FlutterBluetoothSerial.instance.openSettings();
-              },
-            ),
-          ),
-          ListTile(
-            title: const Text('Local adapter address'),
-            subtitle: Text(_address),
-          ),
-          ListTile(
-            title: const Text('Local adapter name'),
-            subtitle: Text(_name),
-            onLongPress: null,
-          ),
-          SwitchListTile(
-            title: const Text('Auto-try specific pin'),
-            subtitle: const Text('Pin 1234'),
-            secondary: const Icon(Icons.lock_open_outlined),
-            value: bluetooth.state.autoPairing,
-            onChanged: (bool value) {
-              setState(() {
-                bluetooth.set(autoPairing: value);
-              });
-            },
-          ),
-          const Divider(),
           ListTile(
             title: Text(AppLocalizations.of(context)!.communication),
+          ),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.commInterface),
+            subtitle: Text(communication.state.commInterface.description),
+            leading: const Icon(Icons.usb_outlined),
+            onTap: () => _commInterfaceDialog(),
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.endLine),
             subtitle: Text(communication.state.endLine.name.toUpperCase()),
             leading: const Icon(Icons.edit_note_outlined),
             onTap: () => _endLineDialog(),
+          ),
+          const Divider(),
+          Visibility(
+            visible: communication.state.commInterface == CommInterface.serial,
+            child: Column(
+              children: _serialItems(context),
+            ),
+          ),
+          Visibility(
+            visible:
+                communication.state.commInterface == CommInterface.bluetooth,
+            child: Column(
+              children: _bluetoothItems(context),
+            ),
           ),
           const Divider(),
           ListTile(
@@ -167,6 +133,71 @@ class _SettingsState extends State<Settings> {
         ],
       ),
     );
+  }
+
+  List<Widget> _bluetoothItems(BuildContext context) {
+    final cubit = context.read<BluetoothCubit>();
+    return [
+      ListTile(
+        title: Text(AppLocalizations.of(context)!.bluetooth),
+      ),
+      SwitchListTile(
+        title: const Text('Enable'),
+        value: _bluetoothState.isEnabled,
+        onChanged: (bool value) {
+          // Do the request and update with the true value then
+          future() async {
+            // async lambda seems to not working
+            if (value) {
+              await FlutterBluetoothSerial.instance.requestEnable();
+            } else {
+              await FlutterBluetoothSerial.instance.requestDisable();
+            }
+          }
+
+          future().then((_) {
+            setState(() {});
+          });
+        },
+      ),
+      ListTile(
+        title: const Text('Open settings'),
+        trailing: ElevatedButton(
+          child: const Text('Settings'),
+          onPressed: () {
+            FlutterBluetoothSerial.instance.openSettings();
+          },
+        ),
+      ),
+      ListTile(
+        title: const Text('Local adapter address'),
+        subtitle: Text(_address),
+      ),
+      ListTile(
+        title: const Text('Local adapter name'),
+        subtitle: Text(_name),
+        onLongPress: null,
+      ),
+      SwitchListTile(
+        title: const Text('Auto-try specific pin'),
+        subtitle: const Text('Pin 1234'),
+        secondary: const Icon(Icons.lock_open_outlined),
+        value: cubit.state.autoPairing,
+        onChanged: (bool value) {
+          setState(() {
+            cubit.set(autoPairing: value);
+          });
+        },
+      ),
+    ];
+  }
+
+  List<Widget> _serialItems(BuildContext context) {
+    return [
+      ListTile(
+        title: Text(AppLocalizations.of(context)!.serial),
+      ),
+    ];
   }
 
   Future<void> _languageDialog() async {
@@ -276,6 +307,39 @@ class _SettingsState extends State<Settings> {
         break;
       case 'CRLF':
         cubit.set(endLine: EndLine.crlf);
+        break;
+      default:
+        break;
+    }
+    setState(() {});
+  }
+
+  Future<void> _commInterfaceDialog() async {
+    final cubit = context.read<CommCubit>();
+    switch (await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: Text(AppLocalizations.of(context)!.commInterface),
+            children: <Widget>[
+              RadioItem(
+                id: CommInterface.bluetooth.description,
+                name: CommInterface.bluetooth.description,
+                groupValue: cubit.state.commInterface.description,
+              ),
+              RadioItem(
+                id: CommInterface.serial.description,
+                name: CommInterface.serial.description,
+                groupValue: cubit.state.commInterface.description,
+              ),
+            ],
+          );
+        })) {
+      case 'Bluetooth':
+        cubit.set(commInterface: CommInterface.bluetooth);
+        break;
+      case 'Serial':
+        cubit.set(commInterface: CommInterface.serial);
         break;
       default:
         break;
