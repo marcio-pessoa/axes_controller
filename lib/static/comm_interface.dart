@@ -4,7 +4,7 @@ enum CommInterface {
 }
 
 extension CommInterfaceExtension on CommInterface {
-  String get name {
+  String get description {
     switch (this) {
       case CommInterface.bluetooth:
         return "Bluetooth";
@@ -14,8 +14,8 @@ extension CommInterfaceExtension on CommInterface {
   }
 }
 
-CommInterface toCommInterface(name) {
-  switch (name) {
+CommInterface toCommInterface(description) {
+  switch (description) {
     case "Bluetooth":
       return CommInterface.bluetooth;
     case "Serial":

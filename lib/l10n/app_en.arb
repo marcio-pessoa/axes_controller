@@ -35,7 +35,8 @@
   "runningOn": "Running on",
   "failedToLoadData": "Failed to load data",
   "notFound": "Not found",
-  "interface": "Interface",
+  "commInterface": "Communication interface",
+  "interface": "User interface",
   "bluetooth": "Bluetooth",
   "communication": "Communication",
   "endLine": "End line"

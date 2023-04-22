@@ -8,6 +8,7 @@ import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/cubit/settings_cubit.dart';
 import 'package:xc/general.dart';
+import 'package:xc/static/comm_interface.dart';
 import 'package:xc/static/end_line.dart';
 import 'package:xc/static/languages.dart';
 
@@ -79,6 +80,21 @@ class _SettingsState extends State<Settings> {
       body: ListView(
         children: [
           // GeneralSettings(),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.communication),
+          ),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.commInterface),
+            subtitle: Text(communication.state.commInterface.description),
+            leading: const Icon(Icons.usb_outlined),
+            onTap: () => _commInterfaceDialog(),
+          ),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.endLine),
+            subtitle: Text(communication.state.endLine.name.toUpperCase()),
+            leading: const Icon(Icons.edit_note_outlined),
+            onTap: () => _endLineDialog(),
+          ),
           const Divider(),
           ListTile(
             title: Text(AppLocalizations.of(context)!.bluetooth),
@@ -130,16 +146,6 @@ class _SettingsState extends State<Settings> {
                 bluetooth.set(autoPairing: value);
               });
             },
-          ),
-          const Divider(),
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.communication),
-          ),
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.endLine),
-            subtitle: Text(communication.state.endLine.name.toUpperCase()),
-            leading: const Icon(Icons.edit_note_outlined),
-            onTap: () => _endLineDialog(),
           ),
           const Divider(),
           ListTile(
@@ -276,6 +282,39 @@ class _SettingsState extends State<Settings> {
         break;
       case 'CRLF':
         cubit.set(endLine: EndLine.crlf);
+        break;
+      default:
+        break;
+    }
+    setState(() {});
+  }
+
+  Future<void> _commInterfaceDialog() async {
+    final cubit = context.read<CommCubit>();
+    switch (await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: Text(AppLocalizations.of(context)!.commInterface),
+            children: <Widget>[
+              RadioItem(
+                id: CommInterface.bluetooth.description,
+                name: CommInterface.bluetooth.description,
+                groupValue: cubit.state.commInterface.description,
+              ),
+              RadioItem(
+                id: CommInterface.serial.description,
+                name: CommInterface.serial.description,
+                groupValue: cubit.state.commInterface.description,
+              ),
+            ],
+          );
+        })) {
+      case 'Bluetooth':
+        cubit.set(commInterface: CommInterface.bluetooth);
+        break;
+      case 'Serial':
+        cubit.set(commInterface: CommInterface.serial);
         break;
       default:
         break;
