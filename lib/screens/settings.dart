@@ -191,7 +191,7 @@ class _SettingsState extends State<Settings> {
       ),
       SwitchListTile(
         title: Text(AppLocalizations.of(context)!.autoTrySpecificPin),
-        subtitle: const Text('Pin 1234'),
+        subtitle: Text('Pin ${cubit.state.defaultPassword}'),
         secondary: const Icon(Icons.lock_open_outlined),
         value: cubit.state.autoPairing,
         onChanged: (bool value) {
