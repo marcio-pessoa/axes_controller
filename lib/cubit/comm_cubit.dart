@@ -37,6 +37,9 @@ class CommCubit extends HydratedCubit<CommState> {
 
   @override
   Map<String, dynamic>? toJson(CommState state) {
-    return {'endLine': state.endLine.name};
+    return {
+      'endLine': state.endLine.name,
+      'commInterface': state.commInterface.description
+    };
   }
 }
