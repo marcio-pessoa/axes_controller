@@ -95,7 +95,7 @@ class _SettingsState extends State<Settings> {
           ),
           const Divider(),
           Visibility(
-            visible: communication.state.commInterface == CommInterface.serial,
+            visible: communication.state.commInterface == CommInterface.usb,
             child: Column(
               children: _serialItems(context),
             ),
@@ -139,7 +139,7 @@ class _SettingsState extends State<Settings> {
     switch (interface) {
       case CommInterface.bluetooth:
         return const Icon(Icons.bluetooth);
-      case CommInterface.serial:
+      case CommInterface.usb:
         return const Icon(Icons.usb_outlined);
       default:
         return const Icon(Icons.device_unknown_outlined);
@@ -343,8 +343,8 @@ class _SettingsState extends State<Settings> {
                 groupValue: cubit.state.commInterface.description,
               ),
               RadioItem(
-                id: CommInterface.serial.description,
-                name: CommInterface.serial.description,
+                id: CommInterface.usb.description,
+                name: CommInterface.usb.description,
                 groupValue: cubit.state.commInterface.description,
               ),
             ],
@@ -353,8 +353,8 @@ class _SettingsState extends State<Settings> {
       case 'Bluetooth':
         cubit.set(commInterface: CommInterface.bluetooth);
         break;
-      case 'Serial':
-        cubit.set(commInterface: CommInterface.serial);
+      case 'USB':
+        cubit.set(commInterface: CommInterface.usb);
         break;
       default:
         break;

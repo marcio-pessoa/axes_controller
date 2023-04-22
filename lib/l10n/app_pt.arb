@@ -35,7 +35,7 @@
   "commInterface": "Interface de comunicação",
   "interface": "Interface de usuário",
   "bluetooth": "Bluetooth",
-  "serial": "Serial",
+  "serial": "USB",
   "communication": "Comunicação",
   "endLine": "Fim de linha",
   "enable": "Habilitar",

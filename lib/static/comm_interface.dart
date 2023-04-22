@@ -1,5 +1,5 @@
 enum CommInterface {
-  serial,
+  usb,
   bluetooth,
 }
 
@@ -8,8 +8,8 @@ extension CommInterfaceExtension on CommInterface {
     switch (this) {
       case CommInterface.bluetooth:
         return "Bluetooth";
-      case CommInterface.serial:
-        return "Serial";
+      case CommInterface.usb:
+        return "USB";
     }
   }
 }
@@ -18,8 +18,8 @@ CommInterface toCommInterface(description) {
   switch (description) {
     case "Bluetooth":
       return CommInterface.bluetooth;
-    case "Serial":
-      return CommInterface.serial;
+    case "USB":
+      return CommInterface.usb;
     default:
       return CommInterface.bluetooth;
   }
