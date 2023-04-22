@@ -155,6 +155,7 @@ class _SettingsState extends State<Settings> {
       SwitchListTile(
         title: Text(AppLocalizations.of(context)!.enable),
         value: _bluetoothState.isEnabled,
+        secondary: const Icon(Icons.check_box_outlined),
         onChanged: (bool value) {
           // Do the request and update with the true value then
           future() async {
@@ -173,6 +174,7 @@ class _SettingsState extends State<Settings> {
       ),
       ListTile(
         title: Text(AppLocalizations.of(context)!.openSettings),
+        leading: const Icon(Icons.settings_applications_outlined),
         trailing: ElevatedButton(
           child: Text(AppLocalizations.of(context)!.settings),
           onPressed: () {
@@ -183,10 +185,12 @@ class _SettingsState extends State<Settings> {
       ListTile(
         title: Text(AppLocalizations.of(context)!.localAdapterAddress),
         subtitle: Text(_address),
+        leading: const Icon(Icons.numbers_outlined),
       ),
       ListTile(
         title: Text(AppLocalizations.of(context)!.localAdapterName),
         subtitle: Text(_name),
+        leading: const Icon(Icons.abc_outlined),
         onLongPress: null,
       ),
       SwitchListTile(
