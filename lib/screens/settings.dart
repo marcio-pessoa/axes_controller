@@ -84,7 +84,7 @@ class _SettingsState extends State<Settings> {
           ListTile(
             title: Text(AppLocalizations.of(context)!.commInterface),
             subtitle: Text(communication.state.commInterface.description),
-            leading: const Icon(Icons.usb_outlined),
+            leading: _commInterfaceIcon(communication.state.commInterface),
             onTap: () => _commInterfaceDialog(),
           ),
           ListTile(
@@ -135,6 +135,17 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  Icon _commInterfaceIcon(CommInterface interface) {
+    switch (interface) {
+      case CommInterface.bluetooth:
+        return const Icon(Icons.bluetooth);
+      case CommInterface.serial:
+        return const Icon(Icons.usb_outlined);
+      default:
+        return const Icon(Icons.device_unknown_outlined);
+    }
+  }
+
   List<Widget> _bluetoothItems(BuildContext context) {
     final cubit = context.read<BluetoothCubit>();
     return [
@@ -142,7 +153,7 @@ class _SettingsState extends State<Settings> {
         title: Text(AppLocalizations.of(context)!.bluetooth),
       ),
       SwitchListTile(
-        title: const Text('Enable'),
+        title: Text(AppLocalizations.of(context)!.enable),
         value: _bluetoothState.isEnabled,
         onChanged: (bool value) {
           // Do the request and update with the true value then
@@ -161,25 +172,25 @@ class _SettingsState extends State<Settings> {
         },
       ),
       ListTile(
-        title: const Text('Open settings'),
+        title: Text(AppLocalizations.of(context)!.openSettings),
         trailing: ElevatedButton(
-          child: const Text('Settings'),
+          child: Text(AppLocalizations.of(context)!.settings),
           onPressed: () {
             FlutterBluetoothSerial.instance.openSettings();
           },
         ),
       ),
       ListTile(
-        title: const Text('Local adapter address'),
+        title: Text(AppLocalizations.of(context)!.localAdapterAddress),
         subtitle: Text(_address),
       ),
       ListTile(
-        title: const Text('Local adapter name'),
+        title: Text(AppLocalizations.of(context)!.localAdapterName),
         subtitle: Text(_name),
         onLongPress: null,
       ),
       SwitchListTile(
-        title: const Text('Auto-try specific pin'),
+        title: Text(AppLocalizations.of(context)!.autoTrySpecificPin),
         subtitle: const Text('Pin 1234'),
         secondary: const Icon(Icons.lock_open_outlined),
         value: cubit.state.autoPairing,

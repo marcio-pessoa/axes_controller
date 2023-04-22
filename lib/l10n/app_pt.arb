@@ -37,5 +37,10 @@
   "bluetooth": "Bluetooth",
   "serial": "Serial",
   "communication": "Comunicação",
-  "endLine": "Fim de linha"
+  "endLine": "Fim de linha",
+  "enable": "Habilitar",
+  "openSettings": "Abrir configurações",
+  "localAdapterAddress": "Endereço do adaptador local",
+  "localAdapterName": "Nome do adaptador local",
+  "autoTrySpecificPin": "Tentar um pin específico automaticamente"
 }
