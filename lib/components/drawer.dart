@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:xc/components/comm_interface_icon.dart';
+import 'package:xc/cubit/comm_cubit.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
@@ -11,6 +14,8 @@ class MyDrawer extends StatefulWidget {
 class _MyDrawerState extends State<MyDrawer> {
   @override
   Widget build(BuildContext context) {
+    final communication = context.read<CommCubit>();
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -24,7 +29,8 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.selectDevice),
-            leading: const Icon(Icons.bluetooth),
+            leading:
+                CommInterfaceIcon(interface: communication.state.commInterface),
             onTap: () {
               Navigator.of(context).pushNamed('/selectDevice');
             },

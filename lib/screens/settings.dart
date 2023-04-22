@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:xc/components/comm_interface_icon.dart';
 import 'package:xc/components/radio_item.dart';
 import 'package:xc/controllers/theme.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
@@ -84,7 +85,9 @@ class _SettingsState extends State<Settings> {
           ListTile(
             title: Text(AppLocalizations.of(context)!.commInterface),
             subtitle: Text(communication.state.commInterface.description),
-            leading: _commInterfaceIcon(communication.state.commInterface),
+            leading: CommInterfaceIcon(
+              interface: communication.state.commInterface,
+            ),
             onTap: () => _commInterfaceDialog(),
           ),
           ListTile(
@@ -133,17 +136,6 @@ class _SettingsState extends State<Settings> {
         ],
       ),
     );
-  }
-
-  Icon _commInterfaceIcon(CommInterface interface) {
-    switch (interface) {
-      case CommInterface.bluetooth:
-        return const Icon(Icons.bluetooth);
-      case CommInterface.usb:
-        return const Icon(Icons.usb_outlined);
-      default:
-        return const Icon(Icons.device_unknown_outlined);
-    }
   }
 
   List<Widget> _bluetoothItems(BuildContext context) {
