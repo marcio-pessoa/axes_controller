@@ -368,7 +368,7 @@ class _SettingsState extends State<Settings> {
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
-            title: Text(AppLocalizations.of(context)!.commInterface),
+            title: Text("${AppLocalizations.of(context)!.baudRate} (Bauds)"),
             children: <Widget>[
               RadioItem(
                 id: BaudRate.baud1200.description,
