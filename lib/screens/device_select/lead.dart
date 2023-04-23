@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:xc/SelectBondedDevicePage.dart';
+import 'package:xc/select_bonded_device_page.dart';
 import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/screens/device_select/usb.dart';
 import 'package:xc/static/comm_interface.dart';
