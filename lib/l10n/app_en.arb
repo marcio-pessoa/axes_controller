@@ -45,5 +45,9 @@
   "openSettings": "Open settings",
   "localAdapterAddress": "Local adapter address",
   "localAdapterName": "Local adapter name",
-  "autoTrySpecificPin": "Auto-try specific pin"
+  "autoTrySpecificPin": "Auto-try specific pin",
+  "description": "Description",
+  "transport": "Transport",
+  "manufacturer": "Manufacturer",
+  "productName": "Product Name"
 }

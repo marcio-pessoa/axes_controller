@@ -1,8 +1,8 @@
-import 'package:xc/SelectBondedDevicePage.dart';
 import 'package:xc/screens/about.dart';
 import 'package:xc/screens/chat.dart';
 import 'package:xc/screens/control.dart';
 import 'package:xc/screens/device_details.dart';
+import 'package:xc/screens/device_select/lead.dart';
 import 'package:xc/screens/home.dart';
 import 'package:xc/screens/settings.dart';
 
@@ -12,7 +12,6 @@ var routes = {
   '/about/deviceDetails': (context) => const DeviceDetails(),
   '/chat': (context) => const Chat(),
   '/control': (context) => const Control(),
-  '/selectDevice': (context) =>
-      const SelectBondedDevicePage(checkAvailability: false),
+  '/selectDevice': (context) => const DeviceSelect(),
   '/settings': (context) => const Settings(),
 };
