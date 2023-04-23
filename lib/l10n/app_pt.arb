@@ -42,5 +42,10 @@
   "openSettings": "Abrir configurações",
   "localAdapterAddress": "Endereço do adaptador local",
   "localAdapterName": "Nome do adaptador local",
-  "autoTrySpecificPin": "Tentar um pin específico automaticamente"
+  "autoTrySpecificPin": "Tentar um pin específico automaticamente",
+  "description": "Descrição",
+  "transport": "Transporte",
+  "manufacturer": "Fabricante",
+  "productName": "Nome do produto",
+  "baudRate": "Velocidade"
 }
