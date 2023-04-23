@@ -6,6 +6,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
+import 'package:xc/cubit/serial_cubit.dart';
 import 'package:xc/cubit/settings_cubit.dart';
 import 'package:xc/cubit/settings_state.dart';
 import 'package:xc/static/themes.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => BluetoothCubit()),
         BlocProvider(create: (context) => CommCubit()),
+        BlocProvider(create: (context) => SerialCubit()),
         BlocProvider(create: (context) => SettingsCubit()),
       ],
       child: BlocBuilder<SettingsCubit, SettingsState>(

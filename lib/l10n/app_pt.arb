@@ -46,5 +46,6 @@
   "description": "Descrição",
   "transport": "Transporte",
   "manufacturer": "Fabricante",
-  "productName": "Nome do produto"
+  "productName": "Nome do produto",
+  "baudRate": "Speed"
 }

@@ -7,7 +7,9 @@ import 'package:xc/components/radio_item.dart';
 import 'package:xc/controllers/theme.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
+import 'package:xc/cubit/serial_cubit.dart';
 import 'package:xc/cubit/settings_cubit.dart';
+import 'package:xc/static/baud_rate.dart';
 import 'package:xc/static/comm_interface.dart';
 import 'package:xc/static/end_line.dart';
 import 'package:xc/static/languages.dart';
@@ -78,7 +80,6 @@ class _SettingsState extends State<Settings> {
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.settings)),
       body: ListView(
         children: [
-          // GeneralSettings(),
           ListTile(
             title: Text(AppLocalizations.of(context)!.communication),
           ),
@@ -200,9 +201,16 @@ class _SettingsState extends State<Settings> {
   }
 
   List<Widget> _serialItems(BuildContext context) {
+    final cubit = context.read<SerialCubit>();
     return [
       ListTile(
         title: Text(AppLocalizations.of(context)!.serial),
+      ),
+      ListTile(
+        title: Text(AppLocalizations.of(context)!.baudRate),
+        subtitle: Text("${cubit.state.baudRate.description} Bauds"),
+        leading: const Icon(Icons.speed_outlined),
+        onTap: () => _baudRateDialog(),
       ),
     ];
   }
@@ -347,6 +355,87 @@ class _SettingsState extends State<Settings> {
         break;
       case 'USB':
         cubit.set(commInterface: CommInterface.usb);
+        break;
+      default:
+        break;
+    }
+    setState(() {});
+  }
+
+  Future<void> _baudRateDialog() async {
+    final cubit = context.read<SerialCubit>();
+    switch (await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: Text(AppLocalizations.of(context)!.commInterface),
+            children: <Widget>[
+              RadioItem(
+                id: BaudRate.baud1200.description,
+                name: BaudRate.baud1200.description,
+                groupValue: cubit.state.baudRate.description,
+              ),
+              RadioItem(
+                id: BaudRate.baud2400.description,
+                name: BaudRate.baud2400.description,
+                groupValue: cubit.state.baudRate.description,
+              ),
+              RadioItem(
+                id: BaudRate.baud4800.description,
+                name: BaudRate.baud4800.description,
+                groupValue: cubit.state.baudRate.description,
+              ),
+              RadioItem(
+                id: BaudRate.baud9600.description,
+                name: BaudRate.baud9600.description,
+                groupValue: cubit.state.baudRate.description,
+              ),
+              RadioItem(
+                id: BaudRate.baud19200.description,
+                name: BaudRate.baud19200.description,
+                groupValue: cubit.state.baudRate.description,
+              ),
+              RadioItem(
+                id: BaudRate.baud38400.description,
+                name: BaudRate.baud38400.description,
+                groupValue: cubit.state.baudRate.description,
+              ),
+              RadioItem(
+                id: BaudRate.baud57600.description,
+                name: BaudRate.baud57600.description,
+                groupValue: cubit.state.baudRate.description,
+              ),
+              RadioItem(
+                id: BaudRate.baud115200.description,
+                name: BaudRate.baud115200.description,
+                groupValue: cubit.state.baudRate.description,
+              ),
+            ],
+          );
+        })) {
+      case '1200':
+        cubit.set(baudRate: BaudRate.baud1200);
+        break;
+      case '2400':
+        cubit.set(baudRate: BaudRate.baud2400);
+        break;
+      case '4800':
+        cubit.set(baudRate: BaudRate.baud4800);
+        break;
+      case '9600':
+        cubit.set(baudRate: BaudRate.baud9600);
+        break;
+      case '19200':
+        cubit.set(baudRate: BaudRate.baud19200);
+        break;
+      case '38400':
+        cubit.set(baudRate: BaudRate.baud38400);
+        break;
+      case '57600':
+        cubit.set(baudRate: BaudRate.baud57600);
+        break;
+      case '115200':
+        cubit.set(baudRate: BaudRate.baud115200);
         break;
       default:
         break;
