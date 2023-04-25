@@ -45,9 +45,9 @@ class _Chat extends State<Chat> {
     final cubit = context.read<BluetoothCubit>();
 
     BluetoothConnection.toAddress(cubit.state.connection.address)
-        .then((_connection) {
+        .then((connect) {
       log('Connected to the device');
-      connection = _connection;
+      connection = connect;
       setState(() {
         isConnecting = false;
         isDisconnecting = false;
