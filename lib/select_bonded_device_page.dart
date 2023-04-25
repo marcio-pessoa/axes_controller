@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
-import 'package:xc/cubit/bluetooth_state.dart';
 
 import 'bluetooth_deevice_list_entry.dart';
 
