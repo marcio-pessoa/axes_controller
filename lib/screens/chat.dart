@@ -91,25 +91,25 @@ class _Chat extends State<Chat> {
   Widget build(BuildContext context) {
     final cubit = context.read<BluetoothCubit>();
 
-    final List<Row> list = messages.map((_message) {
+    final List<Row> list = messages.map((message) {
       return Row(
         children: <Widget>[
           Container(
             child: Text(
                 (text) {
                   return text == '/shrug' ? '¯\\_(ツ)_/¯' : text;
-                }(_message.text.trim()),
+                }(message.text.trim()),
                 style: const TextStyle(color: Colors.white)),
             padding: const EdgeInsets.all(12.0),
             margin: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
             width: 222.0,
             decoration: BoxDecoration(
                 color:
-                    _message.whom == clientID ? Colors.blueAccent : Colors.grey,
+                    message.whom == clientID ? Colors.blueAccent : Colors.grey,
                 borderRadius: BorderRadius.circular(7.0)),
           ),
         ],
-        mainAxisAlignment: _message.whom == clientID
+        mainAxisAlignment: message.whom == clientID
             ? MainAxisAlignment.end
             : MainAxisAlignment.start,
       );
