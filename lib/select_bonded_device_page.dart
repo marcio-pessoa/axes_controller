@@ -6,18 +6,7 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 
-import 'bluetooth_deevice_list_entry.dart';
-
-class SelectBondedDevicePage extends StatefulWidget {
-  /// If true, on page start there is performed discovery upon the bonded devices.
-  /// Then, if they are not avaliable, they would be disabled from the selection.
-  final bool checkAvailability;
-
-  const SelectBondedDevicePage({this.checkAvailability = true});
-
-  @override
-  _SelectBondedDevicePage createState() => _SelectBondedDevicePage();
-}
+import 'bluetooth_device_list_entry.dart';
 
 enum _DeviceAvailability {
   maybe,
@@ -29,7 +18,18 @@ class _DeviceWithAvailability {
   _DeviceAvailability availability;
   int? rssi;
 
-  _DeviceWithAvailability(this.device, this.availability, [this.rssi]);
+  _DeviceWithAvailability(this.device, this.availability);
+}
+
+class SelectBondedDevicePage extends StatefulWidget {
+  /// If true, on page start there is performed discovery upon the bonded devices.
+  /// Then, if they are not avaliable, they would be disabled from the selection.
+  final bool checkAvailability;
+
+  const SelectBondedDevicePage({super.key, this.checkAvailability = true});
+
+  @override
+  State<SelectBondedDevicePage> createState() => _SelectBondedDevicePage();
 }
 
 class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
@@ -85,10 +85,10 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
       setState(() {
         Iterator i = devices.iterator;
         while (i.moveNext()) {
-          var _device = i.current;
-          if (_device.device == r.device) {
-            _device.availability = _DeviceAvailability.yes;
-            _device.rssi = r.rssi;
+          var device = i.current;
+          if (device.device == r.device) {
+            device.availability = _DeviceAvailability.yes;
+            device.rssi = r.rssi;
           }
         }
       });
@@ -112,15 +112,15 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
   @override
   Widget build(BuildContext context) {
     List<BluetoothDeviceListEntry> list = devices
-        .map((_device) => BluetoothDeviceListEntry(
-              device: _device.device,
-              rssi: _device.rssi,
-              enabled: _device.availability == _DeviceAvailability.yes,
+        .map((device) => BluetoothDeviceListEntry(
+              device: device.device,
+              rssi: device.rssi,
+              enabled: device.availability == _DeviceAvailability.yes,
               onTap: () {
                 final cubit = context.read<BluetoothCubit>();
-                cubit.set(connection: _device.device);
+                cubit.set(connection: device.device);
 
-                Navigator.of(context).pop(_device.device);
+                Navigator.of(context).pop(device.device);
               },
             ))
         .toList();
