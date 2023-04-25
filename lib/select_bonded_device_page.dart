@@ -8,17 +8,6 @@ import 'package:xc/cubit/bluetooth_cubit.dart';
 
 import 'bluetooth_deevice_list_entry.dart';
 
-class SelectBondedDevicePage extends StatefulWidget {
-  /// If true, on page start there is performed discovery upon the bonded devices.
-  /// Then, if they are not avaliable, they would be disabled from the selection.
-  final bool checkAvailability;
-
-  const SelectBondedDevicePage({super.key, this.checkAvailability = true});
-
-  @override
-  _SelectBondedDevicePage createState() => _SelectBondedDevicePage();
-}
-
 enum _DeviceAvailability {
   maybe,
   yes,
@@ -30,6 +19,17 @@ class _DeviceWithAvailability {
   int? rssi;
 
   _DeviceWithAvailability(this.device, this.availability);
+}
+
+class SelectBondedDevicePage extends StatefulWidget {
+  /// If true, on page start there is performed discovery upon the bonded devices.
+  /// Then, if they are not avaliable, they would be disabled from the selection.
+  final bool checkAvailability;
+
+  const SelectBondedDevicePage({super.key, this.checkAvailability = true});
+
+  @override
+  State<SelectBondedDevicePage> createState() => _SelectBondedDevicePage();
 }
 
 class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
