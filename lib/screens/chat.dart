@@ -122,8 +122,8 @@ class _Chat extends State<Chat> {
               ? Text(
                   "${AppLocalizations.of(context)!.chatConnecting}$serverName...")
               : isConnected
-                  ? Text('Live chat with ' + serverName)
-                  : Text('Chat log with ' + serverName))),
+                  ? Text('Live chat with $serverName')
+                  : Text('Chat log with $serverName'))),
       body: SafeArea(
         child: Column(
           children: <Widget>[
