@@ -45,9 +45,9 @@ class _Chat extends State<Chat> {
     final cubit = context.read<BluetoothCubit>();
 
     BluetoothConnection.toAddress(cubit.state.connection.address)
-        .then((_connection) {
+        .then((connect) {
       log('Connected to the device');
-      connection = _connection;
+      connection = connect;
       setState(() {
         isConnecting = false;
         isDisconnecting = false;
@@ -65,7 +65,7 @@ class _Chat extends State<Chat> {
         } else {
           log("Disconnected remotely");
         }
-        if (this.mounted) {
+        if (mounted) {
           setState(() {});
         }
       });
@@ -91,27 +91,27 @@ class _Chat extends State<Chat> {
   Widget build(BuildContext context) {
     final cubit = context.read<BluetoothCubit>();
 
-    final List<Row> list = messages.map((_message) {
+    final List<Row> list = messages.map((message) {
       return Row(
+        mainAxisAlignment: message.whom == clientID
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
         children: <Widget>[
           Container(
-            child: Text(
-                (text) {
-                  return text == '/shrug' ? '¯\\_(ツ)_/¯' : text;
-                }(_message.text.trim()),
-                style: const TextStyle(color: Colors.white)),
             padding: const EdgeInsets.all(12.0),
             margin: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
             width: 222.0,
             decoration: BoxDecoration(
                 color:
-                    _message.whom == clientID ? Colors.blueAccent : Colors.grey,
+                    message.whom == clientID ? Colors.blueAccent : Colors.grey,
                 borderRadius: BorderRadius.circular(7.0)),
+            child: Text(
+                (text) {
+                  return text == '/shrug' ? '¯\\_(ツ)_/¯' : text;
+                }(message.text.trim()),
+                style: const TextStyle(color: Colors.white)),
           ),
         ],
-        mainAxisAlignment: _message.whom == clientID
-            ? MainAxisAlignment.end
-            : MainAxisAlignment.start,
       );
     }).toList();
 
@@ -172,11 +172,11 @@ class _Chat extends State<Chat> {
   void _onDataReceived(Uint8List data) {
     // Allocate buffer for parsed data
     int backspacesCounter = 0;
-    data.forEach((byte) {
+    for (var byte in data) {
       if (byte == 8 || byte == 127) {
         backspacesCounter++;
       }
-    });
+    }
     Uint8List buffer = Uint8List(data.length - backspacesCounter);
     int bufferIndex = buffer.length;
 
