@@ -65,7 +65,7 @@ class _Chat extends State<Chat> {
         } else {
           log("Disconnected remotely");
         }
-        if (this.mounted) {
+        if (mounted) {
           setState(() {});
         }
       });
