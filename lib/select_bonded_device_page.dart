@@ -13,7 +13,7 @@ class SelectBondedDevicePage extends StatefulWidget {
   /// Then, if they are not avaliable, they would be disabled from the selection.
   final bool checkAvailability;
 
-  const SelectBondedDevicePage({this.checkAvailability = true});
+  const SelectBondedDevicePage({super.key, this.checkAvailability = true});
 
   @override
   _SelectBondedDevicePage createState() => _SelectBondedDevicePage();
@@ -29,7 +29,7 @@ class _DeviceWithAvailability {
   _DeviceAvailability availability;
   int? rssi;
 
-  _DeviceWithAvailability(this.device, this.availability, [this.rssi]);
+  _DeviceWithAvailability(this.device, this.availability);
 }
 
 class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
@@ -85,10 +85,10 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
       setState(() {
         Iterator i = devices.iterator;
         while (i.moveNext()) {
-          var _device = i.current;
-          if (_device.device == r.device) {
-            _device.availability = _DeviceAvailability.yes;
-            _device.rssi = r.rssi;
+          var device = i.current;
+          if (device.device == r.device) {
+            device.availability = _DeviceAvailability.yes;
+            device.rssi = r.rssi;
           }
         }
       });
@@ -112,15 +112,15 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
   @override
   Widget build(BuildContext context) {
     List<BluetoothDeviceListEntry> list = devices
-        .map((_device) => BluetoothDeviceListEntry(
-              device: _device.device,
-              rssi: _device.rssi,
-              enabled: _device.availability == _DeviceAvailability.yes,
+        .map((device) => BluetoothDeviceListEntry(
+              device: device.device,
+              rssi: device.rssi,
+              enabled: device.availability == _DeviceAvailability.yes,
               onTap: () {
                 final cubit = context.read<BluetoothCubit>();
-                cubit.set(connection: _device.device);
+                cubit.set(connection: device.device);
 
-                Navigator.of(context).pop(_device.device);
+                Navigator.of(context).pop(device.device);
               },
             ))
         .toList();
