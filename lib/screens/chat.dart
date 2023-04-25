@@ -95,11 +95,6 @@ class _Chat extends State<Chat> {
       return Row(
         children: <Widget>[
           Container(
-            child: Text(
-                (text) {
-                  return text == '/shrug' ? '¯\\_(ツ)_/¯' : text;
-                }(message.text.trim()),
-                style: const TextStyle(color: Colors.white)),
             padding: const EdgeInsets.all(12.0),
             margin: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
             width: 222.0,
@@ -107,6 +102,11 @@ class _Chat extends State<Chat> {
                 color:
                     message.whom == clientID ? Colors.blueAccent : Colors.grey,
                 borderRadius: BorderRadius.circular(7.0)),
+            child: Text(
+                (text) {
+                  return text == '/shrug' ? '¯\\_(ツ)_/¯' : text;
+                }(message.text.trim()),
+                style: const TextStyle(color: Colors.white)),
           ),
         ],
         mainAxisAlignment: message.whom == clientID
