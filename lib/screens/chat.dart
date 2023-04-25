@@ -93,6 +93,9 @@ class _Chat extends State<Chat> {
 
     final List<Row> list = messages.map((message) {
       return Row(
+        mainAxisAlignment: message.whom == clientID
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
         children: <Widget>[
           Container(
             padding: const EdgeInsets.all(12.0),
@@ -109,9 +112,6 @@ class _Chat extends State<Chat> {
                 style: const TextStyle(color: Colors.white)),
           ),
         ],
-        mainAxisAlignment: message.whom == clientID
-            ? MainAxisAlignment.end
-            : MainAxisAlignment.start,
       );
     }).toList();
 
