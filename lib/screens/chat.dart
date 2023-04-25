@@ -172,11 +172,11 @@ class _Chat extends State<Chat> {
   void _onDataReceived(Uint8List data) {
     // Allocate buffer for parsed data
     int backspacesCounter = 0;
-    data.forEach((byte) {
+    for (var byte in data) {
       if (byte == 8 || byte == 127) {
         backspacesCounter++;
       }
-    });
+    }
     Uint8List buffer = Uint8List(data.length - backspacesCounter);
     int bufferIndex = buffer.length;
 
