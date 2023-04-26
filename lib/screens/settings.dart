@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:xc/components/comm_interface_icon.dart';
 import 'package:xc/components/radio_item.dart';
 import 'package:xc/controllers/theme.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
@@ -84,14 +83,6 @@ class _SettingsState extends State<Settings> {
             title: Text(AppLocalizations.of(context)!.communication),
           ),
           ListTile(
-            title: Text(AppLocalizations.of(context)!.commInterface),
-            subtitle: Text(communication.state.commInterface.description),
-            leading: CommInterfaceIcon(
-              interface: communication.state.commInterface,
-            ),
-            onTap: () => _commInterfaceDialog(),
-          ),
-          ListTile(
             title: Text(AppLocalizations.of(context)!.endLine),
             subtitle: Text(communication.state.endLine.name.toUpperCase()),
             leading: const Icon(Icons.edit_note_outlined),
@@ -99,14 +90,13 @@ class _SettingsState extends State<Settings> {
           ),
           const Divider(),
           Visibility(
-            visible: communication.state.commInterface == CommInterface.usb,
+            visible: communication.state.interface == CommInterface.usb,
             child: Column(
               children: _serialItems(context),
             ),
           ),
           Visibility(
-            visible:
-                communication.state.commInterface == CommInterface.bluetooth,
+            visible: communication.state.interface == CommInterface.bluetooth,
             child: Column(
               children: _bluetoothItems(context),
             ),
@@ -322,39 +312,6 @@ class _SettingsState extends State<Settings> {
         break;
       case 'CRLF':
         cubit.set(endLine: EndLine.crlf);
-        break;
-      default:
-        break;
-    }
-    setState(() {});
-  }
-
-  Future<void> _commInterfaceDialog() async {
-    final cubit = context.read<CommCubit>();
-    switch (await showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          return SimpleDialog(
-            title: Text(AppLocalizations.of(context)!.commInterface),
-            children: <Widget>[
-              RadioItem(
-                id: CommInterface.bluetooth.description,
-                name: CommInterface.bluetooth.description,
-                groupValue: cubit.state.commInterface.description,
-              ),
-              RadioItem(
-                id: CommInterface.usb.description,
-                name: CommInterface.usb.description,
-                groupValue: cubit.state.commInterface.description,
-              ),
-            ],
-          );
-        })) {
-      case 'Bluetooth':
-        cubit.set(commInterface: CommInterface.bluetooth);
-        break;
-      case 'USB':
-        cubit.set(commInterface: CommInterface.usb);
         break;
       default:
         break;

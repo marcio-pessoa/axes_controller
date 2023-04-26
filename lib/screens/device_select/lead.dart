@@ -12,7 +12,7 @@ class DeviceSelect extends StatelessWidget {
   Widget build(BuildContext context) {
     final communication = context.read<CommCubit>();
 
-    switch (communication.state.commInterface) {
+    switch (communication.state.interface) {
       case CommInterface.bluetooth:
         return const SelectBondedDevicePage(checkAvailability: false);
       case CommInterface.usb:
