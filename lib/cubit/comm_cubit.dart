@@ -8,11 +8,13 @@ class CommCubit extends HydratedCubit<CommState> {
       : super(CommState(
           endLine: EndLine.lf,
           interface: CommInterface.bluetooth,
+          address: null,
         ));
 
   void set({
     endLine,
     interface,
+    address,
   }) {
     endLine = endLine ?? state.endLine;
     interface = interface ?? state.interface;
@@ -20,6 +22,7 @@ class CommCubit extends HydratedCubit<CommState> {
     final update = CommState(
       endLine: endLine,
       interface: interface,
+      address: address,
     );
 
     emit(update);
@@ -32,6 +35,7 @@ class CommCubit extends HydratedCubit<CommState> {
     return CommState(
       endLine: toEndLine(endLine),
       interface: toCommInterface(interface),
+      address: json['address'],
     );
   }
 
@@ -39,7 +43,8 @@ class CommCubit extends HydratedCubit<CommState> {
   Map<String, dynamic>? toJson(CommState state) {
     return {
       'endLine': state.endLine.name,
-      'interface': state.interface.description
+      'interface': state.interface.description,
+      'address': state.address,
     };
   }
 }
