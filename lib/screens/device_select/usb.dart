@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
+import 'package:xc/components/card_list_tile.dart';
 
 extension IntToString on int {
   String toHex() => '0x${toRadixString(16)}';
@@ -100,24 +101,5 @@ class _DeviceSelectUSBState extends State<DeviceSelectUSB> {
 
   void scanPorts() {
     setState(() => availablePorts = SerialPort.availablePorts);
-  }
-}
-
-class CardListTile extends StatelessWidget {
-  final String name;
-  final String? value;
-
-  const CardListTile({super.key, required this.name, this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 20, 0),
-      child: TextField(
-        controller: TextEditingController(text: value ?? '-'),
-        readOnly: true,
-        decoration: InputDecoration(labelText: name, border: InputBorder.none),
-      ),
-    );
   }
 }
