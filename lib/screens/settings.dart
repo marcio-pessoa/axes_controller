@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:xc/components/comm_interface_icon.dart';
 import 'package:xc/components/radio_item.dart';
 import 'package:xc/controllers/theme.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
