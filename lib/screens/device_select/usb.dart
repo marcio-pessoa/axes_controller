@@ -71,26 +71,6 @@ class _DeviceSelectUSBState extends State<DeviceSelectUSB> {
           name: AppLocalizations.of(context)!.description,
           value: port.description,
         ),
-        // CardListTile(
-        //   name: AppLocalizations.of(context)!.transport,
-        //   value: port.transport.toTransport(),
-        // ),
-        // CardListTile(
-        //   name: 'USB Bus',
-        //   value: port.busNumber?.toPadded(),
-        // ),
-        // CardListTile(
-        //   name: 'USB Device',
-        //   value: port.deviceNumber?.toPadded(),
-        // ),
-        // CardListTile(
-        //   name: 'Vendor ID',
-        //   value: port.vendorId?.toHex(),
-        // ),
-        // CardListTile(
-        //   name: 'Product ID',
-        //   value: port.productId?.toHex(),
-        // ),
         CardListTile(
           name: AppLocalizations.of(context)!.manufacturer,
           value: port.manufacturer,
