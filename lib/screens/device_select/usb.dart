@@ -66,11 +66,11 @@ class _DeviceSelectUSBState extends State<DeviceSelectUSB> {
   Widget _expansionTitle(address, BuildContext context, SerialPort port) {
     return Card(
       child: ListTile(
-        leading: const Icon(Icons.check_circle_outline_rounded),
-        trailing: SizedBox(
-          width: 180,
-          child: Text(address),
+        leading: IconButton(
+          onPressed: () => onPressed(),
+          icon: const Icon(Icons.check_circle_outline_rounded),
         ),
+        trailing: SizedBox(width: 180, child: Text(address)),
         title: Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
@@ -102,4 +102,6 @@ class _DeviceSelectUSBState extends State<DeviceSelectUSB> {
   void scanPorts() {
     setState(() => availablePorts = SerialPort.availablePorts);
   }
+
+  onPressed() {}
 }
