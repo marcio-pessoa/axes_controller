@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'package:xc/components/detailed_list_tile.dart';
+import 'package:xc/cubit/comm_cubit.dart';
+import 'package:xc/static/colors.dart';
 
 extension IntToString on int {
   String toHex() => '0x${toRadixString(16)}';
@@ -64,11 +67,20 @@ class _DeviceSelectUSBState extends State<DeviceSelectUSB> {
   }
 
   Widget _expansionTitle(address, BuildContext context, SerialPort port) {
+    final cubit = context.read<CommCubit>();
+    Icon icon = const Icon(Icons.radio_button_unchecked_outlined);
+    if (address == cubit.state.address) {
+      icon = const Icon(
+        Icons.check_circle_outline_rounded,
+        color: MyColors.ok,
+      );
+    }
+
     return Card(
       child: ListTile(
         leading: IconButton(
-          onPressed: () => onPressed(),
-          icon: const Icon(Icons.check_circle_outline_rounded),
+          onPressed: () => onPressed(address),
+          icon: icon,
         ),
         trailing: SizedBox(width: 180, child: Text(address)),
         title: Theme(
@@ -103,5 +115,8 @@ class _DeviceSelectUSBState extends State<DeviceSelectUSB> {
     setState(() => availablePorts = SerialPort.availablePorts);
   }
 
-  onPressed() {}
+  onPressed(String? address) {
+    final cubit = context.read<CommCubit>();
+    cubit.set(address: address);
+  }
 }
