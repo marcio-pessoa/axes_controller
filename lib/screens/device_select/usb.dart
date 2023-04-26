@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
+import 'package:xc/components/detailed_list_tile.dart';
+import 'package:xc/cubit/comm_cubit.dart';
+import 'package:xc/static/colors.dart';
 
 extension IntToString on int {
   String toHex() => '0x${toRadixString(16)}';
@@ -62,75 +66,59 @@ class _DeviceSelectUSBState extends State<DeviceSelectUSB> {
     ];
   }
 
-  ExpansionTile _expansionTitle(
-      address, BuildContext context, SerialPort port) {
-    return ExpansionTile(
-      title: Text(address),
-      children: [
-        CardListTile(
-          name: AppLocalizations.of(context)!.description,
-          value: port.description,
+  Widget _expansionTitle(address, BuildContext context, SerialPort port) {
+    final cubit = context.read<CommCubit>();
+    Icon icon = const Icon(Icons.radio_button_unchecked_outlined);
+    if (address == cubit.state.address) {
+      icon = const Icon(
+        Icons.check_circle_outline_rounded,
+        color: MyColors.ok,
+      );
+    }
+
+    return Card(
+      child: ListTile(
+        leading: IconButton(
+          onPressed: () => onPressed(address),
+          icon: icon,
         ),
-        // CardListTile(
-        //   name: AppLocalizations.of(context)!.transport,
-        //   value: port.transport.toTransport(),
-        // ),
-        // CardListTile(
-        //   name: 'USB Bus',
-        //   value: port.busNumber?.toPadded(),
-        // ),
-        // CardListTile(
-        //   name: 'USB Device',
-        //   value: port.deviceNumber?.toPadded(),
-        // ),
-        // CardListTile(
-        //   name: 'Vendor ID',
-        //   value: port.vendorId?.toHex(),
-        // ),
-        // CardListTile(
-        //   name: 'Product ID',
-        //   value: port.productId?.toHex(),
-        // ),
-        CardListTile(
-          name: AppLocalizations.of(context)!.manufacturer,
-          value: port.manufacturer,
+        trailing: SizedBox(width: 180, child: Text(address)),
+        title: Theme(
+          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+          child: ExpansionTile(
+            title: Text(port.description ?? "-"),
+            children: [
+              DetailedListTile(
+                name: AppLocalizations.of(context)!.manufacturer,
+                value: port.manufacturer,
+              ),
+              DetailedListTile(
+                name: AppLocalizations.of(context)!.productName,
+                value: port.productName,
+              ),
+              DetailedListTile(
+                name: 'Serial Number',
+                value: port.serialNumber,
+              ),
+              DetailedListTile(
+                name: 'MAC Address',
+                value: port.macAddress,
+              ),
+            ],
+          ),
         ),
-        CardListTile(
-          name: AppLocalizations.of(context)!.productName,
-          value: port.productName,
-        ),
-        CardListTile(
-          name: 'Serial Number',
-          value: port.serialNumber,
-        ),
-        CardListTile(
-          name: 'MAC Address',
-          value: port.macAddress,
-        ),
-      ],
+      ),
     );
   }
 
   void scanPorts() {
     setState(() => availablePorts = SerialPort.availablePorts);
   }
-}
 
-class CardListTile extends StatelessWidget {
-  final String name;
-  final String? value;
-
-  const CardListTile({super.key, required this.name, this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 20, 0),
-      child: TextField(
-        controller: TextEditingController(text: value ?? '-'),
-        readOnly: true,
-        decoration: InputDecoration(labelText: name, border: InputBorder.none),
-      ),
-    );
+  onPressed(String? address) {
+    final cubit = context.read<CommCubit>();
+    setState(() {
+      cubit.set(address: address);
+    });
   }
 }
