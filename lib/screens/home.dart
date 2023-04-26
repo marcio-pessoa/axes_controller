@@ -42,9 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final cubit = context.read<CommCubit>();
 
     if (Platform.isAndroid) {
-      cubit.set(commInterface: CommInterface.bluetooth);
+      cubit.set(interface: CommInterface.bluetooth);
     } else if (Platform.isLinux) {
-      cubit.set(commInterface: CommInterface.usb);
+      cubit.set(interface: CommInterface.usb);
     }
   }
 }

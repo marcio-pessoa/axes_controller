@@ -30,7 +30,7 @@ class _MyDrawerState extends State<MyDrawer> {
           ListTile(
             title: Text(AppLocalizations.of(context)!.selectDevice),
             leading:
-                CommInterfaceIcon(interface: communication.state.commInterface),
+                CommInterfaceIcon(interface: communication.state.interface),
             onTap: () {
               Navigator.of(context).pushNamed('/selectDevice');
             },

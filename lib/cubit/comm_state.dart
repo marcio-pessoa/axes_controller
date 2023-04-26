@@ -3,10 +3,10 @@ import 'package:xc/static/end_line.dart';
 
 class CommState {
   final EndLine endLine;
-  final CommInterface commInterface;
+  final CommInterface interface;
 
   CommState({
     required this.endLine,
-    required this.commInterface,
+    required this.interface,
   });
 }

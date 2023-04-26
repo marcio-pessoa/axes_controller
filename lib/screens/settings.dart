@@ -99,14 +99,13 @@ class _SettingsState extends State<Settings> {
           ),
           const Divider(),
           Visibility(
-            visible: communication.state.commInterface == CommInterface.usb,
+            visible: communication.state.interface == CommInterface.usb,
             child: Column(
               children: _serialItems(context),
             ),
           ),
           Visibility(
-            visible:
-                communication.state.commInterface == CommInterface.bluetooth,
+            visible: communication.state.interface == CommInterface.bluetooth,
             child: Column(
               children: _bluetoothItems(context),
             ),
