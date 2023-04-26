@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CardListTile extends StatelessWidget {
+class DetailedListTile extends StatelessWidget {
   final String name;
   final String? value;
 
-  const CardListTile({super.key, required this.name, this.value});
+  const DetailedListTile({super.key, required this.name, this.value});
 
   @override
   Widget build(BuildContext context) {

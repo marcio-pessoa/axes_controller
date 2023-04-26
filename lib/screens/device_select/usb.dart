@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
-import 'package:xc/components/card_list_tile.dart';
+import 'package:xc/components/detailed_list_tile.dart';
 
 extension IntToString on int {
   String toHex() => '0x${toRadixString(16)}';
@@ -76,19 +76,19 @@ class _DeviceSelectUSBState extends State<DeviceSelectUSB> {
           child: ExpansionTile(
             title: Text(port.description ?? "-"),
             children: [
-              CardListTile(
+              DetailedListTile(
                 name: AppLocalizations.of(context)!.manufacturer,
                 value: port.manufacturer,
               ),
-              CardListTile(
+              DetailedListTile(
                 name: AppLocalizations.of(context)!.productName,
                 value: port.productName,
               ),
-              CardListTile(
+              DetailedListTile(
                 name: 'Serial Number',
                 value: port.serialNumber,
               ),
-              CardListTile(
+              DetailedListTile(
                 name: 'MAC Address',
                 value: port.macAddress,
               ),
