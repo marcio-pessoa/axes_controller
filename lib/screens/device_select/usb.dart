@@ -117,6 +117,8 @@ class _DeviceSelectUSBState extends State<DeviceSelectUSB> {
 
   onPressed(String? address) {
     final cubit = context.read<CommCubit>();
-    cubit.set(address: address);
+    setState(() {
+      cubit.set(address: address);
+    });
   }
 }
