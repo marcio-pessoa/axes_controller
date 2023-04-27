@@ -58,7 +58,7 @@ class _DeviceSelectUSBState extends State<DeviceSelectUSB> {
       for (final address in availablePorts)
         Builder(builder: (context) {
           final port = SerialPort(address);
-          Widget result = _expansionTitle(address, context, port);
+          Widget result = _serialTile(address, port);
           port.dispose();
 
           return result;
@@ -66,7 +66,7 @@ class _DeviceSelectUSBState extends State<DeviceSelectUSB> {
     ];
   }
 
-  Widget _expansionTitle(address, BuildContext context, SerialPort port) {
+  Card _serialTile(String? address, SerialPort port) {
     final cubit = context.read<CommCubit>();
     Icon icon = const Icon(Icons.radio_button_unchecked_outlined);
     if (address == cubit.state.address) {
@@ -82,7 +82,7 @@ class _DeviceSelectUSBState extends State<DeviceSelectUSB> {
           onPressed: () => onPressed(address),
           icon: icon,
         ),
-        trailing: SizedBox(width: 180, child: Text(address)),
+        trailing: SizedBox(width: 180, child: Text(address.toString())),
         title: Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
