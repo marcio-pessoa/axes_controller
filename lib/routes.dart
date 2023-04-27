@@ -1,5 +1,5 @@
 import 'package:xc/screens/about.dart';
-import 'package:xc/screens/chat.dart';
+import 'package:xc/screens/chat/chat.dart';
 import 'package:xc/screens/control.dart';
 import 'package:xc/screens/device_details.dart';
 import 'package:xc/screens/device_select/lead.dart';
