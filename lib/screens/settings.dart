@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -9,7 +11,6 @@ import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/cubit/serial_cubit.dart';
 import 'package:xc/cubit/settings_cubit.dart';
 import 'package:xc/static/baud_rate.dart';
-import 'package:xc/static/comm_interface.dart';
 import 'package:xc/static/end_line.dart';
 import 'package:xc/static/languages.dart';
 
@@ -28,6 +29,61 @@ class _SettingsState extends State<Settings> {
   @override
   void initState() {
     super.initState();
+
+    if (Platform.isAndroid) {
+      _initStateOnAndroid();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final settings = context.read<SettingsCubit>();
+    final communication = context.read<CommCubit>();
+
+    return Scaffold(
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.settings)),
+      body: ListView(
+        children: [
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.communication),
+          ),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.endLine),
+            subtitle: Text(communication.state.endLine.name.toUpperCase()),
+            leading: const Icon(Icons.edit_note_outlined),
+            onTap: () => _endLineDialog(),
+          ),
+          const Divider(),
+          _interfaceItems(),
+          const Divider(),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.interface),
+          ),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.language),
+            subtitle: Text(AppLocalizations.of(context)!.myLanguage),
+            leading: const Icon(Icons.language_outlined),
+            onTap: () => _languageDialog(),
+          ),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.theme),
+            subtitle: Text(themeLocaleName(context, settings.state.theme)),
+            leading: const Icon(Icons.dark_mode_outlined),
+            onTap: () => _themeDialog(),
+          ),
+          const Divider(),
+          ListTile(
+            title: Text(
+                "${AppLocalizations.of(context)!.about} ${AppLocalizations.of(context)!.title}"),
+            leading: const Icon(Icons.info_outline),
+            onTap: () => Navigator.of(context).pushNamed('/about'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _initStateOnAndroid() {
     // Get current state
     FlutterBluetoothSerial.instance.state.then((state) {
       setState(() {
@@ -70,66 +126,7 @@ class _SettingsState extends State<Settings> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final settings = context.read<SettingsCubit>();
-    final communication = context.read<CommCubit>();
-
-    return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.settings)),
-      body: ListView(
-        children: [
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.communication),
-          ),
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.endLine),
-            subtitle: Text(communication.state.endLine.name.toUpperCase()),
-            leading: const Icon(Icons.edit_note_outlined),
-            onTap: () => _endLineDialog(),
-          ),
-          const Divider(),
-          Visibility(
-            visible: communication.state.interface == CommInterface.usb,
-            child: Column(
-              children: _serialItems(context),
-            ),
-          ),
-          Visibility(
-            visible: communication.state.interface == CommInterface.bluetooth,
-            child: Column(
-              children: _bluetoothItems(context),
-            ),
-          ),
-          const Divider(),
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.interface),
-          ),
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.language),
-            subtitle: Text(AppLocalizations.of(context)!.myLanguage),
-            leading: const Icon(Icons.language_outlined),
-            onTap: () => _languageDialog(),
-          ),
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.theme),
-            subtitle: Text(themeLocaleName(context, settings.state.theme)),
-            leading: const Icon(Icons.dark_mode_outlined),
-            onTap: () => _themeDialog(),
-          ),
-          const Divider(),
-          ListTile(
-            title: Text(
-                "${AppLocalizations.of(context)!.about} ${AppLocalizations.of(context)!.title}"),
-            leading: const Icon(Icons.info_outline),
-            onTap: () => Navigator.of(context).pushNamed('/about'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<Widget> _bluetoothItems(BuildContext context) {
+  List<Widget> _bluetoothItems() {
     final cubit = context.read<BluetoothCubit>();
     return [
       ListTile(
@@ -190,7 +187,7 @@ class _SettingsState extends State<Settings> {
     ];
   }
 
-  List<Widget> _serialItems(BuildContext context) {
+  List<Widget> _serialItems() {
     final cubit = context.read<SerialCubit>();
     return [
       ListTile(
@@ -398,5 +395,19 @@ class _SettingsState extends State<Settings> {
         break;
     }
     setState(() {});
+  }
+
+  Widget _interfaceItems() {
+    if (Platform.isAndroid) {
+      return Column(
+        children: _bluetoothItems(),
+      );
+    } else if (Platform.isLinux) {
+      return Column(
+        children: _serialItems(),
+      );
+    } else {
+      return Container();
+    }
   }
 }
