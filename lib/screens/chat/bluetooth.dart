@@ -16,14 +16,14 @@ class _Message {
   _Message(this.whom, this.text);
 }
 
-class Chat extends StatefulWidget {
-  const Chat({super.key});
+class ChatBluetooth extends StatefulWidget {
+  const ChatBluetooth({super.key});
 
   @override
-  State<Chat> createState() => _Chat();
+  State<ChatBluetooth> createState() => _Chat();
 }
 
-class _Chat extends State<Chat> {
+class _Chat extends State<ChatBluetooth> {
   static const clientID = 0;
   BluetoothConnection? connection;
 
