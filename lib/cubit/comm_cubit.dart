@@ -18,6 +18,7 @@ class CommCubit extends HydratedCubit<CommState> {
   }) {
     endLine = endLine ?? state.endLine;
     interface = interface ?? state.interface;
+    address = address ?? state.address;
 
     final update = CommState(
       endLine: endLine,
@@ -35,7 +36,7 @@ class CommCubit extends HydratedCubit<CommState> {
     return CommState(
       endLine: toEndLine(endLine),
       interface: toCommInterface(interface),
-      address: json['address'],
+      address: json['address'].toString(),
     );
   }
 
@@ -44,7 +45,7 @@ class CommCubit extends HydratedCubit<CommState> {
     return {
       'endLine': state.endLine.name,
       'interface': state.interface.description,
-      'address': state.address,
+      'address': state.address.toString(),
     };
   }
 }
