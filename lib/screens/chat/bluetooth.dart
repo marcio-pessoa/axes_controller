@@ -15,10 +15,9 @@ class ChatBluetooth extends StatefulWidget {
 }
 
 class _Chat extends State<ChatBluetooth> {
-  Comm comm = Comm();
-
   final TextEditingController textEditingController = TextEditingController();
   final ScrollController listScrollController = ScrollController();
+  Comm comm = Comm();
 
   @override
   void initState() {
@@ -27,12 +26,8 @@ class _Chat extends State<ChatBluetooth> {
     final device = context.read<BluetoothCubit>();
     final preferences = context.read<CommCubit>();
 
-    comm.init(device, preferences);
-
     setState(() {
-      //TODO: Is it really necessary?
-      comm.isConnecting;
-      comm.isDisconnecting;
+      comm.init(device, preferences);
     });
   }
 
@@ -114,7 +109,7 @@ class _Chat extends State<ChatBluetooth> {
                   child: IconButton(
                       icon: const Icon(Icons.send),
                       onPressed: comm.isConnected
-                          ? () => _sendMessage(textEditingController.text)
+                          ? () => _send(textEditingController.text)
                           : null),
                 ),
               ],
@@ -125,16 +120,14 @@ class _Chat extends State<ChatBluetooth> {
     );
   }
 
-  void _sendMessage(String text) async {
+  void _send(String text) async {
     text = text.trim();
     textEditingController.clear();
 
     if (text.isNotEmpty) {
       try {
-        comm.send(text);
-
         setState(() {
-          comm.messages.add(Message(comm.clientID, text));
+          comm.send(text);
         });
 
         Future.delayed(const Duration(milliseconds: 333)).then((_) {
