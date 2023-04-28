@@ -1,6 +1,4 @@
-# xC
-
-aXes Controller
+# Axes Controller
 
 ## Building
 
