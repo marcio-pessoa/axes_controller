@@ -7,14 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:xc/controllers/comm_bluetooth.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
-
-class _Message {
-  int whom;
-  String text;
-
-  _Message(this.whom, this.text);
-}
 
 class ChatBluetooth extends StatefulWidget {
   const ChatBluetooth({super.key});
@@ -27,7 +21,7 @@ class _Chat extends State<ChatBluetooth> {
   static const clientID = 0;
   BluetoothConnection? connection;
 
-  List<_Message> messages = List<_Message>.empty(growable: true);
+  List<Message> messages = List<Message>.empty(growable: true);
   String _messageBuffer = '';
 
   final TextEditingController textEditingController = TextEditingController();
@@ -200,7 +194,7 @@ class _Chat extends State<ChatBluetooth> {
     if (~index != 0) {
       setState(() {
         messages.add(
-          _Message(
+          Message(
             1,
             backspacesCounter > 0
                 ? _messageBuffer.substring(
@@ -228,7 +222,7 @@ class _Chat extends State<ChatBluetooth> {
         await connection!.output.allSent;
 
         setState(() {
-          messages.add(_Message(clientID, text));
+          messages.add(Message(clientID, text));
         });
 
         Future.delayed(const Duration(milliseconds: 333)).then((_) {
