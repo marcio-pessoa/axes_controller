@@ -48,14 +48,11 @@ class Comm {
         //   // `dispose`, `finish` or `close`, which all causes to disconnect.
         //   // If we except the disconnection, `onDone` should be fired as result.
         //   // If we didn't except this (no flag set), it means closing by remote.
-        //   if (isDisconnecting) {
-        //     log("Disconectado localmente!");
-        //   } else {
-        //     log("Desconectado remotamente!");
-        //   }
-        //   if (this.mounted) {
-        //     setState(() {});
-        //   }
+        if (isDisconnecting) {
+          log("Disconectado localmente!");
+        } else {
+          log("Desconectado remotamente!");
+        }
       });
     }).catchError((error) {
       log('Cannot connect, exception occured');
