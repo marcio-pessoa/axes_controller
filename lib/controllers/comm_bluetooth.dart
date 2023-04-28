@@ -15,9 +15,10 @@ class Message {
 }
 
 class Comm {
+  BluetoothCubit deviceCubit = BluetoothCubit();
+  CommCubit configuration = CommCubit();
   var clientID = 0;
   BluetoothConnection? connection;
-  CommCubit configuration = CommCubit();
   List<Message> messages = List<Message>.empty(growable: true);
   String _messageBuffer = '';
   bool isConnecting = true;
@@ -31,6 +32,7 @@ class Comm {
     }
 
     configuration = preferences;
+    deviceCubit = device;
 
     BluetoothConnection.toAddress(device.state.connection.address)
         .then((connectionInternal) {

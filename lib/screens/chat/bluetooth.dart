@@ -39,8 +39,6 @@ class _Chat extends State<ChatBluetooth> {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<BluetoothCubit>();
-
     final List<Row> list = comm.messages.map((message) {
       return Row(
         mainAxisAlignment: message.whom == comm.clientID
@@ -66,15 +64,18 @@ class _Chat extends State<ChatBluetooth> {
       );
     }).toList();
 
-    final serverName = cubit.state.connection.name ?? "Unknown";
+    final serverName = comm.deviceCubit.state.connection.name ??
+        AppLocalizations.of(context)!.unknown;
     return Scaffold(
       appBar: AppBar(
           title: (comm.isConnecting
               ? Text(
                   "${AppLocalizations.of(context)!.chatConnecting}$serverName...")
               : comm.isConnected
-                  ? Text('Live chat with $serverName')
-                  : Text('Chat log with $serverName'))),
+                  ? Text(
+                      '${AppLocalizations.of(context)!.liveChat} $serverName')
+                  : Text(
+                      '${AppLocalizations.of(context)!.chatLog} $serverName'))),
       body: SafeArea(
         child: Column(
           children: <Widget>[
