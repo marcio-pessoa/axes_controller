@@ -50,7 +50,7 @@ class Comm {
         //   // If we except the disconnection, `onDone` should be fired as result.
         //   // If we didn't except this (no flag set), it means closing by remote.
         if (isDisconnecting) {
-          log("Disconectado localmente!");
+          log("Desconectado localmente!");
         } else {
           log("Desconectado remotamente!");
         }
