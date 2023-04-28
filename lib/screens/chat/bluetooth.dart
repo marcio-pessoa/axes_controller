@@ -131,10 +131,11 @@ class _Chat extends State<ChatBluetooth> {
           comm.send(text);
         });
 
-        Future.delayed(const Duration(milliseconds: 333)).then((_) {
+        const duration = 333;
+        Future.delayed(const Duration(milliseconds: duration)).then((_) {
           listScrollController.animateTo(
               listScrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 333),
+              duration: const Duration(milliseconds: duration),
               curve: Curves.easeOut);
         });
       } catch (e) {
