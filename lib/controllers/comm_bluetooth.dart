@@ -20,7 +20,6 @@ class Comm {
   CommCubit configuration = CommCubit();
   List<Message> messages = List<Message>.empty(growable: true);
   String _messageBuffer = '';
-
   bool isConnecting = true;
   bool isDisconnecting = false;
   bool get isConnected => (connection?.isConnected ?? false);
