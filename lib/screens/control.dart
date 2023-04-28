@@ -27,7 +27,7 @@ class _ControlState extends State<Control> {
     ]);
     final device = context.read<BluetoothCubit>();
     final preferences = context.read<CommCubit>();
-    comm.start(device, preferences);
+    comm.init(device, preferences);
   }
 
   @override

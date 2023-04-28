@@ -24,7 +24,7 @@ class Comm {
   bool isDisconnecting = false;
   bool get isConnected => (connection?.isConnected ?? false);
 
-  start(BluetoothCubit device, CommCubit preferences) {
+  init(BluetoothCubit device, CommCubit preferences) {
     if (device.state.connection.address == '') {
       log('Not connected. :-(');
       return;
