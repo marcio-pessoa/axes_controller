@@ -2,7 +2,7 @@
   "title": "Axes Controller",
   "chatConnecting": "Conectando chat em ",
   "typeMessage": "Digite a mensagem...",
-  "chatDetached": "Chat deconectou",
+  "chatDetached": "Chat desconectou",
   "waitConnection": "Conectando...",
   "disconnectingLocally": "Disconectado localmente!",
   "disconnectedRemotely": "Desconectado remotamente!",
