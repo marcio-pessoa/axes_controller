@@ -64,7 +64,7 @@ class _Chat extends State<ChatBluetooth> {
       );
     }).toList();
 
-    final serverName = comm.deviceCubit.state.connection.name ??
+    final serverName = comm.device.state.connection.name ??
         AppLocalizations.of(context)!.unknown;
     return Scaffold(
       appBar: AppBar(

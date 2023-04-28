@@ -15,34 +15,34 @@ class Message {
 }
 
 class Comm {
-  BluetoothCubit deviceCubit = BluetoothCubit();
+  BluetoothCubit device = BluetoothCubit();
   CommCubit configuration = CommCubit();
   var clientID = 0;
-  BluetoothConnection? connection;
+  BluetoothConnection? _connection;
   List<Message> messages = List<Message>.empty(growable: true);
   String _messageBuffer = '';
   bool isConnecting = true;
   bool isDisconnecting = false;
-  bool get isConnected => (connection?.isConnected ?? false);
+  bool get isConnected => (_connection?.isConnected ?? false);
 
-  init(BluetoothCubit device, CommCubit preferences) {
+  init(BluetoothCubit userDevice, CommCubit userPreferences) {
+    configuration = userPreferences;
+    device = userDevice;
+
     if (device.state.connection.address == '') {
       log('Not connected. :-(');
       return;
     }
 
-    configuration = preferences;
-    deviceCubit = device;
-
     BluetoothConnection.toAddress(device.state.connection.address)
         .then((connectionInternal) {
       log('Connected to the device');
-      connection = connectionInternal;
+      _connection = connectionInternal;
 
       isConnecting = false;
       isDisconnecting = false;
 
-      connection!.input!.listen(receive).onDone(() {
+      _connection!.input!.listen(receive).onDone(() {
         //   // Example: Detect which side closed the connection
         //   // There should be `isDisconnecting` flag to show are we are (locally)
         //   // in middle of disconnecting process, should be set before calling
@@ -64,24 +64,24 @@ class Comm {
   dispose() {
     if (isConnected) {
       isDisconnecting = true;
-      connection?.dispose();
-      connection = null;
+      _connection?.dispose();
+      _connection = null;
     }
   }
 
   send(String text) async {
-    if (connection?.isConnected != true) {
+    if (_connection?.isConnected != true) {
       log('Not connected.');
       return;
     }
 
     if (text.isNotEmpty) {
-      connection!.output.add(
+      _connection!.output.add(
         Uint8List.fromList(
           utf8.encode("$text${configuration.state.endLine.chars}"),
         ),
       );
-      await connection!.output.allSent;
+      await _connection!.output.allSent;
 
       messages.add(Message(clientID, text));
     }
