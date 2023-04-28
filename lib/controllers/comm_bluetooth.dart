@@ -15,7 +15,7 @@ class Message {
 }
 
 class Comm {
-  static const clientID = 0;
+  var clientID = 0;
   BluetoothConnection? connection;
   CommCubit configuration = CommCubit();
   List<Message> messages = List<Message>.empty(growable: true);

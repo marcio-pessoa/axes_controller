@@ -1,14 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/controllers/comm_bluetooth.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
+import 'package:xc/cubit/comm_cubit.dart';
 
 class ChatBluetooth extends StatefulWidget {
   const ChatBluetooth({super.key});
@@ -18,66 +15,30 @@ class ChatBluetooth extends StatefulWidget {
 }
 
 class _Chat extends State<ChatBluetooth> {
-  static const clientID = 0;
-  BluetoothConnection? connection;
-
-  List<Message> messages = List<Message>.empty(growable: true);
-  String _messageBuffer = '';
+  Comm comm = Comm();
 
   final TextEditingController textEditingController = TextEditingController();
   final ScrollController listScrollController = ScrollController();
-
-  bool isConnecting = true;
-  bool get isConnected => (connection?.isConnected ?? false);
-
-  bool isDisconnecting = false;
 
   @override
   void initState() {
     super.initState();
 
-    final cubit = context.read<BluetoothCubit>();
+    final device = context.read<BluetoothCubit>();
+    final preferences = context.read<CommCubit>();
 
-    BluetoothConnection.toAddress(cubit.state.connection.address)
-        .then((connect) {
-      log('Connected to the device');
-      connection = connect;
-      setState(() {
-        isConnecting = false;
-        isDisconnecting = false;
-      });
+    comm.init(device, preferences);
 
-      connection!.input!.listen(_onDataReceived).onDone(() {
-        // Example: Detect which side closed the connection
-        // There should be `isDisconnecting` flag to show are we are (locally)
-        // in middle of disconnecting process, should be set before calling
-        // `dispose`, `finish` or `close`, which all causes to disconnect.
-        // If we except the disconnection, `onDone` should be fired as result.
-        // If we didn't except this (no flag set), it means closing by remote.
-        if (isDisconnecting) {
-          log("Disconnecting locally");
-        } else {
-          log("Disconnected remotely");
-        }
-        if (mounted) {
-          setState(() {});
-        }
-      });
-    }).catchError((error) {
-      log('Cannot connect, exception occured');
-      log(error);
+    setState(() {
+      //TODO: Is it really necessary?
+      comm.isConnecting;
+      comm.isDisconnecting;
     });
   }
 
   @override
   void dispose() {
-    // Avoid memory leak (`setState` after dispose) and disconnect
-    if (isConnected) {
-      isDisconnecting = true;
-      connection?.dispose();
-      connection = null;
-    }
-
+    comm.dispose();
     super.dispose();
   }
 
@@ -85,9 +46,9 @@ class _Chat extends State<ChatBluetooth> {
   Widget build(BuildContext context) {
     final cubit = context.read<BluetoothCubit>();
 
-    final List<Row> list = messages.map((message) {
+    final List<Row> list = comm.messages.map((message) {
       return Row(
-        mainAxisAlignment: message.whom == clientID
+        mainAxisAlignment: message.whom == comm.clientID
             ? MainAxisAlignment.end
             : MainAxisAlignment.start,
         children: <Widget>[
@@ -96,8 +57,9 @@ class _Chat extends State<ChatBluetooth> {
             margin: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
             width: 222.0,
             decoration: BoxDecoration(
-                color:
-                    message.whom == clientID ? Colors.blueAccent : Colors.grey,
+                color: message.whom == comm.clientID
+                    ? Colors.blueAccent
+                    : Colors.grey,
                 borderRadius: BorderRadius.circular(7.0)),
             child: Text(
                 (text) {
@@ -112,10 +74,10 @@ class _Chat extends State<ChatBluetooth> {
     final serverName = cubit.state.connection.name ?? "Unknown";
     return Scaffold(
       appBar: AppBar(
-          title: (isConnecting
+          title: (comm.isConnecting
               ? Text(
                   "${AppLocalizations.of(context)!.chatConnecting}$serverName...")
-              : isConnected
+              : comm.isConnected
                   ? Text('Live chat with $serverName')
                   : Text('Chat log with $serverName'))),
       body: SafeArea(
@@ -136,14 +98,14 @@ class _Chat extends State<ChatBluetooth> {
                       style: const TextStyle(fontSize: 15.0),
                       controller: textEditingController,
                       decoration: InputDecoration.collapsed(
-                        hintText: isConnecting
+                        hintText: comm.isConnecting
                             ? AppLocalizations.of(context)!.waitConnection
-                            : isConnected
+                            : comm.isConnected
                                 ? AppLocalizations.of(context)!.typeMessage
                                 : AppLocalizations.of(context)!.chatDetached,
                         hintStyle: const TextStyle(color: Colors.grey),
                       ),
-                      enabled: isConnected,
+                      enabled: comm.isConnected,
                     ),
                   ),
                 ),
@@ -151,7 +113,7 @@ class _Chat extends State<ChatBluetooth> {
                   margin: const EdgeInsets.all(8.0),
                   child: IconButton(
                       icon: const Icon(Icons.send),
-                      onPressed: isConnected
+                      onPressed: comm.isConnected
                           ? () => _sendMessage(textEditingController.text)
                           : null),
                 ),
@@ -163,66 +125,14 @@ class _Chat extends State<ChatBluetooth> {
     );
   }
 
-  void _onDataReceived(Uint8List data) {
-    // Allocate buffer for parsed data
-    int backspacesCounter = 0;
-    for (var byte in data) {
-      if (byte == 8 || byte == 127) {
-        backspacesCounter++;
-      }
-    }
-    Uint8List buffer = Uint8List(data.length - backspacesCounter);
-    int bufferIndex = buffer.length;
-
-    // Apply backspace control character
-    backspacesCounter = 0;
-    for (int i = data.length - 1; i >= 0; i--) {
-      if (data[i] == 8 || data[i] == 127) {
-        backspacesCounter++;
-      } else {
-        if (backspacesCounter > 0) {
-          backspacesCounter--;
-        } else {
-          buffer[--bufferIndex] = data[i];
-        }
-      }
-    }
-
-    // Create message if there is new line character
-    String dataString = String.fromCharCodes(buffer);
-    int index = buffer.indexOf(10);
-    if (~index != 0) {
-      setState(() {
-        messages.add(
-          Message(
-            1,
-            backspacesCounter > 0
-                ? _messageBuffer.substring(
-                    0, _messageBuffer.length - backspacesCounter)
-                : _messageBuffer + dataString.substring(0, index),
-          ),
-        );
-        _messageBuffer = dataString.substring(index);
-      });
-    } else {
-      _messageBuffer = (backspacesCounter > 0
-          ? _messageBuffer.substring(
-              0, _messageBuffer.length - backspacesCounter)
-          : _messageBuffer + dataString);
-    }
-  }
-
   void _sendMessage(String text) async {
     text = text.trim();
     textEditingController.clear();
 
     if (text.isNotEmpty) {
       try {
-        connection!.output.add(Uint8List.fromList(utf8.encode("$text\n")));
-        await connection!.output.allSent;
-
         setState(() {
-          messages.add(Message(clientID, text));
+          comm.messages.add(Message(comm.clientID, text));
         });
 
         Future.delayed(const Duration(milliseconds: 333)).then((_) {
