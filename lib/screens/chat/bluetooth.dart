@@ -131,6 +131,8 @@ class _Chat extends State<ChatBluetooth> {
 
     if (text.isNotEmpty) {
       try {
+        comm.send(text);
+
         setState(() {
           comm.messages.add(Message(comm.clientID, text));
         });
