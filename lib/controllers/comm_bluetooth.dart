@@ -28,27 +28,27 @@ class Comm {
   init(BluetoothCubit userDevice, CommCubit userPreferences) {
     configuration = userPreferences;
     device = userDevice;
+    final address = device.state.connection.address;
 
-    if (device.state.connection.address == '') {
+    if (address.isEmpty) {
       log('Not connected. :-(');
       return;
     }
 
-    BluetoothConnection.toAddress(device.state.connection.address)
-        .then((connectionInternal) {
+    BluetoothConnection.toAddress(address).then((connection) {
       log('Connected to the device');
-      _connection = connectionInternal;
+      _connection = connection;
 
       isConnecting = false;
       isDisconnecting = false;
 
       _connection!.input!.listen(receive).onDone(() {
-        //   // Example: Detect which side closed the connection
-        //   // There should be `isDisconnecting` flag to show are we are (locally)
-        //   // in middle of disconnecting process, should be set before calling
-        //   // `dispose`, `finish` or `close`, which all causes to disconnect.
-        //   // If we except the disconnection, `onDone` should be fired as result.
-        //   // If we didn't except this (no flag set), it means closing by remote.
+        // Example: Detect which side closed the connection
+        // There should be `isDisconnecting` flag to show are we are (locally)
+        // in middle of disconnecting process, should be set before calling
+        // `dispose`, `finish` or `close`, which all causes to disconnect.
+        // If we except the disconnection, `onDone` should be fired as result.
+        // If we didn't except this (no flag set), it means closing by remote.
         if (isDisconnecting) {
           log("Desconectado localmente!");
         } else {
