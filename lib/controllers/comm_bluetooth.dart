@@ -15,47 +15,34 @@ class Message {
 }
 
 class Comm {
-  static const clientID = 0;
-  BluetoothConnection? connection;
+  BluetoothCubit device = BluetoothCubit();
   CommCubit configuration = CommCubit();
+  int clientID = 0;
+  BluetoothConnection? connection;
   List<Message> messages = List<Message>.empty(growable: true);
-
+  String messageBuffer = '';
   bool isConnecting = true;
   bool isDisconnecting = false;
   bool get isConnected => (connection?.isConnected ?? false);
 
-  start(BluetoothCubit device, CommCubit preferences) {
-    if (device.state.connection.address == '') {
+  Future<void> init(
+      BluetoothCubit userDevice, CommCubit userPreferences) async {
+    configuration = userPreferences;
+    device = userDevice;
+    final address = device.state.connection.address;
+
+    if (address.isEmpty) {
       log('Not connected. :-(');
       return;
     }
 
-    configuration = preferences;
+    final btConnection = BluetoothConnection.toAddress(address);
 
-    BluetoothConnection.toAddress(device.state.connection.address)
-        .then((connectionInternal) {
+    await btConnection.then((connect) {
       log('Connected to the device');
-      connection = connectionInternal;
-
+      connection = connect;
       isConnecting = false;
       isDisconnecting = false;
-
-      // connection!.input!.listen(_onDataReceived).onDone(() {
-      //   // Example: Detect which side closed the connection
-      //   // There should be `isDisconnecting` flag to show are we are (locally)
-      //   // in middle of disconnecting process, should be set before calling
-      //   // `dispose`, `finish` or `close`, which all causes to disconnect.
-      //   // If we except the disconnection, `onDone` should be fired as result.
-      //   // If we didn't except this (no flag set), it means closing by remote.
-      //   if (isDisconnecting) {
-      //     log("Disconectado localmente!");
-      //   } else {
-      //     log("Desconectado remotamente!");
-      //   }
-      //   if (this.mounted) {
-      //     setState(() {});
-      //   }
-      // });
     }).catchError((error) {
       log('Cannot connect, exception occured');
       log(error);
@@ -88,5 +75,5 @@ class Comm {
     }
   }
 
-  receive() {}
+  receive(Uint8List data) {}
 }

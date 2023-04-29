@@ -50,5 +50,8 @@
   "transport": "Transport",
   "manufacturer": "Manufacturer",
   "productName": "Product Name",
-  "baudRate": "Speed"
+  "baudRate": "Speed",
+  "unknown": "Unknown",
+  "liveChat": "Live chat with",
+  "chatLog": "Chat log with"
 }

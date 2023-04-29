@@ -2,7 +2,7 @@
   "title": "Axes Controller",
   "chatConnecting": "Conectando chat em ",
   "typeMessage": "Digite a mensagem...",
-  "chatDetached": "Chat deconectou",
+  "chatDetached": "Chat desconectou",
   "waitConnection": "Conectando...",
   "disconnectingLocally": "Disconectado localmente!",
   "disconnectedRemotely": "Desconectado remotamente!",
@@ -47,5 +47,8 @@
   "transport": "Transporte",
   "manufacturer": "Fabricante",
   "productName": "Nome do produto",
-  "baudRate": "Velocidade"
+  "baudRate": "Velocidade",
+  "unknown": "Desconhecido",
+  "liveChat": "Chat com",
+  "chatLog": "Log do chat"
 }
