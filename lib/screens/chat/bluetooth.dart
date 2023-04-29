@@ -23,11 +23,7 @@ class _Chat extends State<ChatBluetooth> {
   @override
   void initState() {
     super.initState();
-
-    final device = context.read<BluetoothCubit>();
-    final preferences = context.read<CommCubit>();
-
-    comm.init(device, preferences);
+    _initComm();
   }
 
   @override
@@ -116,6 +112,39 @@ class _Chat extends State<ChatBluetooth> {
         ),
       ),
     );
+  }
+
+  _initComm() async {
+    final device = context.read<BluetoothCubit>();
+    final preferences = context.read<CommCubit>();
+
+    await comm.init(device, preferences);
+
+    setState(() {});
+
+    log('-- Is connected?');
+
+    if (comm.isConnected) {
+      log('-- Yes!');
+      comm.connection!.input!.listen(comm.receive).onDone(() {
+        // Example: Detect which side closed the connection
+        // There should be `isDisconnecting` flag to show are we are (locally)
+        // in middle of disconnecting process, should be set before calling
+        // `dispose`, `finish` or `close`, which all causes to disconnect.
+        // If we except the disconnection, `onDone` should be fired as result.
+        // If we didn't except this (no flag set), it means closing by remote.
+        if (comm.isDisconnecting) {
+          log("Desconectado localmente!");
+        } else {
+          log("Desconectado remotamente!");
+        }
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    } else {
+      log("-- No.");
+    }
   }
 
   void _send() async {

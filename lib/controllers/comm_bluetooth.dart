@@ -18,14 +18,15 @@ class Comm {
   BluetoothCubit device = BluetoothCubit();
   CommCubit configuration = CommCubit();
   var clientID = 0;
-  BluetoothConnection? _connection;
+  BluetoothConnection? connection;
   List<Message> messages = List<Message>.empty(growable: true);
   String _messageBuffer = '';
   bool isConnecting = true;
   bool isDisconnecting = false;
-  bool get isConnected => (_connection?.isConnected ?? false);
+  bool get isConnected => (connection?.isConnected ?? false);
 
-  init(BluetoothCubit userDevice, CommCubit userPreferences) {
+  Future<void> init(
+      BluetoothCubit userDevice, CommCubit userPreferences) async {
     configuration = userPreferences;
     device = userDevice;
     final address = device.state.connection.address;
@@ -35,26 +36,13 @@ class Comm {
       return;
     }
 
-    BluetoothConnection.toAddress(address).then((connection) {
-      log('Connected to the device');
-      _connection = connection;
+    final btConnection = BluetoothConnection.toAddress(address);
 
+    await btConnection.then((connect) {
+      log('Connected to the device');
+      connection = connect;
       isConnecting = false;
       isDisconnecting = false;
-
-      _connection!.input!.listen(receive).onDone(() {
-        // Example: Detect which side closed the connection
-        // There should be `isDisconnecting` flag to show are we are (locally)
-        // in middle of disconnecting process, should be set before calling
-        // `dispose`, `finish` or `close`, which all causes to disconnect.
-        // If we except the disconnection, `onDone` should be fired as result.
-        // If we didn't except this (no flag set), it means closing by remote.
-        if (isDisconnecting) {
-          log("Desconectado localmente!");
-        } else {
-          log("Desconectado remotamente!");
-        }
-      });
     }).catchError((error) {
       log('Cannot connect, exception occured');
       log(error);
@@ -64,24 +52,24 @@ class Comm {
   dispose() {
     if (isConnected) {
       isDisconnecting = true;
-      _connection?.dispose();
-      _connection = null;
+      connection?.dispose();
+      connection = null;
     }
   }
 
   send(String text) async {
-    if (_connection?.isConnected != true) {
+    if (connection?.isConnected != true) {
       log('Not connected.');
       return;
     }
 
     if (text.isNotEmpty) {
-      _connection!.output.add(
+      connection!.output.add(
         Uint8List.fromList(
           utf8.encode("$text${configuration.state.endLine.chars}"),
         ),
       );
-      await _connection!.output.allSent;
+      await connection!.output.allSent;
 
       messages.add(Message(clientID, text));
     }
