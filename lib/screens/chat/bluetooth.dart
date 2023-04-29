@@ -109,9 +109,7 @@ class _Chat extends State<ChatBluetooth> {
                   margin: const EdgeInsets.all(8.0),
                   child: IconButton(
                       icon: const Icon(Icons.send),
-                      onPressed: comm.isConnected
-                          ? () => _send(textEditingController.text)
-                          : null),
+                      onPressed: comm.isConnected ? () => _send() : null),
                 ),
               ],
             )
@@ -121,27 +119,30 @@ class _Chat extends State<ChatBluetooth> {
     );
   }
 
-  void _send(String text) async {
-    text = text.trim();
-    textEditingController.clear();
+  void _send() async {
+    final text = textEditingController.text.trim();
 
-    if (text.isNotEmpty) {
-      try {
-        setState(() {
-          comm.send(text);
-        });
+    if (text.isEmpty) {
+      return;
+    }
 
-        const duration = 333;
-        Future.delayed(const Duration(milliseconds: duration)).then((_) {
-          listScrollController.animateTo(
-              listScrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: duration),
-              curve: Curves.easeOut);
-        });
-      } catch (e) {
-        // Ignore error, but notify state
-        setState(() {});
-      }
+    try {
+      await comm.send(text);
+
+      setState(() {
+        textEditingController.clear();
+      });
+
+      const duration = 333;
+      Future.delayed(const Duration(milliseconds: duration)).then((_) {
+        listScrollController.animateTo(
+            listScrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: duration),
+            curve: Curves.easeOut);
+      });
+    } catch (e) {
+      // Ignore error, but notify state
+      setState(() {});
     }
   }
 }
