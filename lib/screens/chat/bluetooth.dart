@@ -122,10 +122,7 @@ class _Chat extends State<ChatBluetooth> {
 
     setState(() {});
 
-    log('-- Is connected?');
-
     if (comm.isConnected) {
-      log('-- Yes!');
       comm.connection!.input!.listen(comm.receive).onDone(() {
         // Example: Detect which side closed the connection
         // There should be `isDisconnecting` flag to show are we are (locally)
@@ -142,8 +139,6 @@ class _Chat extends State<ChatBluetooth> {
           setState(() {});
         }
       });
-    } else {
-      log("-- No.");
     }
   }
 
