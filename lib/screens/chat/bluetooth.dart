@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -138,8 +139,8 @@ class _Chat extends State<ChatBluetooth> {
             duration: const Duration(milliseconds: duration),
             curve: Curves.easeOut);
       });
-    } catch (e) {
-      // Ignore error, but notify state
+    } catch (error) {
+      log(error.toString());
       setState(() {});
     }
   }
