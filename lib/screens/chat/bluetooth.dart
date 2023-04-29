@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -123,7 +124,7 @@ class _Chat extends State<ChatBluetooth> {
     setState(() {});
 
     if (comm.isConnected) {
-      comm.connection!.input!.listen(comm.receive).onDone(() {
+      comm.connection!.input!.listen(_receive).onDone(() {
         // Example: Detect which side closed the connection
         // There should be `isDisconnecting` flag to show are we are (locally)
         // in middle of disconnecting process, should be set before calling
@@ -166,6 +167,55 @@ class _Chat extends State<ChatBluetooth> {
     } catch (error) {
       log(error.toString());
       setState(() {});
+    }
+  }
+
+  void _receive(Uint8List event) {
+    // Allocate buffer for parsed data
+    int backspacesCounter = 0;
+    for (var byte in event) {
+      if (byte == 8 || byte == 127) {
+        backspacesCounter++;
+      }
+    }
+    Uint8List buffer = Uint8List(event.length - backspacesCounter);
+    int bufferIndex = buffer.length;
+
+    // Apply backspace control character
+    backspacesCounter = 0;
+    for (int i = event.length - 1; i >= 0; i--) {
+      if (event[i] == 8 || event[i] == 127) {
+        backspacesCounter++;
+      } else {
+        if (backspacesCounter > 0) {
+          backspacesCounter--;
+        } else {
+          buffer[--bufferIndex] = event[i];
+        }
+      }
+    }
+
+    // Create message if there is new line character
+    String dataString = String.fromCharCodes(buffer);
+    int index = buffer.indexOf(10);
+    if (~index != 0) {
+      setState(() {
+        comm.messages.add(
+          Message(
+            1,
+            backspacesCounter > 0
+                ? comm.messageBuffer
+                    .substring(0, comm.messageBuffer.length - backspacesCounter)
+                : comm.messageBuffer + dataString.substring(0, index),
+          ),
+        );
+        comm.messageBuffer = dataString.substring(index);
+      });
+    } else {
+      comm.messageBuffer = (backspacesCounter > 0
+          ? comm.messageBuffer
+              .substring(0, comm.messageBuffer.length - backspacesCounter)
+          : comm.messageBuffer + dataString);
     }
   }
 }
