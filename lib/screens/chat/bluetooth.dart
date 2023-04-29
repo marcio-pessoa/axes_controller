@@ -26,9 +26,7 @@ class _Chat extends State<ChatBluetooth> {
     final device = context.read<BluetoothCubit>();
     final preferences = context.read<CommCubit>();
 
-    setState(() {
-      comm.init(device, preferences);
-    });
+    comm.init(device, preferences);
   }
 
   @override
