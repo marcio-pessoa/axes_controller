@@ -17,7 +17,7 @@ class Message {
 class Comm {
   BluetoothCubit device = BluetoothCubit();
   CommCubit configuration = CommCubit();
-  var clientID = 0;
+  int clientID = 0;
   BluetoothConnection? connection;
   List<Message> messages = List<Message>.empty(growable: true);
   String messageBuffer = '';
