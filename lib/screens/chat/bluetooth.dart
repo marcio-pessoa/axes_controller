@@ -9,6 +9,7 @@ import 'package:xc/controllers/comm_bluetooth.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
+import 'package:xc/static/comm_status.dart';
 
 class ChatBluetooth extends StatefulWidget {
   const ChatBluetooth({super.key});
@@ -66,11 +67,22 @@ class _Chat extends State<ChatBluetooth> {
     final serverName = comm.device.state.connection.name ??
         AppLocalizations.of(context)!.unknown;
 
-    String hintText = comm.isConnecting
-        ? AppLocalizations.of(context)!.waitConnection
-        : comm.isConnected
-            ? "${AppLocalizations.of(context)!.typeMessage} $serverName"
-            : AppLocalizations.of(context)!.chatDetached;
+    String hintText = AppLocalizations.of(context)!.unknown;
+
+    switch (comm.status) {
+      case CommStatus.connected:
+        hintText = "${AppLocalizations.of(context)!.typeMessage} $serverName";
+        break;
+      case CommStatus.connecting:
+        hintText = AppLocalizations.of(context)!.waitConnection;
+        break;
+      case CommStatus.disconnected:
+        hintText = AppLocalizations.of(context)!.chatDetached;
+        break;
+      case CommStatus.disconnecting:
+        hintText = AppLocalizations.of(context)!.unknown;
+        break;
+    }
 
     return Column(
       children: <Widget>[
