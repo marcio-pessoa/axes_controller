@@ -1,10 +1,10 @@
 # Axes Controller
 
-Axes Controller is a cross-platform a robot controller written in Flutter.
+Axes Controller is a cross-platform robot controller written in Flutter.
 
 Supported platforms:
-- Linux
 - Android
+- Linux
 
 Platforms to be tested:
 - macOS
