@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
+import 'package:xc/static/comm_status.dart';
 import 'package:xc/static/end_line.dart';
 
 class Message {
@@ -12,13 +13,6 @@ class Message {
   String text;
 
   Message(this.whom, this.text);
-}
-
-enum CommStatus {
-  connected,
-  connecting,
-  disconnecting,
-  disconnected,
 }
 
 class Comm {
@@ -30,6 +24,7 @@ class Comm {
   bool isConnecting = true;
   bool isDisconnecting = false;
   bool get isConnected => (connection?.isConnected ?? false);
+  CommStatus status = CommStatus.connecting;
 
   Future<void> init(
       BluetoothCubit userDevice, CommCubit userPreferences) async {
@@ -47,6 +42,7 @@ class Comm {
     await btConnection.then((connect) {
       log('Connected to the device');
       connection = connect;
+      status = CommStatus.connected;
       isConnecting = false;
       isDisconnecting = false;
     }).catchError((error) {
@@ -57,14 +53,17 @@ class Comm {
 
   dispose() {
     if (isConnected) {
+      status = CommStatus.disconnecting;
       isDisconnecting = true;
       connection?.dispose();
       connection = null;
+      status = CommStatus.disconnected;
     }
   }
 
   send(String text) async {
     if (connection?.isConnected != true) {
+      status = CommStatus.disconnected;
       log('Not connected.');
       return;
     }

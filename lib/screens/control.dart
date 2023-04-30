@@ -6,6 +6,7 @@ import 'package:wakelock/wakelock.dart';
 import 'package:xc/controllers/comm_bluetooth.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
+import 'package:xc/static/comm_status.dart';
 
 class Control extends StatefulWidget {
   const Control({super.key});
@@ -47,10 +48,17 @@ class _ControlState extends State<Control> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.control),
-        actions: [_commStatus()],
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: _commIcon(),
+          )
+        ],
       ),
       body: Row(
-        children: [_controlPad()],
+        children: [
+          _controlPad(),
+        ],
       ),
     );
   }
@@ -64,16 +72,45 @@ class _ControlState extends State<Control> {
     setState(() {});
   }
 
-  Padding _commStatus() {
-    Color color = comm.isConnected ? Colors.green : Colors.grey;
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Icon(
-        Icons.circle,
-        color: color,
-      ),
+  Widget _commIcon() {
+    Widget icon = const Icon(
+      Icons.circle_outlined,
+      color: Colors.grey,
     );
+
+    switch (comm.status) {
+      case CommStatus.connected:
+        icon = const Icon(
+          Icons.check_circle_outline_rounded,
+          color: Colors.green,
+        );
+        break;
+      case CommStatus.connecting:
+        icon = const Padding(
+          padding: EdgeInsets.fromLTRB(0.0, 8.0, 4.0, 8.0),
+          child: SizedBox(
+            width: 16,
+            height: 16,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+            ),
+          ),
+        );
+        break;
+      case CommStatus.disconnected:
+        icon = const Icon(
+          Icons.cancel_outlined,
+          color: Colors.red,
+        );
+        break;
+      case CommStatus.disconnecting:
+        icon = const Icon(
+          Icons.cancel_outlined,
+          color: Colors.orange,
+        );
+        break;
+    }
+    return icon;
   }
 
   Expanded _controlPad() {
