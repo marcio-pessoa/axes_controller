@@ -4,7 +4,7 @@
     "description": "The App title"
   },
   "chatConnecting": "Connecting chat to ",
-  "typeMessage": "Type your message...",
+  "typeMessage": "Type your message to",
   "chatDetached": "Chat got disconnected",
   "waitConnection": "Wait until connected...",
   "disconnectingLocally": "Disconnecting locally!",
