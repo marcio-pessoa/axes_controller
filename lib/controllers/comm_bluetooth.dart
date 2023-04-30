@@ -26,7 +26,6 @@ class Comm {
   CommCubit configuration = CommCubit();
   int clientID = 0;
   BluetoothConnection? connection;
-  List<Message> messages = List<Message>.empty(growable: true);
   String messageBuffer = '';
   bool isConnecting = true;
   bool isDisconnecting = false;
@@ -77,8 +76,6 @@ class Comm {
         ),
       );
       await connection!.output.allSent;
-
-      messages.add(Message(clientID, text));
     }
   }
 

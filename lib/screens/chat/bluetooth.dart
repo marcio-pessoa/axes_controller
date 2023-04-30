@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/controllers/comm_bluetooth.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
+import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
 
 class ChatBluetooth extends StatefulWidget {
@@ -35,7 +36,9 @@ class _Chat extends State<ChatBluetooth> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Row> list = comm.messages.map((message) {
+    final chat = context.read<ChatCubit>();
+
+    final List<Row> list = chat.state.messages.map((message) {
       return Row(
         mainAxisAlignment: message.whom == comm.clientID
             ? MainAxisAlignment.end
@@ -140,8 +143,11 @@ class _Chat extends State<ChatBluetooth> {
       return;
     }
 
+    final chat = context.read<ChatCubit>();
+
     try {
       await comm.send(text);
+      chat.add(Message(comm.clientID, text));
 
       setState(() {
         textEditingController.clear();
@@ -186,11 +192,12 @@ class _Chat extends State<ChatBluetooth> {
     }
 
     // Create message if there is new line character
+    final chat = context.read<ChatCubit>();
     String dataString = String.fromCharCodes(buffer);
     int index = buffer.indexOf(10);
     if (~index != 0) {
       setState(() {
-        comm.messages.add(
+        chat.add(
           Message(
             1,
             backspacesCounter > 0
