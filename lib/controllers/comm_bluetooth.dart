@@ -14,6 +14,13 @@ class Message {
   Message(this.whom, this.text);
 }
 
+enum CommStatus {
+  connected,
+  connecting,
+  disconnecting,
+  disconnected,
+}
+
 class Comm {
   BluetoothCubit device = BluetoothCubit();
   CommCubit configuration = CommCubit();
