@@ -14,4 +14,12 @@ class ChatCubit extends Cubit<ChatState> {
 
     emit(update);
   }
+
+  void clear() {
+    final update = ChatState(
+      messages: [],
+    );
+
+    emit(update);
+  }
 }
