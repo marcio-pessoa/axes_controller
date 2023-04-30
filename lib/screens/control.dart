@@ -25,9 +25,7 @@ class _ControlState extends State<Control> {
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
-    final device = context.read<BluetoothCubit>();
-    final preferences = context.read<CommCubit>();
-    comm.init(device, preferences);
+    _initComm();
   }
 
   @override
@@ -49,15 +47,24 @@ class _ControlState extends State<Control> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.control),
-        actions: [commStatus()],
+        actions: [_commStatus()],
       ),
       body: Row(
-        children: [controlPad()],
+        children: [_controlPad()],
       ),
     );
   }
 
-  Padding commStatus() {
+  _initComm() async {
+    final device = context.read<BluetoothCubit>();
+    final preferences = context.read<CommCubit>();
+
+    await comm.init(device, preferences);
+
+    setState(() {});
+  }
+
+  Padding _commStatus() {
     Color color = comm.isConnected ? Colors.green : Colors.grey;
 
     return Padding(
@@ -69,7 +76,7 @@ class _ControlState extends State<Control> {
     );
   }
 
-  Expanded controlPad() {
+  Expanded _controlPad() {
     return Expanded(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,30 +86,30 @@ class _ControlState extends State<Control> {
             children: [
               Row(
                 children: [
-                  controlButton("assets/arrow_up.png", 'G21', 'M00'),
+                  _controlButton("assets/arrow_up.png", 'G21', 'M00'),
                 ],
               ),
               Row(
                 children: [
-                  controlButton("assets/arrow_left.png", 'G41', 'M00'),
-                  controlButton("assets/stop.png", 'M00', 'M00'),
-                  controlButton("assets/arrow_right.png", 'G42', 'M00'),
+                  _controlButton("assets/arrow_left.png", 'G41', 'M00'),
+                  _controlButton("assets/stop.png", 'M00', 'M00'),
+                  _controlButton("assets/arrow_right.png", 'G42', 'M00'),
                 ],
               ),
               Row(
                 children: [
-                  controlButton("assets/arrow_down.png", 'G22', 'M00'),
+                  _controlButton("assets/arrow_down.png", 'G22', 'M00'),
                 ],
               ),
             ],
           ),
-          controlButton("assets/stop.png", 'M93', ''),
+          _controlButton("assets/stop.png", 'M93', ''),
         ],
       ),
     );
   }
 
-  Padding controlButton(String image, String commandDown, String commandUp) {
+  Padding _controlButton(String image, String commandDown, String commandUp) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Listener(
