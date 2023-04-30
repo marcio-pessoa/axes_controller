@@ -53,5 +53,7 @@
   "baudRate": "Speed",
   "unknown": "Unknown",
   "liveChat": "Live chat with",
-  "chatLog": "Chat log with"
+  "chatLog": "Chat log with",
+  "chatClear": "Clear Chat?",
+  "chatClearConfirm": "Do you really want to clear the Chat?"
 }
