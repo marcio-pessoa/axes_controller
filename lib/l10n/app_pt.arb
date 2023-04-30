@@ -50,5 +50,7 @@
   "baudRate": "Velocidade",
   "unknown": "Desconhecido",
   "liveChat": "Chat com",
-  "chatLog": "Log do chat"
+  "chatLog": "Log do chat",
+  "chatClear": "Limpar o Chat?",
+  "chatClearConfirm": "Deseja realmente limpar o Chat?"
 }
