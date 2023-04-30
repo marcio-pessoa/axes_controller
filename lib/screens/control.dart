@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:xc/controllers/comm_bluetooth.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
+import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/static/comm_status.dart';
 
@@ -147,11 +148,19 @@ class _ControlState extends State<Control> {
   }
 
   Padding _controlButton(String image, String commandDown, String commandUp) {
+    final cubit = context.read<ChatCubit>();
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Listener(
-        onPointerDown: (details) => comm.send(commandDown),
-        onPointerUp: (details) => comm.send(commandUp),
+        onPointerDown: (details) {
+          cubit.add(Message(comm.clientID, commandDown));
+          comm.send(commandDown);
+        },
+        onPointerUp: (details) {
+          cubit.add(Message(comm.clientID, commandDown));
+          comm.send(commandUp);
+        },
         child: ColorFiltered(
             colorFilter: ColorFilter.mode(
               Colors.teal.withOpacity(0.0),
