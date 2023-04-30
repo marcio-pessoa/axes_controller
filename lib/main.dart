@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
+import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/cubit/serial_cubit.dart';
 import 'package:xc/cubit/settings_cubit.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => BluetoothCubit()),
+        BlocProvider(create: (context) => ChatCubit()),
         BlocProvider(create: (context) => CommCubit()),
         BlocProvider(create: (context) => SerialCubit()),
         BlocProvider(create: (context) => SettingsCubit()),

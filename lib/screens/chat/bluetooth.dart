@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/controllers/comm_bluetooth.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
+import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
 
 class ChatBluetooth extends StatefulWidget {
@@ -18,7 +19,7 @@ class ChatBluetooth extends StatefulWidget {
 
 class _Chat extends State<ChatBluetooth> {
   final TextEditingController textEditingController = TextEditingController();
-  final ScrollController listScrollController = ScrollController();
+  final ScrollController _listScrollController = ScrollController();
   Comm comm = Comm();
 
   @override
@@ -35,7 +36,9 @@ class _Chat extends State<ChatBluetooth> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Row> list = comm.messages.map((message) {
+    final chat = context.read<ChatCubit>();
+
+    final List<Row> list = chat.state.messages.map((message) {
       return Row(
         mainAxisAlignment: message.whom == comm.clientID
             ? MainAxisAlignment.end
@@ -62,56 +65,46 @@ class _Chat extends State<ChatBluetooth> {
 
     final serverName = comm.device.state.connection.name ??
         AppLocalizations.of(context)!.unknown;
-    return Scaffold(
-      appBar: AppBar(
-          title: (comm.isConnecting
-              ? Text(
-                  "${AppLocalizations.of(context)!.chatConnecting}$serverName...")
-              : comm.isConnected
-                  ? Text(
-                      '${AppLocalizations.of(context)!.liveChat} $serverName')
-                  : Text(
-                      '${AppLocalizations.of(context)!.chatLog} $serverName'))),
-      body: SafeArea(
-        child: Column(
+
+    String hintText = comm.isConnecting
+        ? AppLocalizations.of(context)!.waitConnection
+        : comm.isConnected
+            ? "${AppLocalizations.of(context)!.typeMessage} $serverName"
+            : AppLocalizations.of(context)!.chatDetached;
+
+    return Column(
+      children: <Widget>[
+        Flexible(
+          child: ListView(
+              padding: const EdgeInsets.all(12.0),
+              controller: _listScrollController,
+              children: list),
+        ),
+        Row(
           children: <Widget>[
             Flexible(
-              child: ListView(
-                  padding: const EdgeInsets.all(12.0),
-                  controller: listScrollController,
-                  children: list),
-            ),
-            Row(
-              children: <Widget>[
-                Flexible(
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 16.0),
-                    child: TextField(
-                      style: const TextStyle(fontSize: 15.0),
-                      controller: textEditingController,
-                      decoration: InputDecoration.collapsed(
-                        hintText: comm.isConnecting
-                            ? AppLocalizations.of(context)!.waitConnection
-                            : comm.isConnected
-                                ? AppLocalizations.of(context)!.typeMessage
-                                : AppLocalizations.of(context)!.chatDetached,
-                        hintStyle: const TextStyle(color: Colors.grey),
-                      ),
-                      enabled: comm.isConnected,
-                    ),
+              child: Container(
+                margin: const EdgeInsets.only(left: 16.0),
+                child: TextField(
+                  style: const TextStyle(fontSize: 15.0),
+                  controller: textEditingController,
+                  decoration: InputDecoration.collapsed(
+                    hintText: hintText,
+                    hintStyle: const TextStyle(color: Colors.grey),
                   ),
+                  enabled: comm.isConnected,
                 ),
-                Container(
-                  margin: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                      icon: const Icon(Icons.send),
-                      onPressed: comm.isConnected ? () => _send() : null),
-                ),
-              ],
-            )
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(8.0),
+              child: IconButton(
+                  icon: const Icon(Icons.send),
+                  onPressed: comm.isConnected ? () => _send() : null),
+            ),
           ],
-        ),
-      ),
+        )
+      ],
     );
   }
 
@@ -150,8 +143,11 @@ class _Chat extends State<ChatBluetooth> {
       return;
     }
 
+    final chat = context.read<ChatCubit>();
+
     try {
       await comm.send(text);
+      chat.add(Message(comm.clientID, text));
 
       setState(() {
         textEditingController.clear();
@@ -159,8 +155,8 @@ class _Chat extends State<ChatBluetooth> {
 
       const duration = 333;
       Future.delayed(const Duration(milliseconds: duration)).then((_) {
-        listScrollController.animateTo(
-            listScrollController.position.maxScrollExtent,
+        _listScrollController.animateTo(
+            _listScrollController.position.maxScrollExtent,
             duration: const Duration(milliseconds: duration),
             curve: Curves.easeOut);
       });
@@ -196,11 +192,12 @@ class _Chat extends State<ChatBluetooth> {
     }
 
     // Create message if there is new line character
+    final chat = context.read<ChatCubit>();
     String dataString = String.fromCharCodes(buffer);
     int index = buffer.indexOf(10);
     if (~index != 0) {
       setState(() {
-        comm.messages.add(
+        chat.add(
           Message(
             1,
             backspacesCounter > 0
