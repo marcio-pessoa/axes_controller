@@ -12,6 +12,8 @@ class CommSerial {
   CommStatus status = CommStatus.connecting;
   late SerialPort port;
   late SerialPortReader reader;
+  int clientID = 0;
+  String messageBuffer = '';
 
   Future<void> init(SerialCubit userDevice, CommCubit userPreferences) async {
     device = userDevice;
@@ -27,7 +29,7 @@ class CommSerial {
     port.openReadWrite();
 
     try {
-      debugPrint("Writen bytes: ${port.write(_stringToUinut8List("Hello"))}");
+      debugPrint("Writen bytes: ${port.write(stringToUinut8List("Hello"))}");
       reader = SerialPortReader(port);
 
       if (port.isOpen) {
@@ -50,7 +52,7 @@ class CommSerial {
 
   receive(Uint8List data) {}
 
-  Uint8List _stringToUinut8List(String data) {
+  Uint8List stringToUinut8List(String data) {
     List<int> codeUnits = data.codeUnits;
     Uint8List uint8list = Uint8List.fromList(codeUnits);
     return uint8list;
