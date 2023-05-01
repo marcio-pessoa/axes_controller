@@ -5,11 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wakelock/wakelock.dart';
+import 'package:xc/components/comm_status_icon.dart';
 import 'package:xc/controllers/comm_bluetooth.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
-import 'package:xc/static/comm_status.dart';
 
 class Control extends StatefulWidget {
   const Control({super.key});
@@ -54,7 +54,7 @@ class _ControlState extends State<Control> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: _commIcon(),
+            child: CommStatusIcon(status: comm.status),
           )
         ],
       ),
@@ -140,47 +140,6 @@ class _ControlState extends State<Control> {
               .substring(0, comm.messageBuffer.length - backspacesCounter)
           : comm.messageBuffer + dataString);
     }
-  }
-
-  Widget _commIcon() {
-    Widget icon = const Icon(
-      Icons.circle_outlined,
-      color: Colors.grey,
-    );
-
-    switch (comm.status) {
-      case CommStatus.connected:
-        icon = const Icon(
-          Icons.check_circle_outline_rounded,
-          color: Colors.green,
-        );
-        break;
-      case CommStatus.connecting:
-        icon = const Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 8.0, 4.0, 8.0),
-          child: SizedBox(
-            width: 16,
-            height: 16,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-            ),
-          ),
-        );
-        break;
-      case CommStatus.disconnected:
-        icon = const Icon(
-          Icons.cancel_outlined,
-          color: Colors.red,
-        );
-        break;
-      case CommStatus.disconnecting:
-        icon = const Icon(
-          Icons.cancel_outlined,
-          color: Colors.orange,
-        );
-        break;
-    }
-    return icon;
   }
 
   Expanded _controlPad() {
