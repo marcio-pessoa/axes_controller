@@ -54,7 +54,7 @@ class Comm {
     }
   }
 
-  send(String text) async {
+  Future<void> send(String text) async {
     if (connection?.isConnected != true) {
       status = CommStatus.disconnected;
       log('Not connected.');
