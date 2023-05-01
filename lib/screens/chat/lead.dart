@@ -17,7 +17,7 @@ class _ChatState extends State<Chat> {
     Widget body = Container();
 
     if (Platform.isAndroid) {
-      body = const ChatBluetooth();
+      body = const BluetoothChat();
     } else if (Platform.isLinux) {
       return const SerialChat();
     }
