@@ -90,7 +90,7 @@ class _Chat extends State<BluetoothChat> {
             child: ListView(
               padding: const EdgeInsets.all(12.0),
               controller: _listScrollController,
-              // children: list,
+              children: list,
             ),
           ),
           Row(
