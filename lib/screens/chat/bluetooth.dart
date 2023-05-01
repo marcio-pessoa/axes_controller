@@ -70,7 +70,7 @@ class _Chat extends State<ChatBluetooth> {
     final serverName = comm.device.state.connection.name ??
         AppLocalizations.of(context)!.unknown;
 
-    String hintText = setHintText(serverName);
+    String hintText = setHintText(context, serverName, comm.status);
 
     return Scaffold(
       appBar: AppBar(
@@ -87,9 +87,10 @@ class _Chat extends State<ChatBluetooth> {
         children: <Widget>[
           Flexible(
             child: ListView(
-                padding: const EdgeInsets.all(12.0),
-                controller: _listScrollController,
-                children: list),
+              padding: const EdgeInsets.all(12.0),
+              controller: _listScrollController,
+              // children: list,
+            ),
           ),
           Row(
             children: <Widget>[
@@ -259,23 +260,23 @@ class _Chat extends State<ChatBluetooth> {
       },
     );
   }
+}
 
-  String setHintText(String serverName) {
-    String result = AppLocalizations.of(context)!.unknown;
-    switch (comm.status) {
-      case CommStatus.connected:
-        result = "${AppLocalizations.of(context)!.typeMessage} $serverName";
-        break;
-      case CommStatus.connecting:
-        result = AppLocalizations.of(context)!.waitConnection;
-        break;
-      case CommStatus.disconnected:
-        result = AppLocalizations.of(context)!.chatDetached;
-        break;
-      case CommStatus.disconnecting:
-        result = AppLocalizations.of(context)!.unknown;
-        break;
-    }
-    return result;
+String setHintText(BuildContext context, String serverName, CommStatus status) {
+  String result = AppLocalizations.of(context)!.unknown;
+  switch (status) {
+    case CommStatus.connected:
+      result = "${AppLocalizations.of(context)!.typeMessage} $serverName";
+      break;
+    case CommStatus.connecting:
+      result = AppLocalizations.of(context)!.waitConnection;
+      break;
+    case CommStatus.disconnected:
+      result = AppLocalizations.of(context)!.chatDetached;
+      break;
+    case CommStatus.disconnecting:
+      result = AppLocalizations.of(context)!.unknown;
+      break;
   }
+  return result;
 }
