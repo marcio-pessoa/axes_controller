@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -101,7 +99,7 @@ class _SerialChatState extends State<SerialChat> {
       });
 
       upcommingData.listen((event) {
-        debugPrint('Read data: $event');
+        _receive(event);
       });
 
       if (mounted) {
@@ -112,5 +110,7 @@ class _SerialChatState extends State<SerialChat> {
 
   void _send() {}
 
-  void _receive(Uint8List event) {}
+  void _receive(event) {
+    debugPrint('Read data: $event');
+  }
 }
