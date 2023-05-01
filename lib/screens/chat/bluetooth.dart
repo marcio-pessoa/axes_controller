@@ -261,22 +261,3 @@ class _Chat extends State<ChatBluetooth> {
     );
   }
 }
-
-String setHintText(BuildContext context, String serverName, CommStatus status) {
-  String result = AppLocalizations.of(context)!.unknown;
-  switch (status) {
-    case CommStatus.connected:
-      result = "${AppLocalizations.of(context)!.typeMessage} $serverName";
-      break;
-    case CommStatus.connecting:
-      result = AppLocalizations.of(context)!.waitConnection;
-      break;
-    case CommStatus.disconnected:
-      result = AppLocalizations.of(context)!.chatDetached;
-      break;
-    case CommStatus.disconnecting:
-      result = AppLocalizations.of(context)!.unknown;
-      break;
-  }
-  return result;
-}
