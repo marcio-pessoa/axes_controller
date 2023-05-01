@@ -40,7 +40,6 @@ class CommSerial {
 
   dispose() {
     if (status == CommStatus.connected) {
-      log("Disconnecting...");
       status = CommStatus.disconnecting;
       port.close();
       status = CommStatus.disconnected;
