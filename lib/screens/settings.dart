@@ -402,7 +402,7 @@ class _SettingsState extends State<Settings> {
       return Column(
         children: _bluetoothItems(),
       );
-    } else if (Platform.isLinux) {
+    } else if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
       return Column(
         children: _serialItems(),
       );
