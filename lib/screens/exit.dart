@@ -11,15 +11,15 @@ Future<bool> exitDialog(BuildContext context) async {
         content: Text(AppLocalizations.of(context)!.areYouShure),
         actions: <Widget>[
           TextButton(
-            child: Text(AppLocalizations.of(context)!.no),
-            onPressed: () => Navigator.pop(context, false),
-          ),
-          TextButton(
             child: Text(
               AppLocalizations.of(context)!.yes,
               style: const TextStyle(color: MyColors.alert),
             ),
             onPressed: () => Navigator.pop(context, true),
+          ),
+          TextButton(
+            child: Text(AppLocalizations.of(context)!.no),
+            onPressed: () => Navigator.pop(context, false),
           ),
         ],
       );
