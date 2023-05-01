@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:xc/controllers/comm_bluetooth.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
+import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/static/comm_status.dart';
 
@@ -70,6 +73,73 @@ class _ControlState extends State<Control> {
     await comm.init(device, preferences);
 
     setState(() {});
+
+    if (comm.isConnected) {
+      comm.connection!.input!.listen(_receive).onDone(() {
+        // Example: Detect which side closed the connection
+        // There should be `isDisconnecting` flag to show are we are (locally)
+        // in middle of disconnecting process, should be set before calling
+        // `dispose`, `finish` or `close`, which all causes to disconnect.
+        // If we except the disconnection, `onDone` should be fired as result.
+        // If we didn't except this (no flag set), it means closing by remote.
+        if (comm.isDisconnecting) {
+          log("Desconectado localmente!");
+        } else {
+          log("Desconectado remotamente!");
+        }
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
+  }
+
+  void _receive(Uint8List event) {
+    // Allocate buffer for parsed data
+    int backspacesCounter = 0;
+    for (var byte in event) {
+      if (byte == 8 || byte == 127) {
+        backspacesCounter++;
+      }
+    }
+    Uint8List buffer = Uint8List(event.length - backspacesCounter);
+    int bufferIndex = buffer.length;
+
+    // Apply backspace control character
+    backspacesCounter = 0;
+    for (int i = event.length - 1; i >= 0; i--) {
+      if (event[i] == 8 || event[i] == 127) {
+        backspacesCounter++;
+      } else {
+        if (backspacesCounter > 0) {
+          backspacesCounter--;
+        } else {
+          buffer[--bufferIndex] = event[i];
+        }
+      }
+    }
+
+    // Create message if there is new line character
+    final chat = context.read<ChatCubit>();
+    String dataString = String.fromCharCodes(buffer);
+    int index = buffer.indexOf(10);
+    if (~index != 0) {
+      chat.add(
+        Message(
+          1,
+          backspacesCounter > 0
+              ? comm.messageBuffer
+                  .substring(0, comm.messageBuffer.length - backspacesCounter)
+              : comm.messageBuffer + dataString.substring(0, index),
+        ),
+      );
+      comm.messageBuffer = dataString.substring(index);
+    } else {
+      comm.messageBuffer = (backspacesCounter > 0
+          ? comm.messageBuffer
+              .substring(0, comm.messageBuffer.length - backspacesCounter)
+          : comm.messageBuffer + dataString);
+    }
   }
 
   Widget _commIcon() {
@@ -147,11 +217,19 @@ class _ControlState extends State<Control> {
   }
 
   Padding _controlButton(String image, String commandDown, String commandUp) {
+    final cubit = context.read<ChatCubit>();
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Listener(
-        onPointerDown: (details) => comm.send(commandDown),
-        onPointerUp: (details) => comm.send(commandUp),
+        onPointerDown: (details) {
+          cubit.add(Message(comm.clientID, commandDown));
+          comm.send(commandDown);
+        },
+        onPointerUp: (details) {
+          cubit.add(Message(comm.clientID, commandDown));
+          comm.send(commandUp);
+        },
         child: ColorFiltered(
             colorFilter: ColorFilter.mode(
               Colors.teal.withOpacity(0.0),
