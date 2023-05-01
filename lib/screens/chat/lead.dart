@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:xc/screens/chat/bluetooth.dart';
+import 'package:xc/screens/chat/serial.dart';
 
 class Chat extends StatefulWidget {
   const Chat({super.key});
@@ -17,8 +18,8 @@ class _ChatState extends State<Chat> {
 
     if (Platform.isAndroid) {
       body = const ChatBluetooth();
-      // } else if (Platform.isLinux) {
-      //   return ChatSerial();
+    } else if (Platform.isLinux) {
+      return const SerialChat();
     }
 
     return body;

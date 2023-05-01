@@ -10,44 +10,40 @@ class CommSerial {
   SerialCubit device = SerialCubit();
   CommCubit configuration = CommCubit();
   CommStatus status = CommStatus.connecting;
+  late SerialPort port;
+  late SerialPortReader reader;
 
   Future<void> init(SerialCubit userDevice, CommCubit userPreferences) async {
     device = userDevice;
     configuration = userPreferences;
-    final address = device.state.address;
+    final address = device.state.address.toString();
 
-    if (address?.isEmpty ?? true) {
+    if (address.isEmpty) {
       log('Not connected. :-(');
       return;
+    }
+
+    port = SerialPort(address);
+    port.openReadWrite();
+
+    try {
+      debugPrint("Writen bytes: ${port.write(_stringToUinut8List("Hello"))}");
+      reader = SerialPortReader(port);
+
+      if (port.isOpen) {
+        status = CommStatus.connected;
+      }
+    } on SerialPortError catch (err, _) {
+      debugPrint(SerialPort.lastError.toString());
     }
   }
 
   dispose() {
     if (status == CommStatus.connected) {
+      log("Disconnecting...");
       status = CommStatus.disconnecting;
-
-      status = CommStatus.disconnected;
-    }
-  }
-
-  serial() {
-    String address = "/dev/ttyS4";
-    SerialPort port = SerialPort(address);
-    port.openReadWrite();
-
-    try {
-      debugPrint("Writen bytes: ${port.write(_stringToUinut8List("Hello"))}");
-      SerialPortReader reader = SerialPortReader(port);
-      Stream<String> upcommingData = reader.stream.map((event) {
-        return String.fromCharCodes(event);
-      });
-
-      upcommingData.listen((event) {
-        debugPrint('Read data: $event');
-      });
-    } on SerialPortError catch (err, _) {
-      debugPrint(SerialPort.lastError.toString());
       port.close();
+      status = CommStatus.disconnected;
     }
   }
 
