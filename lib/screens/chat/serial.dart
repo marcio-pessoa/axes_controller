@@ -108,8 +108,6 @@ class _SerialChatState extends State<SerialChat> {
         setState(() {});
       }
     }
-
-    // comm.send('M100');
   }
 
   void _send() {}
