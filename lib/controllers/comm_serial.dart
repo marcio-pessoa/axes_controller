@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
 
-class ChatSerial {
+class CommSerial {
   serial() {
     String address = "/dev/ttyS4";
     SerialPort port = SerialPort(address);
