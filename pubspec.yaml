@@ -1,9 +1,9 @@
 name: xc
-description: aXes Controller
+description: Axes Controller
 
 publish_to: "none"
 
-version: 1.1.23+226
+version: 1.1.23+232
 
 environment:
   sdk: ">=2.19.3 <3.0.0"
