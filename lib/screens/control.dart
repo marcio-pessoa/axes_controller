@@ -51,9 +51,7 @@ class _ControlState extends State<Control> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CommStatusIcon(
-              status: comm.status,
-            ),
+            child: CommStatusIcon(status: comm.status),
           )
         ],
       ),
