@@ -11,6 +11,7 @@ import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/static/colors.dart';
+import 'package:xc/static/comm_message.dart';
 import 'package:xc/static/comm_status.dart';
 
 class ChatBluetooth extends StatefulWidget {
