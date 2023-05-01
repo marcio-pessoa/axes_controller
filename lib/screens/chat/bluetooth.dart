@@ -15,14 +15,14 @@ import 'package:xc/static/colors.dart';
 import 'package:xc/static/comm_message.dart';
 import 'package:xc/static/comm_status.dart';
 
-class ChatBluetooth extends StatefulWidget {
-  const ChatBluetooth({super.key});
+class BluetoothChat extends StatefulWidget {
+  const BluetoothChat({super.key});
 
   @override
-  State<ChatBluetooth> createState() => _Chat();
+  State<BluetoothChat> createState() => _Chat();
 }
 
-class _Chat extends State<ChatBluetooth> {
+class _Chat extends State<BluetoothChat> {
   final TextEditingController textEditingController = TextEditingController();
   final ScrollController _listScrollController = ScrollController();
   Comm comm = Comm();
