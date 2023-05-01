@@ -7,12 +7,13 @@ class SerialCubit extends HydratedCubit<SerialState> {
       : super(
           SerialState(
             baudRate: BaudRate.baud115200,
-            address: null,
+            address: '',
           ),
         );
 
   void set({baudRate, address}) {
     baudRate = baudRate ?? state.baudRate;
+    address = address ?? state.address;
 
     final update = SerialState(
       baudRate: baudRate,
@@ -25,7 +26,7 @@ class SerialCubit extends HydratedCubit<SerialState> {
   @override
   SerialState? fromJson(Map<String, dynamic> json) {
     String baudRate = json['baudRate'] ?? '115200';
-    String address = json['address'];
+    String address = json['address'] ?? '';
 
     return SerialState(
       baudRate: toBaudRate(baudRate),
@@ -35,6 +36,9 @@ class SerialCubit extends HydratedCubit<SerialState> {
 
   @override
   Map<String, dynamic>? toJson(SerialState state) {
-    return {'baudRate': state.baudRate.description, 'address': state.address};
+    return {
+      'baudRate': state.baudRate.description,
+      'address': state.address,
+    };
   }
 }
