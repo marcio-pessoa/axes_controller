@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/comm_status_icon.dart';
 import 'package:xc/controllers/comm_bluetooth.dart';
+import 'package:xc/controllers/hint_text.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
@@ -70,7 +71,7 @@ class _Chat extends State<ChatBluetooth> {
     final serverName = comm.device.state.connection.name ??
         AppLocalizations.of(context)!.unknown;
 
-    String hintText = setHintText(context, serverName, comm.status);
+    String hint = hintText(context, serverName, comm.status);
 
     return Scaffold(
       appBar: AppBar(
@@ -101,7 +102,7 @@ class _Chat extends State<ChatBluetooth> {
                     style: const TextStyle(fontSize: 15.0),
                     controller: textEditingController,
                     decoration: InputDecoration.collapsed(
-                      hintText: hintText,
+                      hintText: hint,
                       hintStyle: const TextStyle(color: Colors.grey),
                     ),
                     enabled: comm.status == CommStatus.connected,
