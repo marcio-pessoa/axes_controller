@@ -3,7 +3,7 @@ description: Axes Controller
 
 publish_to: "none"
 
-version: 1.1.23+236
+version: 1.1.23+238
 
 environment:
   sdk: ">=2.19.3 <3.0.0"
@@ -58,7 +58,7 @@ flutter_icons:
   web:
     generate: false
   windows:
-    generate: false
+    generate: true
 
 flutter_native_splash:
   # This package generates native code to customize Flutter's default white native splash screen
@@ -95,7 +95,7 @@ flutter_native_splash:
   # platform.
   #android: false
   #ios: false
-  web: true
+  web: false
 
   # The position of the splash image can be set with android_gravity, ios_content_mode, and
   # web_image_mode parameters.  All default to center.
