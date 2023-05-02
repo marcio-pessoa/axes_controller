@@ -5,6 +5,7 @@ import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/cubit/serial_cubit.dart';
 import 'package:xc/static/comm_status.dart';
+import 'package:xc/static/end_line.dart';
 
 class CommSerial {
   SerialCubit device = SerialCubit();
@@ -57,10 +58,13 @@ class CommSerial {
 
     if (text.isNotEmpty) {
       debugPrint("Sending message: $text");
-      port.write(
-        // stringToUinut8List("$text${configuration.state.endLine.chars}"),
-        stringToUinut8List(text),
-      );
+      try {
+        port.write(
+          stringToUinut8List("$text${configuration.state.endLine.chars}"),
+        );
+      } on SerialPortError catch (error) {
+        debugPrint(error.toString());
+      }
     }
   }
 
