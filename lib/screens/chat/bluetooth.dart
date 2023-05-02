@@ -107,20 +107,23 @@ class _Chat extends State<BluetoothChat> {
                   margin: const EdgeInsets.only(left: 16.0),
                   child: TextField(
                     style: const TextStyle(fontSize: 15.0),
+                    textInputAction: TextInputAction.go,
                     controller: textEditingController,
                     decoration: InputDecoration.collapsed(
                       hintText: hint,
                       hintStyle: const TextStyle(color: Colors.grey),
                     ),
                     enabled: comm.status == CommStatus.connected,
+                    onSubmitted: (value) => _send(),
                   ),
                 ),
               ),
               Container(
                 margin: const EdgeInsets.all(8.0),
                 child: IconButton(
-                    icon: const Icon(Icons.send),
-                    onPressed: comm.isConnected ? () => _send() : null),
+                  icon: const Icon(Icons.send),
+                  onPressed: () => _send(),
+                ),
               ),
             ],
           )
