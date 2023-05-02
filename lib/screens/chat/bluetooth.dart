@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/comm_status_icon.dart';
@@ -148,6 +149,8 @@ class _Chat extends State<BluetoothChat> {
         }
       });
     }
+
+    _scrollFollow();
   }
 
   void _send() async {
@@ -222,12 +225,22 @@ class _Chat extends State<BluetoothChat> {
         );
         comm.messageBuffer = dataString.substring(index);
       });
+      _scrollFollow();
     } else {
       comm.messageBuffer = (backspacesCounter > 0
           ? comm.messageBuffer
               .substring(0, comm.messageBuffer.length - backspacesCounter)
           : comm.messageBuffer + dataString);
     }
+  }
+
+  Future<void> _scrollFollow() async {
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
+      _listScrollController.animateTo(
+          _listScrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.bounceOut);
+    });
   }
 
   Future<void> _clearChatDialog() async {
