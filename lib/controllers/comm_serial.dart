@@ -29,7 +29,7 @@ class CommSerial {
     port.openReadWrite();
 
     try {
-      debugPrint("Writen bytes: ${port.write(stringToUinut8List("Hello"))}");
+      // debugPrint("Writen bytes: ${port.write(stringToUinut8List("Hello"))}");
       reader = SerialPortReader(port);
 
       if (port.isOpen) {
@@ -48,7 +48,21 @@ class CommSerial {
     }
   }
 
-  Future<void> send(String text) async {}
+  Future<void> send(String text) async {
+    if (!port.isOpen) {
+      status = CommStatus.disconnected;
+      debugPrint('Not connected.');
+      return;
+    }
+
+    if (text.isNotEmpty) {
+      debugPrint("Sending message: $text");
+      port.write(
+        // stringToUinut8List("$text${configuration.state.endLine.chars}"),
+        stringToUinut8List(text),
+      );
+    }
+  }
 
   receive(Uint8List data) {}
 

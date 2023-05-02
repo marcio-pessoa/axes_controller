@@ -144,7 +144,37 @@ class _SerialChatState extends State<SerialChat> {
     }
   }
 
-  void _send() {}
+  void _send() {
+    final text = textEditingController.text.trim();
+
+    if (text.isEmpty) {
+      return;
+    }
+
+    final chat = context.read<ChatCubit>();
+
+    try {
+      comm.send(text);
+      chat.add(Message(comm.clientID, text));
+
+      setState(() {
+        textEditingController.clear();
+      });
+
+      const duration = 333;
+      Future.delayed(const Duration(milliseconds: duration)).then(
+        (_) {
+          _listScrollController.animateTo(
+              _listScrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: duration),
+              curve: Curves.easeOut);
+        },
+      );
+    } catch (error) {
+      debugPrint(error.toString());
+      setState(() {});
+    }
+  }
 
   void _receive(Uint8List event) {
     debugPrint('Read data: $event');
