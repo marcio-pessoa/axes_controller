@@ -23,12 +23,14 @@ class SerialChat extends StatefulWidget {
 
 class _SerialChatState extends State<SerialChat> {
   final TextEditingController textEditingController = TextEditingController();
+  final FocusNode textEditingFocusNode = FocusNode();
   final ScrollController _listScrollController = ScrollController();
   CommSerial comm = CommSerial();
 
   @override
   void initState() {
     super.initState();
+    textEditingFocusNode.requestFocus();
     _initComm();
   }
 
@@ -106,6 +108,7 @@ class _SerialChatState extends State<SerialChat> {
                     style: const TextStyle(fontSize: 15.0),
                     textInputAction: TextInputAction.go,
                     controller: textEditingController,
+                    focusNode: textEditingFocusNode,
                     decoration: InputDecoration.collapsed(
                       hintText: hint,
                       hintStyle: const TextStyle(color: Colors.grey),
@@ -156,6 +159,8 @@ class _SerialChatState extends State<SerialChat> {
 
   void _send() {
     final text = textEditingController.text.trim();
+
+    textEditingFocusNode.requestFocus();
 
     if (text.isEmpty) {
       return;

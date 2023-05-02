@@ -25,12 +25,14 @@ class BluetoothChat extends StatefulWidget {
 
 class _Chat extends State<BluetoothChat> {
   final TextEditingController textEditingController = TextEditingController();
+  final FocusNode textEditingFocusNode = FocusNode();
   final ScrollController _listScrollController = ScrollController();
   Comm comm = Comm();
 
   @override
   void initState() {
     super.initState();
+    textEditingFocusNode.requestFocus();
     _initComm();
   }
 
@@ -109,6 +111,7 @@ class _Chat extends State<BluetoothChat> {
                     style: const TextStyle(fontSize: 15.0),
                     textInputAction: TextInputAction.go,
                     controller: textEditingController,
+                    focusNode: textEditingFocusNode,
                     decoration: InputDecoration.collapsed(
                       hintText: hint,
                       hintStyle: const TextStyle(color: Colors.grey),
@@ -164,6 +167,8 @@ class _Chat extends State<BluetoothChat> {
 
   void _send() async {
     final text = textEditingController.text.trim();
+
+    textEditingFocusNode.requestFocus();
 
     if (text.isEmpty) {
       return;
