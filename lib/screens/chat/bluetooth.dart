@@ -273,6 +273,7 @@ class _Chat extends State<BluetoothChat> {
               onPressed: () {
                 final chat = context.read<ChatCubit>();
                 chat.clear();
+                textEditingFocusNode.requestFocus();
                 setState(() {});
                 Navigator.of(context).pop();
               },

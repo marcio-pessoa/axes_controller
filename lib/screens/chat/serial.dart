@@ -268,6 +268,7 @@ class _SerialChatState extends State<SerialChat> {
               onPressed: () {
                 final chat = context.read<ChatCubit>();
                 chat.clear();
+                textEditingFocusNode.requestFocus();
                 setState(() {});
                 Navigator.of(context).pop();
               },
