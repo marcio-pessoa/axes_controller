@@ -48,20 +48,26 @@ class _SerialChatState extends State<SerialChat> {
             ? MainAxisAlignment.end
             : MainAxisAlignment.start,
         children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(12.0),
-            margin: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
-            width: 222.0,
-            decoration: BoxDecoration(
-                color: message.whom == comm.clientID
-                    ? Colors.blueAccent
-                    : Colors.grey,
-                borderRadius: BorderRadius.circular(7.0)),
-            child: Text(
-                (text) {
-                  return text == '/shrug' ? '¯\\_(ツ)_/¯' : text;
-                }(message.text.trim()),
-                style: const TextStyle(color: Colors.white)),
+          Flexible(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 4000),
+              child: Container(
+                padding: const EdgeInsets.all(12.0),
+                margin:
+                    const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
+                // width: 222.0,
+                decoration: BoxDecoration(
+                    color: message.whom == comm.clientID
+                        ? Colors.blueAccent
+                        : Colors.grey,
+                    borderRadius: BorderRadius.circular(7.0)),
+                child: Text(
+                    (text) {
+                      return text == '/shrug' ? '¯\\_(ツ)_/¯' : text;
+                    }(message.text.trim()),
+                    style: const TextStyle(color: Colors.white)),
+              ),
+            ),
           ),
         ],
       );
@@ -232,7 +238,7 @@ class _SerialChatState extends State<SerialChat> {
   }
 
   Future<void> _scrollFollow() async {
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       _listScrollController.animateTo(
           _listScrollController.position.maxScrollExtent,
           duration: const Duration(milliseconds: 100),
