@@ -1,4 +1,4 @@
-import 'package:xc/controllers/comm_bluetooth.dart';
+import 'package:xc/static/comm_message.dart';
 
 class ChatState {
   final List<Message> messages;

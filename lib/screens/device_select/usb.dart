@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'package:xc/components/detailed_list_tile.dart';
-import 'package:xc/cubit/comm_cubit.dart';
+import 'package:xc/cubit/serial_cubit.dart';
 import 'package:xc/static/colors.dart';
 
 extension IntToString on int {
@@ -67,7 +67,7 @@ class _DeviceSelectUSBState extends State<DeviceSelectUSB> {
   }
 
   Card _serialTile(String? address, SerialPort port) {
-    final cubit = context.read<CommCubit>();
+    final cubit = context.read<SerialCubit>();
     Icon icon = const Icon(Icons.radio_button_unchecked_outlined);
     if (address == cubit.state.address) {
       icon = const Icon(
@@ -116,7 +116,7 @@ class _DeviceSelectUSBState extends State<DeviceSelectUSB> {
   }
 
   onPressed(String? address) {
-    final cubit = context.read<CommCubit>();
+    final cubit = context.read<SerialCubit>();
     setState(() {
       cubit.set(address: address);
     });

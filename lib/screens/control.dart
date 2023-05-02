@@ -10,6 +10,7 @@ import 'package:xc/controllers/comm_bluetooth.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
+import 'package:xc/static/comm_message.dart';
 
 class Control extends StatefulWidget {
   const Control({super.key});

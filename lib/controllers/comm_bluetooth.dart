@@ -8,13 +8,6 @@ import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/static/comm_status.dart';
 import 'package:xc/static/end_line.dart';
 
-class Message {
-  int whom;
-  String text;
-
-  Message(this.whom, this.text);
-}
-
 class Comm {
   BluetoothCubit device = BluetoothCubit();
   CommCubit configuration = CommCubit();
@@ -61,7 +54,7 @@ class Comm {
     }
   }
 
-  send(String text) async {
+  Future<void> send(String text) async {
     if (connection?.isConnected != true) {
       status = CommStatus.disconnected;
       log('Not connected.');

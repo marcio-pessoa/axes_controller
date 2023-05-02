@@ -1,31 +1,29 @@
-import 'dart:async';
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/comm_status_icon.dart';
-import 'package:xc/controllers/comm_bluetooth.dart';
+import 'package:xc/controllers/comm_serial.dart';
 import 'package:xc/controllers/hint_text.dart';
-import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
+import 'package:xc/cubit/serial_cubit.dart';
 import 'package:xc/static/colors.dart';
 import 'package:xc/static/comm_message.dart';
 import 'package:xc/static/comm_status.dart';
 
-class BluetoothChat extends StatefulWidget {
-  const BluetoothChat({super.key});
+class SerialChat extends StatefulWidget {
+  const SerialChat({super.key});
 
   @override
-  State<BluetoothChat> createState() => _Chat();
+  State<SerialChat> createState() => _SerialChatState();
 }
 
-class _Chat extends State<BluetoothChat> {
+class _SerialChatState extends State<SerialChat> {
   final TextEditingController textEditingController = TextEditingController();
   final ScrollController _listScrollController = ScrollController();
-  Comm comm = Comm();
+  CommSerial comm = CommSerial();
 
   @override
   void initState() {
@@ -68,8 +66,7 @@ class _Chat extends State<BluetoothChat> {
       );
     }).toList();
 
-    final serverName = comm.device.state.connection.name ??
-        AppLocalizations.of(context)!.unknown;
+    final serverName = comm.port.name ?? AppLocalizations.of(context)!.unknown;
 
     String hint = hintText(context, serverName, comm.status);
 
@@ -113,7 +110,9 @@ class _Chat extends State<BluetoothChat> {
                 margin: const EdgeInsets.all(8.0),
                 child: IconButton(
                     icon: const Icon(Icons.send),
-                    onPressed: comm.isConnected ? () => _send() : null),
+                    onPressed: comm.status == CommStatus.connected
+                        ? () => _send()
+                        : null),
               ),
             ],
           )
@@ -123,34 +122,29 @@ class _Chat extends State<BluetoothChat> {
   }
 
   _initComm() async {
-    final device = context.read<BluetoothCubit>();
+    final device = context.read<SerialCubit>();
     final preferences = context.read<CommCubit>();
 
     await comm.init(device, preferences);
 
     setState(() {});
 
-    if (comm.isConnected) {
-      comm.connection!.input!.listen(_receive).onDone(() {
-        // Example: Detect which side closed the connection
-        // There should be `isDisconnecting` flag to show are we are (locally)
-        // in middle of disconnecting process, should be set before calling
-        // `dispose`, `finish` or `close`, which all causes to disconnect.
-        // If we except the disconnection, `onDone` should be fired as result.
-        // If we didn't except this (no flag set), it means closing by remote.
-        if (comm.isDisconnecting) {
-          log("Desconectado localmente!");
-        } else {
-          log("Desconectado remotamente!");
-        }
-        if (mounted) {
-          setState(() {});
-        }
+    if (comm.status == CommStatus.connected) {
+      Stream<String> upcommingData = comm.reader.stream.map((event) {
+        return String.fromCharCodes(event);
       });
+
+      upcommingData.listen((event) {
+        _receive(comm.stringToUinut8List(event));
+      });
+
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 
-  void _send() async {
+  void _send() {
     final text = textEditingController.text.trim();
 
     if (text.isEmpty) {
@@ -160,7 +154,7 @@ class _Chat extends State<BluetoothChat> {
     final chat = context.read<ChatCubit>();
 
     try {
-      await comm.send(text);
+      comm.send(text);
       chat.add(Message(comm.clientID, text));
 
       setState(() {
@@ -168,19 +162,23 @@ class _Chat extends State<BluetoothChat> {
       });
 
       const duration = 333;
-      Future.delayed(const Duration(milliseconds: duration)).then((_) {
-        _listScrollController.animateTo(
-            _listScrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: duration),
-            curve: Curves.easeOut);
-      });
+      Future.delayed(const Duration(milliseconds: duration)).then(
+        (_) {
+          _listScrollController.animateTo(
+              _listScrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: duration),
+              curve: Curves.easeOut);
+        },
+      );
     } catch (error) {
-      log(error.toString());
+      debugPrint(error.toString());
       setState(() {});
     }
   }
 
   void _receive(Uint8List event) {
+    debugPrint('Read data: $event');
+
     // Allocate buffer for parsed data
     int backspacesCounter = 0;
     for (var byte in event) {
@@ -205,7 +203,6 @@ class _Chat extends State<BluetoothChat> {
       }
     }
 
-    // Create message if there is new line character
     final chat = context.read<ChatCubit>();
     String dataString = String.fromCharCodes(buffer);
     int index = buffer.indexOf(10);
