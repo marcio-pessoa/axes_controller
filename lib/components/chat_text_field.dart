@@ -27,7 +27,7 @@ class _ChatUserInputState extends State<ChatUserInput> {
   @override
   Widget build(BuildContext context) {
     final serverName = widget.name ?? AppLocalizations.of(context)!.unknown;
-    String hint = hintText(context, serverName, widget.status);
+    String hint = _hintText(serverName, widget.status);
 
     return Container(
       color: Colors.grey.withAlpha(32),
@@ -64,23 +64,23 @@ class _ChatUserInputState extends State<ChatUserInput> {
       ),
     );
   }
-}
 
-String hintText(BuildContext context, String serverName, CommStatus status) {
-  String result = AppLocalizations.of(context)!.unknown;
-  switch (status) {
-    case CommStatus.connected:
-      result = "${AppLocalizations.of(context)!.typeMessage} $serverName";
-      break;
-    case CommStatus.connecting:
-      result = AppLocalizations.of(context)!.waitConnection;
-      break;
-    case CommStatus.disconnected:
-      result = AppLocalizations.of(context)!.chatDetached;
-      break;
-    case CommStatus.disconnecting:
-      result = AppLocalizations.of(context)!.unknown;
-      break;
+  String _hintText(String serverName, CommStatus status) {
+    String result = AppLocalizations.of(context)!.unknown;
+    switch (status) {
+      case CommStatus.connected:
+        result = "${AppLocalizations.of(context)!.typeMessage} $serverName";
+        break;
+      case CommStatus.connecting:
+        result = AppLocalizations.of(context)!.waitConnection;
+        break;
+      case CommStatus.disconnected:
+        result = AppLocalizations.of(context)!.chatDetached;
+        break;
+      case CommStatus.disconnecting:
+        result = AppLocalizations.of(context)!.unknown;
+        break;
+    }
+    return result;
   }
-  return result;
 }
