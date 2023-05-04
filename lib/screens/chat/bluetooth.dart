@@ -4,17 +4,17 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/chat_app_bar.dart';
 import 'package:xc/components/chat_messages.dart';
 import 'package:xc/components/chat_clear_dialog.dart';
+import 'package:xc/components/chat_text_field.dart';
 import 'package:xc/components/scroll_follow.dart';
 import 'package:xc/controllers/comm_bluetooth.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
-import 'package:xc/static/colors.dart';
 import 'package:xc/static/comm_message.dart';
-import 'package:xc/static/comm_status.dart';
 
 class BluetoothChat extends StatefulWidget {
   const BluetoothChat({super.key});
@@ -44,49 +44,21 @@ class _Chat extends State<BluetoothChat> {
 
   @override
   Widget build(BuildContext context) {
-    // final serverName = comm.device.state.connection.name ??
-    //     AppLocalizations.of(context)!.unknown;
-    String hint = ''; //hintText(context, serverName, comm.status);
+    final serverName = comm.device.state.connection.name ??
+        AppLocalizations.of(context)!.unknown;
 
     return Scaffold(
       appBar: ChatAppBar(status: comm.status, clearDialog: _clearDialog),
       body: Column(
         children: <Widget>[
           ChatMessages(scrollController: _listScrollController),
-          Container(
-            color: Colors.grey.withAlpha(32),
-            child: Row(
-              children: <Widget>[
-                Flexible(
-                  child: ListTile(
-                    title: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        style: const TextStyle(fontSize: 15.0),
-                        textInputAction: TextInputAction.go,
-                        controller: textEditingController,
-                        focusNode: textEditingFocusNode,
-                        decoration: InputDecoration.collapsed(
-                          hintText: hint,
-                          hintStyle: const TextStyle(color: Colors.grey),
-                        ),
-                        enabled: comm.status == CommStatus.connected,
-                        onSubmitted: (value) => _send(),
-                        onChanged: (value) => setState(() {}),
-                      ),
-                    ),
-                    trailing: Visibility(
-                      visible: textEditingController.text.isNotEmpty,
-                      child: IconButton(
-                        icon: const Icon(Icons.send, color: MyColors.primary),
-                        onPressed: () => _send(),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
+          ChatUserInput(
+            sender: _send,
+            serverName: serverName,
+            status: comm.status,
+            focusNode: textEditingFocusNode,
+            textEditingController: textEditingController,
+          ),
         ],
       ),
     );
