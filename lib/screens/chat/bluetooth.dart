@@ -13,6 +13,7 @@ import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/static/comm_message.dart';
+import 'package:xc/static/comm_status.dart';
 
 class BluetoothChat extends StatefulWidget {
   const BluetoothChat({super.key});
@@ -67,7 +68,7 @@ class _Chat extends State<BluetoothChat> {
 
     setState(() {});
 
-    if (comm.isConnected) {
+    if (comm.status == CommStatus.connected) {
       comm.connection!.input!.listen(_receive).onDone(() {
         // Example: Detect which side closed the connection
         // There should be `isDisconnecting` flag to show are we are (locally)
@@ -75,11 +76,13 @@ class _Chat extends State<BluetoothChat> {
         // `dispose`, `finish` or `close`, which all causes to disconnect.
         // If we except the disconnection, `onDone` should be fired as result.
         // If we didn't except this (no flag set), it means closing by remote.
-        if (comm.isDisconnecting) {
+
+        if (comm.status == CommStatus.disconnecting) {
           debugPrint("Desconectado localmente!");
         } else {
           debugPrint("Desconectado remotamente!");
         }
+
         if (mounted) {
           setState(() {});
         }
