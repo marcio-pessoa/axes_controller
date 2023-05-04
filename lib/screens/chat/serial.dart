@@ -59,40 +59,6 @@ class _SerialChatState extends State<SerialChat> {
             focusNode: textEditingFocusNode,
             textEditingController: textEditingController,
           ),
-          // Container(
-          //   color: Colors.grey.withAlpha(32),
-          //   child: Row(
-          //     children: <Widget>[
-          //       Flexible(
-          //         child: ListTile(
-          //           title: Padding(
-          //             padding: const EdgeInsets.all(8.0),
-          //             child: TextField(
-          //               style: const TextStyle(fontSize: 15.0),
-          //               textInputAction: TextInputAction.go,
-          //               controller: textEditingController,
-          //               focusNode: textEditingFocusNode,
-          //               decoration: InputDecoration.collapsed(
-          //                 hintText: hint,
-          //                 hintStyle: const TextStyle(color: Colors.grey),
-          //               ),
-          //               enabled: comm.status == CommStatus.connected,
-          //               onSubmitted: (value) => _send(),
-          //               onChanged: (value) => setState(() {}),
-          //             ),
-          //           ),
-          //           trailing: Visibility(
-          //             visible: textEditingController.text.isNotEmpty,
-          //             child: IconButton(
-          //               icon: const Icon(Icons.send, color: MyColors.primary),
-          //               onPressed: () => _send(),
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // )
         ],
       ),
     );
