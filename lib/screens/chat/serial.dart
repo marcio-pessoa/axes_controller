@@ -44,7 +44,6 @@ class _SerialChatState extends State<SerialChat> {
   @override
   Widget build(BuildContext context) {
     final serverName = comm.port.name ?? AppLocalizations.of(context)!.unknown;
-    // String hint = hintText(context, serverName, comm.status);
 
     return Scaffold(
       appBar: ChatAppBar(status: comm.status, clearDialog: _clearDialog),
