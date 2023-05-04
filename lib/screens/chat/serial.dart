@@ -3,9 +3,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:xc/components/chat_app_bar.dart';
 import 'package:xc/components/chat_messages.dart';
-import 'package:xc/components/clear_chat_dialog.dart';
-import 'package:xc/components/comm_status_icon.dart';
+import 'package:xc/components/chat_clear_dialog.dart';
 import 'package:xc/components/scroll_follow.dart';
 import 'package:xc/controllers/comm_serial.dart';
 import 'package:xc/controllers/hint_text.dart';
@@ -48,16 +48,7 @@ class _SerialChatState extends State<SerialChat> {
     String hint = hintText(context, serverName, comm.status);
 
     return Scaffold(
-      appBar: AppBar(
-        title: (Text(AppLocalizations.of(context)!.chat)),
-        actions: <Widget>[
-          CommStatusIcon(status: comm.status),
-          IconButton(
-            icon: const Icon(Icons.speaker_notes_off_outlined),
-            onPressed: _clearDialog,
-          )
-        ],
-      ),
+      appBar: ChatAppBar(status: comm.status, clearDialog: _clearDialog),
       body: Column(
         children: <Widget>[
           ChatMessages(scrollController: _listScrollController),
