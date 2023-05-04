@@ -3,10 +3,10 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/comm_status_icon.dart';
+import 'package:xc/components/scroll_follow.dart';
 import 'package:xc/controllers/comm_bluetooth.dart';
 import 'package:xc/controllers/hint_text.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
@@ -161,7 +161,7 @@ class _Chat extends State<BluetoothChat> {
       });
     }
 
-    _scrollFollow();
+    scrollFollow(_listScrollController);
   }
 
   void _send() async {
@@ -183,13 +183,7 @@ class _Chat extends State<BluetoothChat> {
         textEditingController.clear();
       });
 
-      const duration = 333;
-      Future.delayed(const Duration(milliseconds: duration)).then((_) {
-        _listScrollController.animateTo(
-            _listScrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: duration),
-            curve: Curves.easeOut);
-      });
+      scrollFollow(_listScrollController);
     } catch (error) {
       log(error.toString());
       setState(() {});
@@ -238,22 +232,13 @@ class _Chat extends State<BluetoothChat> {
         );
         comm.messageBuffer = dataString.substring(index);
       });
-      _scrollFollow();
+      scrollFollow(_listScrollController);
     } else {
       comm.messageBuffer = (backspacesCounter > 0
           ? comm.messageBuffer
               .substring(0, comm.messageBuffer.length - backspacesCounter)
           : comm.messageBuffer + dataString);
     }
-  }
-
-  Future<void> _scrollFollow() async {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      _listScrollController.animateTo(
-          _listScrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 100),
-          curve: Curves.bounceOut);
-    });
   }
 
   Future<void> _clearChatDialog() async {
