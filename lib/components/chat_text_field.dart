@@ -26,8 +26,8 @@ class ChatUserInput extends StatefulWidget {
 class _ChatUserInputState extends State<ChatUserInput> {
   @override
   Widget build(BuildContext context) {
-    final serverName = widget.name ?? AppLocalizations.of(context)!.unknown;
-    String hint = _hintText(serverName, widget.status);
+    final deviceName = widget.name ?? AppLocalizations.of(context)!.unknown;
+    final String hint = _hintText(deviceName, widget.status);
 
     return Container(
       color: Colors.grey.withAlpha(32),

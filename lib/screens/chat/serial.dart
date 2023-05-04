@@ -22,37 +22,37 @@ class SerialChat extends StatefulWidget {
 }
 
 class _SerialChatState extends State<SerialChat> {
-  final TextEditingController textEditingController = TextEditingController();
-  final FocusNode textEditingFocusNode = FocusNode();
+  final TextEditingController _textEditingController = TextEditingController();
+  final FocusNode _textEditingFocusNode = FocusNode();
   final ScrollController _listScrollController = ScrollController();
-  CommSerial comm = CommSerial();
+  final CommSerial _comm = CommSerial();
 
   @override
   void initState() {
     super.initState();
-    textEditingFocusNode.requestFocus();
+    _textEditingFocusNode.requestFocus();
     _initComm();
   }
 
   @override
   void dispose() {
-    comm.dispose();
+    _comm.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ChatAppBar(status: comm.status, clearDialog: _clearDialog),
+      appBar: ChatAppBar(status: _comm.status, clearDialog: _clearDialog),
       body: Column(
         children: <Widget>[
           ChatMessages(scrollController: _listScrollController),
           ChatUserInput(
             sender: _send,
-            name: comm.port.name,
-            status: comm.status,
-            focusNode: textEditingFocusNode,
-            textEditingController: textEditingController,
+            name: _comm.port.name,
+            status: _comm.status,
+            focusNode: _textEditingFocusNode,
+            textEditingController: _textEditingController,
           ),
         ],
       ),
@@ -63,17 +63,17 @@ class _SerialChatState extends State<SerialChat> {
     final device = context.read<SerialCubit>();
     final preferences = context.read<CommCubit>();
 
-    await comm.init(device, preferences);
+    await _comm.init(device, preferences);
 
     setState(() {});
 
-    if (comm.status == CommStatus.connected) {
-      Stream<String> upcommingData = comm.reader.stream.map((event) {
+    if (_comm.status == CommStatus.connected) {
+      Stream<String> upcommingData = _comm.reader.stream.map((event) {
         return String.fromCharCodes(event);
       });
 
       upcommingData.listen((event) {
-        _receive(comm.stringToUinut8List(event));
+        _receive(_comm.stringToUinut8List(event));
       });
 
       if (mounted) {
@@ -85,11 +85,11 @@ class _SerialChatState extends State<SerialChat> {
   }
 
   void _send() {
-    final text = textEditingController.text.trim();
+    final text = _textEditingController.text.trim();
 
     debugPrint(text);
 
-    textEditingFocusNode.requestFocus();
+    _textEditingFocusNode.requestFocus();
 
     if (text.isEmpty) {
       return;
@@ -98,11 +98,11 @@ class _SerialChatState extends State<SerialChat> {
     final chat = context.read<ChatCubit>();
 
     try {
-      comm.send(text);
-      chat.add(Message(comm.clientID, text));
+      _comm.send(text);
+      chat.add(Message(_comm.clientID, text));
 
       setState(() {
-        textEditingController.clear();
+        _textEditingController.clear();
       });
 
       scrollFollow(_listScrollController);
@@ -146,25 +146,25 @@ class _SerialChatState extends State<SerialChat> {
           Message(
             1,
             backspacesCounter > 0
-                ? comm.messageBuffer
-                    .substring(0, comm.messageBuffer.length - backspacesCounter)
-                : comm.messageBuffer + dataString.substring(0, index),
+                ? _comm.messageBuffer.substring(
+                    0, _comm.messageBuffer.length - backspacesCounter)
+                : _comm.messageBuffer + dataString.substring(0, index),
           ),
         );
-        comm.messageBuffer = dataString.substring(index);
+        _comm.messageBuffer = dataString.substring(index);
       });
       scrollFollow(_listScrollController);
     } else {
-      comm.messageBuffer = (backspacesCounter > 0
-          ? comm.messageBuffer
-              .substring(0, comm.messageBuffer.length - backspacesCounter)
-          : comm.messageBuffer + dataString);
+      _comm.messageBuffer = (backspacesCounter > 0
+          ? _comm.messageBuffer
+              .substring(0, _comm.messageBuffer.length - backspacesCounter)
+          : _comm.messageBuffer + dataString);
     }
   }
 
   Future<void> _clearDialog() async {
     await clearChatDialog(context);
     setState(() {});
-    textEditingFocusNode.requestFocus();
+    _textEditingFocusNode.requestFocus();
   }
 }
