@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/chat_app_bar.dart';
 import 'package:xc/components/chat_messages.dart';
 import 'package:xc/components/chat_clear_dialog.dart';
@@ -44,9 +42,6 @@ class _Chat extends State<BluetoothChat> {
 
   @override
   Widget build(BuildContext context) {
-    final serverName = comm.device.state.connection.name ??
-        AppLocalizations.of(context)!.unknown;
-
     return Scaffold(
       appBar: ChatAppBar(status: comm.status, clearDialog: _clearDialog),
       body: Column(
@@ -54,7 +49,7 @@ class _Chat extends State<BluetoothChat> {
           ChatMessages(scrollController: _listScrollController),
           ChatUserInput(
             sender: _send,
-            serverName: serverName,
+            name: comm.device.state.connection.name,
             status: comm.status,
             focusNode: textEditingFocusNode,
             textEditingController: textEditingController,
@@ -81,9 +76,9 @@ class _Chat extends State<BluetoothChat> {
         // If we except the disconnection, `onDone` should be fired as result.
         // If we didn't except this (no flag set), it means closing by remote.
         if (comm.isDisconnecting) {
-          log("Desconectado localmente!");
+          debugPrint("Desconectado localmente!");
         } else {
-          log("Desconectado remotamente!");
+          debugPrint("Desconectado remotamente!");
         }
         if (mounted) {
           setState(() {});
@@ -115,7 +110,7 @@ class _Chat extends State<BluetoothChat> {
 
       scrollFollow(_listScrollController);
     } catch (error) {
-      log(error.toString());
+      debugPrint(error.toString());
       setState(() {});
     }
   }

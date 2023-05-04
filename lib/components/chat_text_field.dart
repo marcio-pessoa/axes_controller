@@ -5,7 +5,7 @@ import 'package:xc/static/comm_status.dart';
 
 class ChatUserInput extends StatefulWidget {
   final void Function() sender;
-  final String serverName;
+  final String? name;
   final CommStatus status;
   final FocusNode focusNode;
   final TextEditingController textEditingController;
@@ -13,7 +13,7 @@ class ChatUserInput extends StatefulWidget {
   const ChatUserInput({
     super.key,
     required this.sender,
-    required this.serverName,
+    required this.name,
     required this.status,
     required this.focusNode,
     required this.textEditingController,
@@ -26,7 +26,8 @@ class ChatUserInput extends StatefulWidget {
 class _ChatUserInputState extends State<ChatUserInput> {
   @override
   Widget build(BuildContext context) {
-    String hint = hintText(context, widget.serverName, widget.status);
+    final serverName = widget.name ?? AppLocalizations.of(context)!.unknown;
+    String hint = hintText(context, serverName, widget.status);
 
     return Container(
       color: Colors.grey.withAlpha(32),

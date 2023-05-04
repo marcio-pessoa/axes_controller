@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/chat_app_bar.dart';
 import 'package:xc/components/chat_messages.dart';
 import 'package:xc/components/chat_clear_dialog.dart';
@@ -43,8 +42,6 @@ class _SerialChatState extends State<SerialChat> {
 
   @override
   Widget build(BuildContext context) {
-    final serverName = comm.port.name ?? AppLocalizations.of(context)!.unknown;
-
     return Scaffold(
       appBar: ChatAppBar(status: comm.status, clearDialog: _clearDialog),
       body: Column(
@@ -52,7 +49,7 @@ class _SerialChatState extends State<SerialChat> {
           ChatMessages(scrollController: _listScrollController),
           ChatUserInput(
             sender: _send,
-            serverName: serverName,
+            name: comm.port.name,
             status: comm.status,
             focusNode: textEditingFocusNode,
             textEditingController: textEditingController,
