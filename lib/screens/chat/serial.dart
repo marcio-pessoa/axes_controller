@@ -192,8 +192,6 @@ class _SerialChatState extends State<SerialChat> {
   }
 
   void _receive(Uint8List event) {
-    debugPrint('Read data: $event');
-
     // Allocate buffer for parsed data
     int backspacesCounter = 0;
     for (var byte in event) {

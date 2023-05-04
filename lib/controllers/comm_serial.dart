@@ -52,12 +52,12 @@ class CommSerial {
   Future<void> send(String text) async {
     if (!port.isOpen) {
       status = CommStatus.disconnected;
-      debugPrint('Not connected.');
+      // debugPrint('Not connected.');
       return;
     }
 
     if (text.isNotEmpty) {
-      debugPrint("Sending message: $text");
+      // debugPrint("Sending message: $text");
       try {
         port.write(
           stringToUinut8List("$text${configuration.state.endLine.chars}"),
