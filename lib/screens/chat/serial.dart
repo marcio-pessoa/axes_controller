@@ -51,8 +51,7 @@ class _SerialChatState extends State<SerialChat> {
         children: <Widget>[
           ChatMessages(scrollController: _listScrollController),
           ChatUserInput(
-            onPressed: _send,
-            onSubmitted: (p0) => _send(),
+            sender: _send,
             serverName: serverName,
             status: comm.status,
             focusNode: textEditingFocusNode,

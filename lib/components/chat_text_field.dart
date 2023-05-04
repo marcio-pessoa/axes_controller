@@ -4,8 +4,7 @@ import 'package:xc/static/colors.dart';
 import 'package:xc/static/comm_status.dart';
 
 class ChatUserInput extends StatefulWidget {
-  final Function() onPressed;
-  final Function(String) onSubmitted;
+  final void Function() sender;
   final String serverName;
   final CommStatus status;
   final FocusNode focusNode;
@@ -13,12 +12,11 @@ class ChatUserInput extends StatefulWidget {
 
   const ChatUserInput({
     super.key,
-    required this.onPressed,
+    required this.sender,
     required this.serverName,
     required this.status,
     required this.focusNode,
     required this.textEditingController,
-    required this.onSubmitted,
   });
 
   @override
@@ -49,14 +47,14 @@ class _ChatUserInputState extends State<ChatUserInput> {
                     hintStyle: const TextStyle(color: Colors.grey),
                   ),
                   onChanged: (value) => setState(() {}),
-                  onSubmitted: widget.onSubmitted,
+                  onSubmitted: (value) => widget.sender(),
                 ),
               ),
               trailing: Visibility(
                 visible: widget.textEditingController.text.isNotEmpty,
                 child: IconButton(
                   icon: const Icon(Icons.send, color: MyColors.primary),
-                  onPressed: widget.onPressed,
+                  onPressed: widget.sender,
                 ),
               ),
             ),
