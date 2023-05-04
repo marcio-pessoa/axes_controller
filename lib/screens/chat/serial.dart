@@ -99,33 +99,39 @@ class _SerialChatState extends State<SerialChat> {
               children: list,
             ),
           ),
-          Row(
-            children: <Widget>[
-              Flexible(
-                child: Container(
-                  margin: const EdgeInsets.only(left: 16.0),
-                  child: TextField(
-                    style: const TextStyle(fontSize: 15.0),
-                    textInputAction: TextInputAction.go,
-                    controller: textEditingController,
-                    focusNode: textEditingFocusNode,
-                    decoration: InputDecoration.collapsed(
-                      hintText: hint,
-                      hintStyle: const TextStyle(color: Colors.grey),
+          Container(
+            color: Colors.grey.withAlpha(32),
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                  child: ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: const TextStyle(fontSize: 15.0),
+                        textInputAction: TextInputAction.go,
+                        controller: textEditingController,
+                        focusNode: textEditingFocusNode,
+                        decoration: InputDecoration.collapsed(
+                          hintText: hint,
+                          hintStyle: const TextStyle(color: Colors.grey),
+                        ),
+                        enabled: comm.status == CommStatus.connected,
+                        onSubmitted: (value) => _send(),
+                        onChanged: (value) => setState(() {}),
+                      ),
                     ),
-                    enabled: comm.status == CommStatus.connected,
-                    onSubmitted: (value) => _send(),
+                    trailing: Visibility(
+                      visible: textEditingController.text.isNotEmpty,
+                      child: IconButton(
+                        icon: const Icon(Icons.send, color: MyColors.primary),
+                        onPressed: () => _send(),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(8.0),
-                child: IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: () => _send(),
-                ),
-              ),
-            ],
+              ],
+            ),
           )
         ],
       ),
