@@ -8,7 +8,7 @@ import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/static/comm_status.dart';
 import 'package:xc/static/end_line.dart';
 
-class Comm {
+class CommBluetooth {
   BluetoothCubit device = BluetoothCubit();
   CommCubit configuration = CommCubit();
   int clientID = 0;
