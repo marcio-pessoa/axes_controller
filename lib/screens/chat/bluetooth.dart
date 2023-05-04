@@ -59,7 +59,6 @@ class _Chat extends State<BluetoothChat> {
                 padding: const EdgeInsets.all(12.0),
                 margin:
                     const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
-                width: 222.0,
                 decoration: BoxDecoration(
                     color: message.whom == comm.clientID
                         ? Colors.blueAccent
