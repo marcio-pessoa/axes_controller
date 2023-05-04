@@ -1,21 +1,17 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/chat_app_bar.dart';
 import 'package:xc/components/chat_messages.dart';
 import 'package:xc/components/chat_clear_dialog.dart';
-import 'package:xc/components/comm_status_icon.dart';
+import 'package:xc/components/chat_text_field.dart';
 import 'package:xc/components/scroll_follow.dart';
 import 'package:xc/controllers/comm_bluetooth.dart';
-import 'package:xc/controllers/hint_text.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
-import 'package:xc/static/colors.dart';
 import 'package:xc/static/comm_message.dart';
 import 'package:xc/static/comm_status.dart';
 
@@ -27,69 +23,38 @@ class BluetoothChat extends StatefulWidget {
 }
 
 class _Chat extends State<BluetoothChat> {
-  final TextEditingController textEditingController = TextEditingController();
-  final FocusNode textEditingFocusNode = FocusNode();
+  final TextEditingController _textEditingController = TextEditingController();
+  final FocusNode _textEditingFocusNode = FocusNode();
   final ScrollController _listScrollController = ScrollController();
-  Comm comm = Comm();
+  final Comm _comm = Comm();
 
   @override
   void initState() {
     super.initState();
-    textEditingFocusNode.requestFocus();
+    _textEditingFocusNode.requestFocus();
     _initComm();
   }
 
   @override
   void dispose() {
-    comm.dispose();
+    _comm.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final serverName = comm.device.state.connection.name ??
-        AppLocalizations.of(context)!.unknown;
-    String hint = hintText(context, serverName, comm.status);
-
     return Scaffold(
-      appBar: ChatAppBar(status: comm.status, clearDialog: _clearDialog),
+      appBar: ChatAppBar(status: _comm.status, clearDialog: _clearDialog),
       body: Column(
         children: <Widget>[
           ChatMessages(scrollController: _listScrollController),
-          Container(
-            color: Colors.grey.withAlpha(32),
-            child: Row(
-              children: <Widget>[
-                Flexible(
-                  child: ListTile(
-                    title: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        style: const TextStyle(fontSize: 15.0),
-                        textInputAction: TextInputAction.go,
-                        controller: textEditingController,
-                        focusNode: textEditingFocusNode,
-                        decoration: InputDecoration.collapsed(
-                          hintText: hint,
-                          hintStyle: const TextStyle(color: Colors.grey),
-                        ),
-                        enabled: comm.status == CommStatus.connected,
-                        onSubmitted: (value) => _send(),
-                        onChanged: (value) => setState(() {}),
-                      ),
-                    ),
-                    trailing: Visibility(
-                      visible: textEditingController.text.isNotEmpty,
-                      child: IconButton(
-                        icon: const Icon(Icons.send, color: MyColors.primary),
-                        onPressed: () => _send(),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
+          ChatUserInput(
+            sender: _send,
+            name: _comm.device.state.connection.name,
+            status: _comm.status,
+            focusNode: _textEditingFocusNode,
+            textEditingController: _textEditingController,
+          ),
         ],
       ),
     );
@@ -99,23 +64,25 @@ class _Chat extends State<BluetoothChat> {
     final device = context.read<BluetoothCubit>();
     final preferences = context.read<CommCubit>();
 
-    await comm.init(device, preferences);
+    await _comm.init(device, preferences);
 
     setState(() {});
 
-    if (comm.isConnected) {
-      comm.connection!.input!.listen(_receive).onDone(() {
+    if (_comm.status == CommStatus.connected) {
+      _comm.connection!.input!.listen(_receive).onDone(() {
         // Example: Detect which side closed the connection
         // There should be `isDisconnecting` flag to show are we are (locally)
         // in middle of disconnecting process, should be set before calling
         // `dispose`, `finish` or `close`, which all causes to disconnect.
         // If we except the disconnection, `onDone` should be fired as result.
         // If we didn't except this (no flag set), it means closing by remote.
-        if (comm.isDisconnecting) {
-          log("Desconectado localmente!");
+
+        if (_comm.status == CommStatus.disconnecting) {
+          debugPrint("Desconectado localmente!");
         } else {
-          log("Desconectado remotamente!");
+          debugPrint("Desconectado remotamente!");
         }
+
         if (mounted) {
           setState(() {});
         }
@@ -126,9 +93,9 @@ class _Chat extends State<BluetoothChat> {
   }
 
   void _send() async {
-    final text = textEditingController.text.trim();
+    final text = _textEditingController.text.trim();
 
-    textEditingFocusNode.requestFocus();
+    _textEditingFocusNode.requestFocus();
 
     if (text.isEmpty) {
       return;
@@ -137,16 +104,16 @@ class _Chat extends State<BluetoothChat> {
     final chat = context.read<ChatCubit>();
 
     try {
-      await comm.send(text);
-      chat.add(Message(comm.clientID, text));
+      await _comm.send(text);
+      chat.add(Message(_comm.clientID, text));
 
       setState(() {
-        textEditingController.clear();
+        _textEditingController.clear();
       });
 
       scrollFollow(_listScrollController);
     } catch (error) {
-      log(error.toString());
+      debugPrint(error.toString());
       setState(() {});
     }
   }
@@ -186,25 +153,25 @@ class _Chat extends State<BluetoothChat> {
           Message(
             1,
             backspacesCounter > 0
-                ? comm.messageBuffer
-                    .substring(0, comm.messageBuffer.length - backspacesCounter)
-                : comm.messageBuffer + dataString.substring(0, index),
+                ? _comm.messageBuffer.substring(
+                    0, _comm.messageBuffer.length - backspacesCounter)
+                : _comm.messageBuffer + dataString.substring(0, index),
           ),
         );
-        comm.messageBuffer = dataString.substring(index);
+        _comm.messageBuffer = dataString.substring(index);
       });
       scrollFollow(_listScrollController);
     } else {
-      comm.messageBuffer = (backspacesCounter > 0
-          ? comm.messageBuffer
-              .substring(0, comm.messageBuffer.length - backspacesCounter)
-          : comm.messageBuffer + dataString);
+      _comm.messageBuffer = (backspacesCounter > 0
+          ? _comm.messageBuffer
+              .substring(0, _comm.messageBuffer.length - backspacesCounter)
+          : _comm.messageBuffer + dataString);
     }
   }
 
   Future<void> _clearDialog() async {
     await clearChatDialog(context);
     setState(() {});
-    textEditingFocusNode.requestFocus();
+    _textEditingFocusNode.requestFocus();
   }
 }

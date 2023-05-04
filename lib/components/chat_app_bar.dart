@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/comm_status_icon.dart';
-import 'package:xc/cubit/chat_cubit.dart';
-import 'package:xc/static/colors.dart';
 import 'package:xc/static/comm_status.dart';
 
 class ChatAppBar extends StatelessWidget with PreferredSizeWidget {
