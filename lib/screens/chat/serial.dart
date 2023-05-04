@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:xc/components/clear_chat_dialog.dart';
 import 'package:xc/components/comm_status_icon.dart';
 import 'package:xc/components/scroll_follow.dart';
 import 'package:xc/controllers/comm_serial.dart';
@@ -86,7 +87,7 @@ class _SerialChatState extends State<SerialChat> {
           CommStatusIcon(status: comm.status),
           IconButton(
             icon: const Icon(Icons.speaker_notes_off_outlined),
-            onPressed: _clearChatDialog,
+            onPressed: _clearDialog,
           )
         ],
       ),
@@ -239,36 +240,9 @@ class _SerialChatState extends State<SerialChat> {
     }
   }
 
-  Future<void> _clearChatDialog() async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.chatClear),
-          content: Text(AppLocalizations.of(context)!.chatClearConfirm),
-          actions: <Widget>[
-            TextButton(
-              child: Text(
-                AppLocalizations.of(context)!.yes,
-                style: const TextStyle(color: MyColors.alert),
-              ),
-              onPressed: () {
-                final chat = context.read<ChatCubit>();
-                chat.clear();
-                textEditingFocusNode.requestFocus();
-                setState(() {});
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text(AppLocalizations.of(context)!.no),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+  Future<void> _clearDialog() async {
+    await clearChatDialog(context);
+    setState(() {});
+    textEditingFocusNode.requestFocus();
   }
 }
