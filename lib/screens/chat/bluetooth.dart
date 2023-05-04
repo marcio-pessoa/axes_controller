@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:xc/components/chat_messages.dart';
 import 'package:xc/components/clear_chat_dialog.dart';
 import 'package:xc/components/comm_status_icon.dart';
 import 'package:xc/components/scroll_follow.dart';
@@ -45,41 +46,8 @@ class _Chat extends State<BluetoothChat> {
 
   @override
   Widget build(BuildContext context) {
-    final chat = context.read<ChatCubit>();
-
-    final List<Row> list = chat.state.messages.map((message) {
-      return Row(
-        mainAxisAlignment: message.whom == comm.clientID
-            ? MainAxisAlignment.end
-            : MainAxisAlignment.start,
-        children: <Widget>[
-          Flexible(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 4000),
-              child: Container(
-                padding: const EdgeInsets.all(12.0),
-                margin:
-                    const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
-                decoration: BoxDecoration(
-                    color: message.whom == comm.clientID
-                        ? Colors.blueAccent
-                        : Colors.grey,
-                    borderRadius: BorderRadius.circular(7.0)),
-                child: Text(
-                    (text) {
-                      return text == '/shrug' ? '¯\\_(ツ)_/¯' : text;
-                    }(message.text.trim()),
-                    style: const TextStyle(color: Colors.white)),
-              ),
-            ),
-          ),
-        ],
-      );
-    }).toList();
-
     final serverName = comm.device.state.connection.name ??
         AppLocalizations.of(context)!.unknown;
-
     String hint = hintText(context, serverName, comm.status);
 
     return Scaffold(
@@ -95,13 +63,7 @@ class _Chat extends State<BluetoothChat> {
       ),
       body: Column(
         children: <Widget>[
-          Flexible(
-            child: ListView(
-              padding: const EdgeInsets.all(12.0),
-              controller: _listScrollController,
-              children: list,
-            ),
-          ),
+          ChatMessages(scrollController: _listScrollController),
           Container(
             color: Colors.grey.withAlpha(32),
             child: Row(
