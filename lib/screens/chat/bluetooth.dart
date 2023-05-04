@@ -4,14 +4,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/chat_app_bar.dart';
 import 'package:xc/components/chat_messages.dart';
 import 'package:xc/components/chat_clear_dialog.dart';
-import 'package:xc/components/comm_status_icon.dart';
 import 'package:xc/components/scroll_follow.dart';
 import 'package:xc/controllers/comm_bluetooth.dart';
-import 'package:xc/controllers/hint_text.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
@@ -47,9 +44,9 @@ class _Chat extends State<BluetoothChat> {
 
   @override
   Widget build(BuildContext context) {
-    final serverName = comm.device.state.connection.name ??
-        AppLocalizations.of(context)!.unknown;
-    String hint = hintText(context, serverName, comm.status);
+    // final serverName = comm.device.state.connection.name ??
+    //     AppLocalizations.of(context)!.unknown;
+    String hint = ''; //hintText(context, serverName, comm.status);
 
     return Scaffold(
       appBar: ChatAppBar(status: comm.status, clearDialog: _clearDialog),

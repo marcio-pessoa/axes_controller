@@ -6,13 +6,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/chat_app_bar.dart';
 import 'package:xc/components/chat_messages.dart';
 import 'package:xc/components/chat_clear_dialog.dart';
+import 'package:xc/components/chat_text_field.dart';
 import 'package:xc/components/scroll_follow.dart';
 import 'package:xc/controllers/comm_serial.dart';
-import 'package:xc/controllers/hint_text.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/cubit/serial_cubit.dart';
-import 'package:xc/static/colors.dart';
 import 'package:xc/static/comm_message.dart';
 import 'package:xc/static/comm_status.dart';
 
@@ -45,47 +44,55 @@ class _SerialChatState extends State<SerialChat> {
   @override
   Widget build(BuildContext context) {
     final serverName = comm.port.name ?? AppLocalizations.of(context)!.unknown;
-    String hint = hintText(context, serverName, comm.status);
+    // String hint = hintText(context, serverName, comm.status);
 
     return Scaffold(
       appBar: ChatAppBar(status: comm.status, clearDialog: _clearDialog),
       body: Column(
         children: <Widget>[
           ChatMessages(scrollController: _listScrollController),
-          Container(
-            color: Colors.grey.withAlpha(32),
-            child: Row(
-              children: <Widget>[
-                Flexible(
-                  child: ListTile(
-                    title: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        style: const TextStyle(fontSize: 15.0),
-                        textInputAction: TextInputAction.go,
-                        controller: textEditingController,
-                        focusNode: textEditingFocusNode,
-                        decoration: InputDecoration.collapsed(
-                          hintText: hint,
-                          hintStyle: const TextStyle(color: Colors.grey),
-                        ),
-                        enabled: comm.status == CommStatus.connected,
-                        onSubmitted: (value) => _send(),
-                        onChanged: (value) => setState(() {}),
-                      ),
-                    ),
-                    trailing: Visibility(
-                      visible: textEditingController.text.isNotEmpty,
-                      child: IconButton(
-                        icon: const Icon(Icons.send, color: MyColors.primary),
-                        onPressed: () => _send(),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
+          ChatUserInput(
+            onPressed: _send,
+            onSubmitted: (p0) => _send(),
+            serverName: serverName,
+            status: comm.status,
+            focusNode: textEditingFocusNode,
+            textEditingController: textEditingController,
+          ),
+          // Container(
+          //   color: Colors.grey.withAlpha(32),
+          //   child: Row(
+          //     children: <Widget>[
+          //       Flexible(
+          //         child: ListTile(
+          //           title: Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: TextField(
+          //               style: const TextStyle(fontSize: 15.0),
+          //               textInputAction: TextInputAction.go,
+          //               controller: textEditingController,
+          //               focusNode: textEditingFocusNode,
+          //               decoration: InputDecoration.collapsed(
+          //                 hintText: hint,
+          //                 hintStyle: const TextStyle(color: Colors.grey),
+          //               ),
+          //               enabled: comm.status == CommStatus.connected,
+          //               onSubmitted: (value) => _send(),
+          //               onChanged: (value) => setState(() {}),
+          //             ),
+          //           ),
+          //           trailing: Visibility(
+          //             visible: textEditingController.text.isNotEmpty,
+          //             child: IconButton(
+          //               icon: const Icon(Icons.send, color: MyColors.primary),
+          //               onPressed: () => _send(),
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );
@@ -118,6 +125,8 @@ class _SerialChatState extends State<SerialChat> {
 
   void _send() {
     final text = textEditingController.text.trim();
+
+    debugPrint(text);
 
     textEditingFocusNode.requestFocus();
 
