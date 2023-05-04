@@ -46,3 +46,6 @@ app.*.map.json
 .pre-commit
 .vscode/
 Reference/
+
+macos/Flutter/ephemeral/
+macos/Flutter/GeneratedPluginRegistrant.swift
