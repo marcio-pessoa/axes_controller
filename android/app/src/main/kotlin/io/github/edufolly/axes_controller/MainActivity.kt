@@ -1,4 +1,4 @@
-package io.github.edufolly.axes_controller
+package studio.melen.xc
 
 import io.flutter.embedding.android.FlutterActivity
 
