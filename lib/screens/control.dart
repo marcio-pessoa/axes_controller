@@ -20,7 +20,7 @@ class Control extends StatefulWidget {
 }
 
 class _ControlState extends State<Control> {
-  final Comm comm = Comm();
+  final CommBluetooth comm = CommBluetooth();
 
   @override
   void initState() {

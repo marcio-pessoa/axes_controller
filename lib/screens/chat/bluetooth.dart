@@ -26,7 +26,7 @@ class _Chat extends State<BluetoothChat> {
   final TextEditingController _textEditingController = TextEditingController();
   final FocusNode _textEditingFocusNode = FocusNode();
   final ScrollController _listScrollController = ScrollController();
-  final Comm _comm = Comm();
+  final CommBluetooth _comm = CommBluetooth();
 
   @override
   void initState() {
