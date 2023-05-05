@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +8,10 @@ import 'package:xc/controllers/comm.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
+import 'package:xc/cubit/serial_cubit.dart';
+import 'package:xc/static/comm_interface.dart';
 import 'package:xc/static/comm_message.dart';
+import 'package:xc/static/comm_status.dart';
 
 class Control extends StatefulWidget {
   const Control({super.key});
@@ -20,7 +21,8 @@ class Control extends StatefulWidget {
 }
 
 class _ControlState extends State<Control> {
-  final Comm comm = Comm();
+  late final CommInterface _interface;
+  final Comm _comm = Comm();
 
   @override
   void initState() {
@@ -43,7 +45,7 @@ class _ControlState extends State<Control> {
       DeviceOrientation.portraitDown,
     ]);
     DeviceOrientation.portraitUp;
-    comm.dispose();
+    _comm.dispose();
     super.dispose();
   }
 
@@ -55,7 +57,7 @@ class _ControlState extends State<Control> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CommStatusIcon(status: comm.status),
+            child: CommStatusIcon(status: _comm.status),
           )
         ],
       ),
@@ -68,30 +70,70 @@ class _ControlState extends State<Control> {
   }
 
   _initComm() async {
+    _interface = context.read<CommCubit>().state.interface;
+
+    switch (_interface) {
+      case CommInterface.bluetooth:
+        _initBluetooth();
+        break;
+      case CommInterface.usb:
+        _initSerial();
+        break;
+      default:
+        break;
+    }
+  }
+
+  _initBluetooth() async {
     final device = context.read<BluetoothCubit>();
     final preferences = context.read<CommCubit>();
 
-    await comm.initBluetooth(device, preferences);
+    await _comm.initBluetooth(device, preferences);
 
     setState(() {});
 
-    if (comm.isConnected) {
-      comm.connection!.input!.listen(_receive).onDone(() {
+    if (_comm.status == CommStatus.connected) {
+      _comm.connection!.input!.listen(_receive).onDone(() {
         // Example: Detect which side closed the connection
         // There should be `isDisconnecting` flag to show are we are (locally)
         // in middle of disconnecting process, should be set before calling
         // `dispose`, `finish` or `close`, which all causes to disconnect.
         // If we except the disconnection, `onDone` should be fired as result.
         // If we didn't except this (no flag set), it means closing by remote.
-        if (comm.isDisconnecting) {
-          log("Desconectado localmente!");
+
+        if (_comm.status == CommStatus.disconnecting) {
+          debugPrint("Desconectado localmente!");
         } else {
-          log("Desconectado remotamente!");
+          debugPrint("Desconectado remotamente!");
         }
+
         if (mounted) {
           setState(() {});
         }
       });
+    }
+  }
+
+  _initSerial() async {
+    final device = context.read<SerialCubit>();
+    final preferences = context.read<CommCubit>();
+
+    await _comm.initSerial(device, preferences);
+
+    setState(() {});
+
+    if (_comm.status == CommStatus.connected) {
+      Stream<String> upcommingData = _comm.reader.stream.map((event) {
+        return String.fromCharCodes(event);
+      });
+
+      upcommingData.listen((event) {
+        _receive(_comm.stringToUinut8List(event));
+      });
+
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 
@@ -129,17 +171,17 @@ class _ControlState extends State<Control> {
         Message(
           1,
           backspacesCounter > 0
-              ? comm.messageBuffer
-                  .substring(0, comm.messageBuffer.length - backspacesCounter)
-              : comm.messageBuffer + dataString.substring(0, index),
+              ? _comm.messageBuffer
+                  .substring(0, _comm.messageBuffer.length - backspacesCounter)
+              : _comm.messageBuffer + dataString.substring(0, index),
         ),
       );
-      comm.messageBuffer = dataString.substring(index);
+      _comm.messageBuffer = dataString.substring(index);
     } else {
-      comm.messageBuffer = (backspacesCounter > 0
-          ? comm.messageBuffer
-              .substring(0, comm.messageBuffer.length - backspacesCounter)
-          : comm.messageBuffer + dataString);
+      _comm.messageBuffer = (backspacesCounter > 0
+          ? _comm.messageBuffer
+              .substring(0, _comm.messageBuffer.length - backspacesCounter)
+          : _comm.messageBuffer + dataString);
     }
   }
 
@@ -183,12 +225,12 @@ class _ControlState extends State<Control> {
       padding: const EdgeInsets.all(16.0),
       child: Listener(
         onPointerDown: (details) {
-          cubit.add(Message(comm.clientID, commandDown));
-          comm.send(commandDown);
+          cubit.add(Message(_comm.clientID, commandDown));
+          _comm.send(commandDown);
         },
         onPointerUp: (details) {
-          cubit.add(Message(comm.clientID, commandDown));
-          comm.send(commandUp);
+          cubit.add(Message(_comm.clientID, commandDown));
+          _comm.send(commandUp);
         },
         child: ColorFiltered(
             colorFilter: ColorFilter.mode(
