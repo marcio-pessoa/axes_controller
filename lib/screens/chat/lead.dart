@@ -8,8 +8,7 @@ import 'package:xc/components/chat_messages.dart';
 import 'package:xc/components/chat_clear_dialog.dart';
 import 'package:xc/components/chat_text_field.dart';
 import 'package:xc/components/scroll_follow.dart';
-import 'package:xc/controllers/comm_bluetooth.dart';
-import 'package:xc/controllers/comm_serial.dart';
+import 'package:xc/controllers/comm.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
@@ -30,7 +29,7 @@ class _Chat extends State<Chat> {
   final FocusNode _textEditingFocusNode = FocusNode();
   final ScrollController _listScrollController = ScrollController();
   late final CommInterface _interface;
-  late final dynamic _comm;
+  final Comm _comm = Comm();
 
   @override
   void initState() {
@@ -78,11 +77,10 @@ class _Chat extends State<Chat> {
   }
 
   _initBluetooth() async {
-    _comm = CommBluetooth();
     final device = context.read<BluetoothCubit>();
     final preferences = context.read<CommCubit>();
 
-    await _comm.init(device, preferences);
+    await _comm.initBluetooth(device, preferences);
 
     setState(() {});
 
@@ -111,11 +109,10 @@ class _Chat extends State<Chat> {
   }
 
   _initSerial() async {
-    _comm = CommSerial();
     final device = context.read<SerialCubit>();
     final preferences = context.read<CommCubit>();
 
-    await _comm.init(device, preferences);
+    await _comm.initSerial(device, preferences);
 
     setState(() {});
 
