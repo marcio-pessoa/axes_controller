@@ -12,6 +12,10 @@ Platforms to be tested:
 - macOS
 - Windows
 
+## Screenshots
+
+![Selecting device on macOS](/docs/screenshot_macos.png)
+
 ## Building
 
 ### Launcher icons
