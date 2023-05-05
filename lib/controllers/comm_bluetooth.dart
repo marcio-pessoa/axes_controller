@@ -18,6 +18,7 @@ class CommBluetooth {
   bool isDisconnecting = false;
   bool get isConnected => (connection?.isConnected ?? false);
   CommStatus status = CommStatus.connecting;
+  String? name;
 
   Future<void> init(
       BluetoothCubit userDevice, CommCubit userPreferences) async {
@@ -36,6 +37,7 @@ class CommBluetooth {
       log('Connected to the device');
       connection = connect;
       status = CommStatus.connected;
+      name = device.state.connection.name;
       isConnecting = false;
       isDisconnecting = false;
     }).catchError((error) {

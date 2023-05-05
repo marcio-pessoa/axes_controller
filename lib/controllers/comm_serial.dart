@@ -15,6 +15,7 @@ class CommSerial {
   late SerialPortReader reader;
   int clientID = 0;
   String messageBuffer = '';
+  String? name;
 
   Future<void> init(SerialCubit userDevice, CommCubit userPreferences) async {
     device = userDevice;
@@ -35,6 +36,7 @@ class CommSerial {
 
       if (port.isOpen) {
         status = CommStatus.connected;
+        name = port.name;
       }
     } on SerialPortError catch (err, _) {
       debugPrint(SerialPort.lastError.toString());

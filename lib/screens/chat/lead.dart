@@ -31,7 +31,6 @@ class _Chat extends State<Chat> {
   final ScrollController _listScrollController = ScrollController();
   late final CommInterface _interface;
   late final dynamic _comm;
-  String? _name = '';
 
   @override
   void initState() {
@@ -68,7 +67,7 @@ class _Chat extends State<Chat> {
           ChatMessages(scrollController: _listScrollController),
           ChatUserInput(
             sender: _send,
-            name: _name,
+            name: _comm.name,
             status: _comm.status,
             focusNode: _textEditingFocusNode,
             textEditingController: _textEditingController,
@@ -84,8 +83,6 @@ class _Chat extends State<Chat> {
     final preferences = context.read<CommCubit>();
 
     await _comm.init(device, preferences);
-
-    _name = _comm.device.state.connection.name;
 
     setState(() {});
 
@@ -119,8 +116,6 @@ class _Chat extends State<Chat> {
     final preferences = context.read<CommCubit>();
 
     await _comm.init(device, preferences);
-
-    _name = _comm.port.name;
 
     setState(() {});
 
