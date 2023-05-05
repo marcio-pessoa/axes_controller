@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (Platform.isAndroid) {
       cubit.set(interface: CommInterface.bluetooth);
-    } else if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+    } else if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
       cubit.set(interface: CommInterface.usb);
     }
   }

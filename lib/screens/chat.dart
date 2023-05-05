@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -7,31 +8,47 @@ import 'package:xc/components/chat_messages.dart';
 import 'package:xc/components/chat_clear_dialog.dart';
 import 'package:xc/components/chat_text_field.dart';
 import 'package:xc/components/scroll_follow.dart';
-import 'package:xc/controllers/comm_serial.dart';
+import 'package:xc/controllers/comm.dart';
+import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/cubit/serial_cubit.dart';
+import 'package:xc/static/comm_interface.dart';
 import 'package:xc/static/comm_message.dart';
 import 'package:xc/static/comm_status.dart';
 
-class SerialChat extends StatefulWidget {
-  const SerialChat({super.key});
+class Chat extends StatefulWidget {
+  const Chat({super.key});
 
   @override
-  State<SerialChat> createState() => _SerialChatState();
+  State<Chat> createState() => _Chat();
 }
 
-class _SerialChatState extends State<SerialChat> {
+class _Chat extends State<Chat> {
   final TextEditingController _textEditingController = TextEditingController();
   final FocusNode _textEditingFocusNode = FocusNode();
   final ScrollController _listScrollController = ScrollController();
-  final CommSerial _comm = CommSerial();
+  late final CommInterface _interface;
+  final Comm _comm = Comm();
 
   @override
   void initState() {
     super.initState();
+
+    _interface = context.read<CommCubit>().state.interface;
+
+    switch (_interface) {
+      case CommInterface.bluetooth:
+        _initBluetooth();
+        break;
+      case CommInterface.usb:
+        _initSerial();
+        break;
+      default:
+        break;
+    }
+
     _textEditingFocusNode.requestFocus();
-    _initComm();
   }
 
   @override
@@ -49,7 +66,7 @@ class _SerialChatState extends State<SerialChat> {
           ChatMessages(scrollController: _listScrollController),
           ChatUserInput(
             sender: _send,
-            name: _comm.port.name,
+            name: _comm.name,
             status: _comm.status,
             focusNode: _textEditingFocusNode,
             textEditingController: _textEditingController,
@@ -59,11 +76,43 @@ class _SerialChatState extends State<SerialChat> {
     );
   }
 
-  _initComm() async {
+  _initBluetooth() async {
+    final device = context.read<BluetoothCubit>();
+    final preferences = context.read<CommCubit>();
+
+    await _comm.initBluetooth(device, preferences);
+
+    setState(() {});
+
+    if (_comm.status == CommStatus.connected) {
+      _comm.connection!.input!.listen(_receive).onDone(() {
+        // Example: Detect which side closed the connection
+        // There should be `isDisconnecting` flag to show are we are (locally)
+        // in middle of disconnecting process, should be set before calling
+        // `dispose`, `finish` or `close`, which all causes to disconnect.
+        // If we except the disconnection, `onDone` should be fired as result.
+        // If we didn't except this (no flag set), it means closing by remote.
+
+        if (_comm.status == CommStatus.disconnecting) {
+          debugPrint("Desconectado localmente!");
+        } else {
+          debugPrint("Desconectado remotamente!");
+        }
+
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
+
+    scrollFollow(_listScrollController);
+  }
+
+  _initSerial() async {
     final device = context.read<SerialCubit>();
     final preferences = context.read<CommCubit>();
 
-    await _comm.init(device, preferences);
+    await _comm.initSerial(device, preferences);
 
     setState(() {});
 
@@ -84,10 +133,8 @@ class _SerialChatState extends State<SerialChat> {
     scrollFollow(_listScrollController);
   }
 
-  void _send() {
+  void _send() async {
     final text = _textEditingController.text.trim();
-
-    debugPrint(text);
 
     _textEditingFocusNode.requestFocus();
 
@@ -98,7 +145,7 @@ class _SerialChatState extends State<SerialChat> {
     final chat = context.read<ChatCubit>();
 
     try {
-      _comm.send(text);
+      await _comm.send(text);
       chat.add(Message(_comm.clientID, text));
 
       setState(() {
@@ -137,6 +184,7 @@ class _SerialChatState extends State<SerialChat> {
       }
     }
 
+    // Create message if there is new line character
     final chat = context.read<ChatCubit>();
     String dataString = String.fromCharCodes(buffer);
     int index = buffer.indexOf(10);
