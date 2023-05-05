@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:xc/components/messages.dart';
 import 'package:xc/components/radio_item.dart';
 import 'package:xc/controllers/theme.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
@@ -11,6 +12,7 @@ import 'package:xc/cubit/comm_cubit.dart';
 import 'package:xc/cubit/serial_cubit.dart';
 import 'package:xc/cubit/settings_cubit.dart';
 import 'package:xc/static/baud_rate.dart';
+import 'package:xc/static/comm_interface.dart';
 import 'package:xc/static/end_line.dart';
 import 'package:xc/static/languages.dart';
 
@@ -398,16 +400,19 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget _interfaceItems() {
-    if (Platform.isAndroid) {
-      return Column(
-        children: _bluetoothItems(),
-      );
-    } else if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
-      return Column(
-        children: _serialItems(),
-      );
-    } else {
-      return Container();
+    final cubit = context.read<CommCubit>();
+
+    switch (cubit.state.interface) {
+      case CommInterface.bluetooth:
+        return Column(
+          children: _bluetoothItems(),
+        );
+      case CommInterface.usb:
+        return Column(
+          children: _serialItems(),
+        );
+      default:
+        return Message.notFound;
     }
   }
 }

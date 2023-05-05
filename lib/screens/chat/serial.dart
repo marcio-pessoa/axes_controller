@@ -87,8 +87,6 @@ class _SerialChatState extends State<SerialChat> {
   void _send() {
     final text = _textEditingController.text.trim();
 
-    debugPrint(text);
-
     _textEditingFocusNode.requestFocus();
 
     if (text.isEmpty) {
