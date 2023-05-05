@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:xc/components/comm_status_icon.dart';
-import 'package:xc/controllers/comm_bluetooth.dart';
+import 'package:xc/controllers/comm.dart';
 import 'package:xc/cubit/bluetooth_cubit.dart';
 import 'package:xc/cubit/chat_cubit.dart';
 import 'package:xc/cubit/comm_cubit.dart';
@@ -20,7 +20,7 @@ class Control extends StatefulWidget {
 }
 
 class _ControlState extends State<Control> {
-  final CommBluetooth comm = CommBluetooth();
+  final Comm comm = Comm();
 
   @override
   void initState() {
@@ -71,7 +71,7 @@ class _ControlState extends State<Control> {
     final device = context.read<BluetoothCubit>();
     final preferences = context.read<CommCubit>();
 
-    await comm.init(device, preferences);
+    await comm.initBluetooth(device, preferences);
 
     setState(() {});
 
