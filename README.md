@@ -14,7 +14,11 @@ Platforms to be tested:
 
 ## Screenshots
 
-![Selecting device on macOS](/docs/screenshot_macos.png)
+![Configuration on Android](/docs/screenshot_android.png "Configuration on Android")
+
+![Controlling device on Ubuntu Linux](/docs/screenshot_linux.png "Controlling device on Ubuntu Linux")
+
+![Selecting device on macOS](/docs/screenshot_macos.png "Selecting device on macOS")
 
 ## Building
 
