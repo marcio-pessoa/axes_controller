@@ -3,7 +3,7 @@ description: Axes Controller
 
 publish_to: "none"
 
-version: 1.1.23+329
+version: 1.1.23+331
 
 environment:
   sdk: ">=2.19.3 <3.0.0"
