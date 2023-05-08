@@ -3,7 +3,7 @@ description: Axes Controller
 
 publish_to: "none"
 
-version: 1.1.23+331
+version: 1.1.23+333
 
 environment:
   sdk: ">=2.19.3 <3.0.0"
@@ -20,7 +20,7 @@ dependencies:
   flutter_bloc: ^8.1.2
   equatable: ^2.0.5
   wakelock: ^0.6.2
-  package_info_plus: ^3.0.3
+  package_info_plus: ^3.1.2
   device_info_plus: ^8.1.0
   hydrated_bloc: ^9.1.0
   path_provider: ^2.0.13
