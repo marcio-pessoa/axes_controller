@@ -3,7 +3,7 @@ description: Axes Controller
 
 publish_to: "none"
 
-version: 1.1.23+333
+version: 1.1.23+335
 
 environment:
   sdk: ">=2.19.3 <3.0.0"
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.5
   scoped_model: ^2.0.0-nullsafety.0
   intl: any
   flutter_bluetooth_serial: ^0.4.0
