@@ -12,5 +12,6 @@ class MyColors {
   static const Color unknown = Color(0xFFAAAAAA);
   static const Color selectedItem = Color(0xFF2196F3);
   static const Color unselectedItem = Color(0xFFAAAAAA);
+  static const Color disabled = Color(0xFFAAAAAA);
   static const Color alert = Color(0xFFFF0000);
 }
