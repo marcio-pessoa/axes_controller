@@ -28,6 +28,7 @@ class _ChatUserInputState extends State<ChatUserInput> {
   Widget build(BuildContext context) {
     final deviceName = widget.name ?? AppLocalizations.of(context)!.unknown;
     final String hint = _hintText(deviceName, widget.status);
+    final bool sendEnabled = widget.textEditingController.text.isNotEmpty;
 
     return Container(
       color: Colors.grey.withAlpha(32),
@@ -51,12 +52,11 @@ class _ChatUserInputState extends State<ChatUserInput> {
                   onSubmitted: (value) => widget.sender(),
                 ),
               ),
-              trailing: Visibility(
-                visible: widget.textEditingController.text.isNotEmpty,
-                child: IconButton(
-                  icon: const Icon(Icons.send, color: MyColors.primary),
-                  onPressed: widget.sender,
-                ),
+              trailing: IconButton(
+                icon: const Icon(Icons.send),
+                onPressed: sendEnabled ? widget.sender : null,
+                color: MyColors.primary,
+                disabledColor: MyColors.disabled,
               ),
             ),
           ),
