@@ -53,5 +53,7 @@
   "chatClear": "Limpar o Chat?",
   "chatClearConfirm": "Deseja realmente limpar o Chat?",
   "license": "Licença",
+  "licenses": "Licenças",
+  "ossLicenses": "Licenças de Código Aberto",
   "close": "Fechar"
 }
