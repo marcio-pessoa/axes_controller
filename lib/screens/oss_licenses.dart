@@ -71,7 +71,7 @@ class OpenSourceLicenses extends StatelessWidget {
 class MiscOssLicenseSingle extends StatelessWidget {
   final Package package;
 
-  MiscOssLicenseSingle({required this.package});
+  const MiscOssLicenseSingle({super.key, required this.package});
 
   String _bodyText() {
     return package.license!.split('\n').map((line) {
@@ -95,7 +95,7 @@ class MiscOssLicenseSingle extends StatelessWidget {
                   child: Text(package.description,
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
+                          .bodyMedium!
                           .copyWith(fontWeight: FontWeight.bold))),
             if (package.homepage != null)
               Padding(
@@ -106,7 +106,7 @@ class MiscOssLicenseSingle extends StatelessWidget {
                         style: const TextStyle(
                             color: Colors.blue,
                             decoration: TextDecoration.underline)),
-                    onTap: () => launch(package.homepage!),
+                    onTap: () => launchUrl(Uri.parse(package.homepage!)),
                   )),
             if (package.description.isNotEmpty || package.homepage != null)
               const Divider(),
@@ -114,7 +114,7 @@ class MiscOssLicenseSingle extends StatelessWidget {
               padding:
                   const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
               child: Text(_bodyText(),
-                  style: Theme.of(context).textTheme.bodyText2),
+                  style: Theme.of(context).textTheme.bodyMedium),
             ),
           ])),
     );
