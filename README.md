@@ -22,6 +22,14 @@ Platforms to be tested:
 
 ## Building
 
+### Open Source Licenses
+
+Use the command bellow to update Open Source Licenses list file:
+
+``` sh
+flutter pub run flutter_oss_licenses:generate.dart --output lib/static/oss_licenses.dart
+```
+
 ### Launcher icons
 
 After changing settings (file: `pubspec.yaml`, session `flutter_icons`), run the following command in the terminal:
