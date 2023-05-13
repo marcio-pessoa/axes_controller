@@ -8,10 +8,7 @@ class CommStatusIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget icon = const Icon(
-      Icons.circle_outlined,
-      color: Colors.grey,
-    );
+    Widget icon = const Icon(Icons.circle_outlined, color: Colors.grey);
 
     switch (status) {
       case CommStatus.connected:
@@ -21,14 +18,10 @@ class CommStatusIcon extends StatelessWidget {
         );
         break;
       case CommStatus.connecting:
-        icon = const Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 8.0, 4.0, 8.0),
-          child: SizedBox(
-            width: 16,
-            height: 16,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-            ),
+        icon = const Blinker(
+          child: Icon(
+            Icons.swap_vertical_circle_outlined,
+            color: Colors.yellow,
           ),
         );
         break;
@@ -45,6 +38,46 @@ class CommStatusIcon extends StatelessWidget {
         );
         break;
     }
+
     return icon;
+  }
+}
+
+class Blinker extends StatefulWidget {
+  final Widget child;
+
+  const Blinker({super.key, required this.child});
+
+  @override
+  State<Blinker> createState() => _BlinkerState();
+}
+
+class _BlinkerState extends State<Blinker> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+    _animationController.repeat(reverse: true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _animationController,
+      child: widget.child,
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+
+    super.dispose();
   }
 }
