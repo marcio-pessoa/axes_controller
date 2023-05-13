@@ -59,5 +59,7 @@
   "licenses": "Licenses",
   "licenseInfo": "GNU GPL v2.0",
   "ossLicenses": "Open Source Licenses",
-  "close": "Close"
+  "close": "Close",
+  "contactUs": "Contact us",
+  "github": "GitHub"
 }
