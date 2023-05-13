@@ -85,22 +85,24 @@ class _AboutState extends State<About> {
       builder: (BuildContext context) {
         return FractionallySizedBox(
           heightFactor: 1,
-          child: Center(
-            child: ListView(
-              padding: const EdgeInsets.all(16.0),
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(licenseString),
-                    ElevatedButton(
-                      child: Text(AppLocalizations.of(context)!.close),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                )
-              ],
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+              child: ListView(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(licenseString),
+                      ElevatedButton(
+                        child: Text(AppLocalizations.of(context)!.close),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         );
