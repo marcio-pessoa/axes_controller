@@ -14,11 +14,14 @@ class About extends StatefulWidget {
 
 class _AboutState extends State<About> {
   String appVersion = '';
+  String licenseString = '';
 
   @override
   void initState() {
     super.initState();
+
     _getPackageInfo();
+    _loadLicenseString();
   }
 
   @override
@@ -49,6 +52,12 @@ class _AboutState extends State<About> {
           ),
           const Divider(),
           ListTile(
+            title: Text(AppLocalizations.of(context)!.license),
+            subtitle: Text(AppLocalizations.of(context)!.licenseInfo),
+            leading: const Icon(Icons.menu_book_outlined),
+            onTap: _licenseModalBottomSheet,
+          ),
+          ListTile(
             title: Text(AppLocalizations.of(context)!.legalInfo),
             subtitle: Text(AppLocalizations.of(context)!.legalData),
             leading: const Icon(Icons.balance_outlined),
@@ -64,5 +73,38 @@ class _AboutState extends State<About> {
     setState(() {
       appVersion = '${result.version}, Build/${result.buildNumber}';
     });
+  }
+
+  Future _loadLicenseString() async {
+    licenseString = await DefaultAssetBundle.of(context).loadString('LICENSE');
+  }
+
+  _licenseModalBottomSheet() {
+    return showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 1,
+          child: Center(
+            child: ListView(
+              padding: const EdgeInsets.all(16.0),
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(licenseString),
+                    ElevatedButton(
+                      child: Text(AppLocalizations.of(context)!.close),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

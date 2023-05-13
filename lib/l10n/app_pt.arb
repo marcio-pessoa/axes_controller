@@ -51,5 +51,7 @@
   "liveChat": "Chat com",
   "chatLog": "Log do chat",
   "chatClear": "Limpar o Chat?",
-  "chatClearConfirm": "Deseja realmente limpar o Chat?"
+  "chatClearConfirm": "Deseja realmente limpar o Chat?",
+  "license": "Licença",
+  "close": "Fechar"
 }
