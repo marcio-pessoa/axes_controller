@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/components/comm_status_icon.dart';
 import 'package:xc/static/comm_status.dart';
 
-class ChatAppBar extends StatelessWidget with PreferredSizeWidget {
+class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   final CommStatus status;
   final Function()? clearDialog;
 
