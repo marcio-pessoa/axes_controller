@@ -3,7 +3,9 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:xc/controllers/string.dart';
+import 'package:xc/static/external_link.dart';
 
 class About extends StatefulWidget {
   const About({Key? key}) : super(key: key);
@@ -49,6 +51,13 @@ class _AboutState extends State<About> {
             onTap: () {
               Navigator.of(context).pushNamed('/about/deviceDetails');
             },
+          ),
+          const Divider(),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.contactUs),
+            subtitle: Text(AppLocalizations.of(context)!.github),
+            leading: const Icon(Icons.message_outlined),
+            onTap: () async => await launchUrl(ExternalLink.github.uri),
           ),
           const Divider(),
           ListTile(
