@@ -54,8 +54,14 @@ class _AboutState extends State<About> {
           ListTile(
             title: Text(AppLocalizations.of(context)!.license),
             subtitle: Text(AppLocalizations.of(context)!.licenseInfo),
-            leading: const Icon(Icons.menu_book_outlined),
+            leading: const Icon(Icons.library_books_outlined),
             onTap: _licenseModalBottomSheet,
+          ),
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.ossLicenses),
+            subtitle: Text(AppLocalizations.of(context)!.licenses),
+            leading: const Icon(Icons.menu_book_outlined),
+            onTap: () => Navigator.of(context).pushNamed('/about/ossLicenses'),
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.legalInfo),

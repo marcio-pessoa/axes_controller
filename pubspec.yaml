@@ -25,6 +25,7 @@ dependencies:
   hydrated_bloc: ^9.1.0
   path_provider: ^2.0.14
   flutter_libserialport: ^0.3.0
+  url_launcher: ^6.1.11
 
 dev_dependencies:
   flutter_test:
