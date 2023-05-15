@@ -18,12 +18,18 @@ class CommStatusIcon extends StatelessWidget {
         );
         break;
       case CommStatus.connecting:
-        icon = const Blinker(
-          child: Icon(
+        icon = Stack(children: [
+          Icon(
             Icons.swap_vertical_circle_outlined,
-            color: Colors.yellow,
+            color: Colors.grey[700],
           ),
-        );
+          const Blinker(
+            child: Icon(
+              Icons.swap_vertical_circle_outlined,
+              color: Colors.yellow,
+            ),
+          ),
+        ]);
         break;
       case CommStatus.disconnected:
         icon = const Icon(
