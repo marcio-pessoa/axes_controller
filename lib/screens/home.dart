@@ -21,20 +21,23 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     _detectHostPlatform();
-    return WillPopScope(
-      onWillPop: () async {
-        if (_scaffoldKey.currentState!.isDrawerOpen) {
-          Navigator.of(context).pop();
-          return false;
+
+    var child = Scaffold(
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.title)),
+      key: _scaffoldKey,
+      drawer: const MyDrawer(),
+      body: Container(),
+    );
+
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (bool didPop) {
+        if (didPop) {
+          return;
         }
-        return exitDialog(context);
+        exitDialog(context);
       },
-      child: Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.title)),
-        key: _scaffoldKey,
-        drawer: const MyDrawer(),
-        body: Container(),
-      ),
+      child: child,
     );
   }
 
