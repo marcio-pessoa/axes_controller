@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:xc/static/colors.dart';
 
@@ -15,7 +16,7 @@ Future<bool> exitDialog(BuildContext context) async {
               AppLocalizations.of(context)!.yes,
               style: const TextStyle(color: MyColors.alert),
             ),
-            onPressed: () => Navigator.pop(context, true),
+            onPressed: () => SystemNavigator.pop(),
           ),
           TextButton(
             child: Text(AppLocalizations.of(context)!.no),
