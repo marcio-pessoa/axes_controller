@@ -30,7 +30,7 @@
   "appVersion": "Application version",
   "operatingSystem": "Operating system",
   "legalInfo": "Legal information",
-  "legalData": "Copyright © 2014-2023 Marcio Pessoa.",
+  "legalData": "Copyright © 2014-2024 Marcio Pessoa.",
   "runningOn": "Running on",
   "failedToLoadData": "Failed to load data",
   "notFound": "Not found",
