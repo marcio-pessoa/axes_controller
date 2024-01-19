@@ -8,7 +8,7 @@ import 'package:xc/controllers/string.dart';
 import 'package:xc/static/external_link.dart';
 
 class About extends StatefulWidget {
-  const About({Key? key}) : super(key: key);
+  const About({super.key});
 
   @override
   State<About> createState() => _AboutState();
