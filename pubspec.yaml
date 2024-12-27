@@ -3,7 +3,7 @@ description: Axes Controller
 
 publish_to: "none"
 
-version: 2.1.23+449
+version: 2.1.23+450
 
 environment:
   sdk: ">=2.19.3 <3.0.0"
@@ -32,7 +32,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_lints: ^3.0.2
-  flutter_launcher_icons: ^0.14.1
+  flutter_launcher_icons: ^0.14.2
   flutter_native_splash: ^2.4.0
   flutter_oss_licenses: ^3.0.2
 
