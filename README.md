@@ -22,6 +22,10 @@ Platforms to be tested:
 
 ## Building
 
+### Requirements
+
+Flutter 3.28
+
 ### Open Source Licenses
 
 Use the command bellow to update Open Source Licenses list file:

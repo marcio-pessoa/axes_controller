@@ -234,7 +234,7 @@ class _ControlState extends State<Control> {
         },
         child: ColorFiltered(
             colorFilter: ColorFilter.mode(
-              Colors.teal.withOpacity(0.0),
+              Colors.teal.withValues(alpha: 0.0),
               BlendMode.color,
             ),
             child: Image(image: AssetImage(image))),
