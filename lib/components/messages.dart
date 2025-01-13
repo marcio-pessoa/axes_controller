@@ -27,7 +27,7 @@ class __Empty extends StatelessWidget {
     return Image.asset(
       'assets/icon/icon.png',
       scale: 1.8,
-      color: Colors.white.withOpacity(0.8),
+      color: Colors.white.withValues(alpha: 0.8),
       colorBlendMode: BlendMode.dstOut,
     );
   }

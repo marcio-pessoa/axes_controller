@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (bool didPop) {
+      onPopInvokedWithResult: (didPop, dynamic) {
         if (didPop) {
           return;
         }
