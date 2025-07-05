@@ -24,7 +24,7 @@ Platforms to be tested:
 
 ### Requirements
 
-Flutter 3.28
+Flutter 3.27.4
 
 ### Open Source Licenses
 
